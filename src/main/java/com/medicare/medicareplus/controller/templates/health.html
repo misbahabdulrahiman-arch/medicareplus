@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Health Overview | MediCare+</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f7fcff;
+            color: #0f172a;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+
+            height: 75px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 6%;
+
+            background: rgba(255,255,255,0.92);
+
+            backdrop-filter: blur(18px);
+
+            border-bottom: 1px solid #e0f2fe;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 100;
+        }
+
+        .logo {
+
+            font-size: 25px;
+
+            font-weight: 800;
+
+            color: #075985;
+
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #0ea5e9;
+        }
+
+        .nav-links {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 25px;
+        }
+
+        .nav-links a {
+
+            text-decoration: none;
+
+            color: #64748b;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            transition: 0.25s;
+        }
+
+        .nav-links a:hover {
+
+            color: #0284c7;
+        }
+
+        .dashboard-btn {
+
+            background: #0ea5e9;
+
+            color: white !important;
+
+            padding: 10px 18px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 8px 20px
+                rgba(14,165,233,0.2);
+        }
+
+        .dashboard-btn:hover {
+
+            background: #0284c7;
+
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================
+           PAGE
+        ========================= */
+
+        .page {
+
+            max-width: 1200px;
+
+            margin: auto;
+
+            padding: 45px 25px 70px;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .page-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: flex-end;
+
+            margin-bottom: 30px;
+        }
+
+        .eyebrow {
+
+            color: #0284c7;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.5px;
+
+            margin-bottom: 8px;
+        }
+
+        .page-header h1 {
+
+            margin: 0;
+
+            font-size: 36px;
+
+            letter-spacing: -1px;
+        }
+
+        .page-header p {
+
+            margin: 9px 0 0;
+
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+        .last-updated {
+
+            color: #94a3b8;
+
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           HEALTH HERO
+        ========================= */
+
+        .health-hero {
+
+            position: relative;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #e0f2fe,
+                    #f8fcff
+                );
+
+            border: 1px solid #bae6fd;
+
+            border-radius: 26px;
+
+            padding: 30px;
+
+            margin-bottom: 25px;
+        }
+
+        .health-hero::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 220px;
+
+            height: 220px;
+
+            border-radius: 50%;
+
+            background: rgba(56,189,248,0.13);
+
+            right: -70px;
+
+            top: -100px;
+        }
+
+        .hero-content {
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+        .hero-title {
+
+            font-size: 13px;
+
+            font-weight: 800;
+
+            color: #0369a1;
+
+            letter-spacing: 0.5px;
+        }
+
+        .score-row {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 18px;
+
+            margin-top: 8px;
+        }
+
+        .score {
+
+            font-size: 54px;
+
+            font-weight: 900;
+
+            color: #075985;
+        }
+
+        .score-label {
+
+            color: #64748b;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+        .score-bar {
+
+            width: 100%;
+
+            max-width: 500px;
+
+            height: 8px;
+
+            background: #bae6fd;
+
+            border-radius: 20px;
+
+            margin-top: 15px;
+
+            overflow: hidden;
+        }
+
+        .score-progress {
+
+            width: 92%;
+
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #38bdf8,
+                    #0284c7
+                );
+
+            border-radius: 20px;
+        }
+
+
+        /* =========================
+           HEALTH CARDS
+        ========================= */
+
+        .health-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 25px;
+        }
+
+        .health-card {
+
+            background: white;
+
+            border: 1px solid #e0f2fe;
+
+            border-radius: 21px;
+
+            padding: 23px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(14,165,233,0.05);
+
+            transition: 0.3s;
+        }
+
+        .health-card:hover {
+
+            transform: translateY(-5px);
+
+            box-shadow:
+                0 16px 35px
+                rgba(14,165,233,0.1);
+        }
+
+        .health-icon {
+
+            width: 46px;
+
+            height: 46px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 14px;
+
+            background: #e0f2fe;
+
+            font-size: 21px;
+
+            margin-bottom: 18px;
+        }
+
+        .health-card h2 {
+
+            margin: 0;
+
+            font-size: 27px;
+
+            color: #0f172a;
+        }
+
+        .health-card h2 span {
+
+            font-size: 13px;
+
+            color: #64748b;
+
+            font-weight: 600;
+        }
+
+        .health-card p {
+
+            margin: 6px 0 0;
+
+            color: #64748b;
+
+            font-size: 12px;
+        }
+
+        .health-status {
+
+            margin-top: 14px;
+
+            display: inline-block;
+
+            padding: 5px 9px;
+
+            border-radius: 20px;
+
+            background: #dcfce7;
+
+            color: #15803d;
+
+            font-size: 10px;
+
+            font-weight: 800;
+        }
+
+
+        /* =========================
+           DATA PANEL
+        ========================= */
+
+        .panel {
+
+            background: white;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 22px;
+
+            padding: 25px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(15,23,42,0.04);
+
+            margin-bottom: 25px;
+        }
+
+        .panel-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 20px;
+        }
+
+        .panel-header h2 {
+
+            margin: 0;
+
+            font-size: 19px;
+        }
+
+        .panel-header span {
+
+            color: #94a3b8;
+
+            font-size: 11px;
+        }
+
+
+        /* =========================
+           HISTORY TABLE
+        ========================= */
+
+        .table-wrapper {
+
+            overflow-x: auto;
+        }
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 650px;
+        }
+
+        th {
+
+            text-align: left;
+
+            padding: 13px;
+
+            background: #f8fafc;
+
+            color: #64748b;
+
+            font-size: 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.7px;
+        }
+
+        td {
+
+            padding: 15px 13px;
+
+            border-bottom: 1px solid #f1f5f9;
+
+            font-size: 12px;
+
+            color: #334155;
+        }
+
+        tr:last-child td {
+
+            border-bottom: none;
+        }
+
+        .normal {
+
+            color: #15803d;
+
+            font-weight: 700;
+        }
+
+
+        /* =========================
+           EMPTY STATE
+        ========================= */
+
+        .empty-state {
+
+            text-align: center;
+
+            padding: 45px 20px;
+
+            color: #64748b;
+        }
+
+        .empty-icon {
+
+            font-size: 40px;
+
+            margin-bottom: 12px;
+        }
+
+        .empty-state strong {
+
+            display: block;
+
+            color: #334155;
+
+            margin-bottom: 5px;
+        }
+
+
+        /* =========================
+           LOADING
+        ========================= */
+
+        .loading {
+
+            text-align: center;
+
+            padding: 40px;
+
+            color: #94a3b8;
+
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            .navbar {
+
+                padding: 0 20px;
+            }
+
+            .nav-links {
+
+                gap: 10px;
+            }
+
+            .nav-links a:not(.dashboard-btn) {
+
+                display: none;
+            }
+
+            .page {
+
+                padding: 30px 18px 50px;
+            }
+
+            .page-header {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+                gap: 12px;
+            }
+
+            .page-header h1 {
+
+                font-size: 30px;
+            }
+
+            .health-grid {
+
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+        }
+
+        @media (max-width: 520px) {
+
+            .health-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+            .score {
+
+                font-size: 45px;
+            }
+
+            .health-hero {
+
+                padding: 23px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="navbar">
+
+    <a href="/dashboard" class="logo">
+        MediCare<span>+</span>
+    </a>
+
+    <div class="nav-links">
+
+        <a href="/dashboard">
+            Dashboard
+        </a>
+
+        <a href="/appointments">
+            Appointments
+        </a>
+
+        <a href="/medical-records">
+            Records
+        </a>
+
+        <a href="/prescriptions">
+            Prescriptions
+        </a>
+
+        <a href="/health" class="dashboard-btn">
+            Health
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- =========================
+     PAGE
+========================= -->
+
+<main class="page">
+
+
+    <!-- HEADER -->
+
+    <section class="page-header">
+
+        <div>
+
+            <div class="eyebrow">
+                Personal Health
+            </div>
+
+            <h1>
+                Your Health Overview
+            </h1>
+
+            <p>
+                Keep track of your latest health measurements
+                in one place.
+            </p>
+
+        </div>
+
+        <div
+            class="last-updated"
+            id="lastUpdated">
+
+            Loading...
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         HEALTH SCORE
+    ========================= -->
+
+    <section class="health-hero">
+
+        <div class="hero-content">
+
+            <div class="hero-title">
+                OVERALL HEALTH SCORE
+            </div>
+
+            <div class="score-row">
+
+                <div class="score">
+                    92
+                </div>
+
+                <div class="score-label">
+
+                    <strong>
+                        Looking good 💙
+                    </strong>
+
+                    <br>
+
+                    Based on your latest
+                    recorded health data.
+
+                </div>
+
+            </div>
+
+            <div class="score-bar">
+
+                <div class="score-progress"></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         CURRENT HEALTH
+    ========================= -->
+
+    <section class="health-grid">
+
+
+        <!-- HEART RATE -->
+
+        <div class="health-card">
+
+            <div class="health-icon">
+                ❤️
+            </div>
+
+            <h2 id="heartRate">
+                —
+                <span>BPM</span>
+            </h2>
+
+            <p>
+                Heart Rate
+            </p>
+
+            <span class="health-status">
+                Normal
+            </span>
+
+        </div>
+
+
+        <!-- BLOOD PRESSURE -->
+
+        <div class="health-card">
+
+            <div class="health-icon">
+                🩸
+            </div>
+
+            <h2 id="bloodPressure">
+                —
+            </h2>
+
+            <p>
+                Blood Pressure
+            </p>
+
+            <span class="health-status">
+                Normal
+            </span>
+
+        </div>
+
+
+        <!-- OXYGEN -->
+
+        <div class="health-card">
+
+            <div class="health-icon">
+                🫁
+            </div>
+
+            <h2 id="oxygenLevel">
+                —
+                <span>%</span>
+            </h2>
+
+            <p>
+                Oxygen Level
+            </p>
+
+            <span class="health-status">
+                Normal
+            </span>
+
+        </div>
+
+
+        <!-- SLEEP -->
+
+        <div class="health-card">
+
+            <div class="health-icon">
+                😴
+            </div>
+
+            <h2 id="sleepHours">
+                —
+                <span>hrs</span>
+            </h2>
+
+            <p>
+                Sleep
+            </p>
+
+            <span class="health-status">
+                Good
+            </span>
+
+        </div>
+
+
+        <!-- WEIGHT -->
+
+        <div class="health-card">
+
+            <div class="health-icon">
+                ⚖️
+            </div>
+
+            <h2 id="weight">
+                —
+                <span>kg</span>
+            </h2>
+
+            <p>
+                Weight
+            </p>
+
+            <span class="health-status">
+                Recorded
+            </span>
+
+        </div>
+
+
+        <!-- LAST RECORD -->
+
+        <div class="health-card">
+
+            <div class="health-icon">
+                📊
+            </div>
+
+            <h2 id="recordDate">
+                —
+            </h2>
+
+            <p>
+                Latest Reading
+            </p>
+
+            <span class="health-status">
+                Updated
+            </span>
+
+        </div>
+
+
+    </section>
+
+
+    <!-- =========================
+         HEALTH HISTORY
+    ========================= -->
+
+    <section class="panel">
+
+        <div class="panel-header">
+
+            <h2>
+                Health History
+            </h2>
+
+            <span>
+                Recent measurements
+            </span>
+
+        </div>
+
+
+        <div id="historyContainer">
+
+            <div class="loading">
+                Loading your health data...
+            </div>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<script>
+
+
+    /* =========================
+       LOAD HEALTH DATA
+    ========================= */
+
+    async function loadHealthData() {
+
+        try {
+
+            const response =
+                await fetch("/api/health");
+
+
+            /* NOT LOGGED IN */
+
+            if (response.status === 401) {
+
+                window.location.href =
+                    "/login";
+
+                return;
+            }
+
+
+            /* SERVER ERROR */
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to load health data."
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            console.log(
+                "Health data:",
+                data
+            );
+
+
+            /* NO DATA */
+
+            if (!data || data.length === 0) {
+
+                showEmptyState();
+
+                return;
+            }
+
+
+            /*
+             * The latest record is assumed
+             * to be the last item returned.
+             */
+
+            const latest =
+                data[data.length - 1];
+
+
+            /* =====================
+               CURRENT VALUES
+            ===================== */
+
+            document.getElementById(
+                "heartRate"
+            ).innerHTML =
+                `${latest.heartRate ?? "—"}
+                 <span>BPM</span>`;
+
+
+            document.getElementById(
+                "bloodPressure"
+            ).textContent =
+                latest.bloodPressure ?? "—";
+
+
+            document.getElementById(
+                "oxygenLevel"
+            ).innerHTML =
+                `${latest.oxygenLevel ?? "—"}
+                 <span>%</span>`;
+
+
+            document.getElementById(
+                "sleepHours"
+            ).innerHTML =
+                `${latest.sleepHours ?? "—"}
+                 <span>hrs</span>`;
+
+
+            document.getElementById(
+                "weight"
+            ).innerHTML =
+                `${latest.weight ?? "—"}
+                 <span>kg</span>`;
+
+
+            document.getElementById(
+                "recordDate"
+            ).textContent =
+                formatDate(
+                    latest.recordedDate
+                );
+
+
+            document.getElementById(
+                "lastUpdated"
+            ).textContent =
+                "Latest reading: " +
+                formatDate(
+                    latest.recordedDate
+                );
+
+
+            /* =====================
+               HISTORY
+            ===================== */
+
+            renderHistory(data);
+
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Health data error:",
+                error
+            );
+
+
+            document.getElementById(
+                "historyContainer"
+            ).innerHTML = `
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        ⚠️
+                    </div>
+
+                    <strong>
+                        Unable to load health data
+                    </strong>
+
+                    <p>
+                        Please refresh the page
+                        and try again.
+                    </p>
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+    /* =========================
+       HISTORY TABLE
+    ========================= */
+
+    function renderHistory(data) {
+
+        const container =
+            document.getElementById(
+                "historyContainer"
+            );
+
+
+        let html = `
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Date
+                            </th>
+
+                            <th>
+                                Heart Rate
+                            </th>
+
+                            <th>
+                                Blood Pressure
+                            </th>
+
+                            <th>
+                                Oxygen
+                            </th>
+
+                            <th>
+                                Sleep
+                            </th>
+
+                            <th>
+                                Weight
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+        `;
+
+
+        const reversedData =
+            [...data].reverse();
+
+
+        reversedData.forEach(function(record) {
+
+            html += `
+
+                <tr>
+
+                    <td>
+                        ${formatDate(
+                            record.recordedDate
+                        )}
+                    </td>
+
+                    <td class="normal">
+                        ${record.heartRate ?? "—"} BPM
+                    </td>
+
+                    <td>
+                        ${record.bloodPressure ?? "—"}
+                    </td>
+
+                    <td class="normal">
+                        ${record.oxygenLevel ?? "—"}%
+                    </td>
+
+                    <td>
+                        ${record.sleepHours ?? "—"} hrs
+                    </td>
+
+                    <td>
+                        ${record.weight ?? "—"} kg
+                    </td>
+
+                </tr>
+
+            `;
+
+        });
+
+
+        html += `
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        `;
+
+
+        container.innerHTML = html;
+
+    }
+
+
+    /* =========================
+       EMPTY STATE
+    ========================= */
+
+    function showEmptyState() {
+
+        document.getElementById(
+            "historyContainer"
+        ).innerHTML = `
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    💙
+                </div>
+
+                <strong>
+                    No health data yet
+                </strong>
+
+                <p>
+                    Your health measurements
+                    will appear here once they
+                    are recorded.
+                </p>
+
+            </div>
+
+        `;
+
+        document.getElementById(
+            "lastUpdated"
+        ).textContent =
+            "No readings yet";
+
+    }
+
+
+    /* =========================
+       DATE FORMAT
+    ========================= */
+
+    function formatDate(dateString) {
+
+        if (!dateString) {
+
+            return "—";
+
+        }
+
+
+        const date =
+            new Date(dateString);
+
+
+        if (isNaN(date.getTime())) {
+
+            return dateString;
+
+        }
+
+
+        return date.toLocaleDateString(
+            "en-IN",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        );
+
+    }
+
+
+    /* =========================
+       START
+    ========================= */
+
+    loadHealthData();
+
+
+</script>
+
+
+</body>
+
+</html>

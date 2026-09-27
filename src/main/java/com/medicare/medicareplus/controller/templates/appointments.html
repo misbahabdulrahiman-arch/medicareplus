@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MediCare+ | My Appointments</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f7fcff;
+            color: #0f172a;
+        }
+
+        .navbar {
+            height: 75px;
+            background: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 7%;
+            box-shadow: 0 5px 25px rgba(15, 23, 42, 0.06);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            color: #075985;
+        }
+
+        .logo span {
+            color: #0ea5e9;
+        }
+
+        .back {
+            text-decoration: none;
+            color: #0284c7;
+            font-weight: 600;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1050px;
+            margin: 50px auto;
+        }
+
+        .heading {
+            margin-bottom: 30px;
+        }
+
+        .heading h1 {
+            font-size: 35px;
+            margin-bottom: 8px;
+        }
+
+        .heading p {
+            color: #64748b;
+        }
+
+        .appointment {
+            background: white;
+            border-radius: 22px;
+            padding: 25px;
+            margin-bottom: 18px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+            display: flex;
+            justify-content: space-between;
+            gap: 25px;
+            transition: 0.25s;
+        }
+
+        .appointment:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(14, 165, 233, 0.10);
+        }
+
+        .doctor {
+            display: flex;
+            gap: 18px;
+            align-items: center;
+        }
+
+        .doctor-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 18px;
+            background: #e0f2fe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0284c7;
+            font-weight: 800;
+            font-size: 20px;
+        }
+
+        .doctor h2 {
+            font-size: 19px;
+            margin-bottom: 5px;
+        }
+
+        .doctor p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .details {
+            margin-top: 20px;
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .detail {
+            color: #475569;
+            font-size: 14px;
+        }
+
+        .detail strong {
+            color: #0f172a;
+        }
+
+        .right {
+            text-align: right;
+            min-width: 150px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 8px 14px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .confirmed {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .completed {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .cancelled {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .rescheduled {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .unknown {
+            background: #e2e8f0;
+            color: #475569;
+        }
+
+        .fee {
+            color: #0284c7;
+            font-weight: 700;
+        }
+
+        .empty {
+            background: white;
+            border-radius: 22px;
+            padding: 65px 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+        }
+
+        .empty-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #64748b;
+        }
+
+        @media(max-width: 700px) {
+
+            .appointment {
+                flex-direction: column;
+            }
+
+            .right {
+                text-align: left;
+            }
+
+            .container {
+                margin-top: 35px;
+            }
+
+            .heading h1 {
+                font-size: 28px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<nav class="navbar">
+
+    <div class="logo">
+        MediCare<span>+</span>
+    </div>
+
+    <a href="/dashboard" class="back">
+        ← Dashboard
+    </a>
+
+</nav>
+
+
+<main class="container">
+
+    <div class="heading">
+
+        <h1>My Appointments</h1>
+
+        <p>
+            View and track all your healthcare appointments.
+        </p>
+
+    </div>
+
+
+    <div id="appointmentsContainer">
+
+        <div class="loading">
+            Loading appointments...
+        </div>
+
+    </div>
+
+</main>
+
+
+<script>
+
+
+async function loadAppointments() {
+
+    const container =
+        document.getElementById(
+            "appointmentsContainer"
+        );
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/appointments"
+            );
+
+
+        if (!response.ok) {
+
+            if (response.status === 401) {
+
+                window.location.href =
+                    "/login";
+
+                return;
+            }
+
+            throw new Error(
+                "Unable to load appointments"
+            );
+        }
+
+
+        const appointments =
+            await response.json();
+
+
+        if (
+            !appointments ||
+            appointments.length === 0
+        ) {
+
+            container.innerHTML = `
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        📅
+                    </div>
+
+                    <h2>No appointments yet</h2>
+
+                    <p style="margin-top:8px;color:#64748b;">
+                        Your booked appointments will appear here.
+                    </p>
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        container.innerHTML = "";
+
+
+        appointments
+            .slice()
+            .reverse()
+            .forEach(function(appointment) {
+
+
+                // Get the REAL status from database
+
+                const status =
+                    (
+                        appointment.status ||
+                        "UNKNOWN"
+                    ).toUpperCase();
+
+
+                let statusClass =
+                    "unknown";
+
+
+                let displayStatus =
+                    status;
+
+
+                if (status === "CONFIRMED") {
+
+                    statusClass =
+                        "confirmed";
+
+                    displayStatus =
+                        "CONFIRMED";
+
+                }
+
+
+                else if (status === "COMPLETED") {
+
+                    statusClass =
+                        "completed";
+
+                    displayStatus =
+                        "COMPLETED";
+
+                }
+
+
+                else if (status === "CANCELLED") {
+
+                    statusClass =
+                        "cancelled";
+
+                    displayStatus =
+                        "CANCELLED";
+
+                }
+
+
+                else if (status === "RESCHEDULED") {
+
+                    statusClass =
+                        "rescheduled";
+
+                    displayStatus =
+                        "RESCHEDULED";
+
+                }
+
+
+                const doctorName =
+                    appointment.doctorName ||
+                    "Doctor";
+
+
+                const initials =
+                    getInitials(
+                        doctorName
+                    );
+
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                card.className =
+                    "appointment";
+
+
+                card.innerHTML = `
+
+                    <div style="flex:1;">
+
+                        <div class="doctor">
+
+                            <div class="doctor-avatar">
+                                ${initials}
+                            </div>
+
+                            <div>
+
+                                <h2>
+                                    ${escapeHtml(
+                                        doctorName
+                                    )}
+                                </h2>
+
+                                <p>
+                                    Healthcare consultation
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="details">
+
+                            <div class="detail">
+                                📅
+                                <strong>Date:</strong>
+                                ${escapeHtml(
+                                    appointment.appointmentDate ||
+                                    "-"
+                                )}
+                            </div>
+
+
+                            <div class="detail">
+                                🕐
+                                <strong>Time:</strong>
+                                ${escapeHtml(
+                                    appointment.appointmentTime ||
+                                    "-"
+                                )}
+                            </div>
+
+
+                            <div class="detail">
+                                🩺
+                                <strong>Type:</strong>
+                                ${escapeHtml(
+                                    appointment.consultationType ||
+                                    "-"
+                                )}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="right">
+
+                        <div class="status ${statusClass}">
+                            ${displayStatus}
+                        </div>
+
+                        <div class="fee">
+                            ₹${Number(
+                                appointment.fee || 0
+                            ).toFixed(0)}
+                        </div>
+
+                    </div>
+
+                `;
+
+
+                container.appendChild(
+                    card
+                );
+
+            });
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    ⚠️
+                </div>
+
+                <h2>
+                    Unable to load appointments
+                </h2>
+
+                <p style="margin-top:8px;color:#64748b;">
+                    Please refresh the page and try again.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+function getInitials(name) {
+
+    return name
+        .replace("Dr.", "")
+        .trim()
+        .split(" ")
+        .map(function(word) {
+            return word.charAt(0);
+        })
+        .slice(0, 2)
+        .join("")
+        .toUpperCase();
+
+}
+
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+}
+
+
+loadAppointments();
+
+</script>
+
+
+</body>
+
+</html>

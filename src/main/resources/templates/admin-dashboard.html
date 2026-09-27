@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MediCare+ | Admin Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background: #f5fbff;
+            color: #0f172a;
+            min-height: 100vh;
+        }
+
+        /* =========================
+           LAYOUT
+        ========================= */
+
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            width: 255px;
+            background: #ffffff;
+            border-right: 1px solid #e2edf5;
+            padding: 28px 18px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 5px 12px 35px;
+        }
+
+        .logo-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 14px;
+            background: linear-gradient(
+                135deg,
+                #38bdf8,
+                #0284c7
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 22px;
+            font-weight: 800;
+            box-shadow: 0 8px 20px rgba(14, 165, 233, 0.25);
+        }
+
+        .logo-text {
+            font-family: "Manrope", sans-serif;
+            font-size: 21px;
+            font-weight: 800;
+            color: #075985;
+        }
+
+        .logo-text span {
+            color: #38bdf8;
+        }
+
+        .menu-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0 14px;
+            margin-bottom: 12px;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #64748b;
+            padding: 13px 14px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.25s ease;
+        }
+
+        .nav a:hover {
+            background: #eff9ff;
+            color: #0284c7;
+            transform: translateX(3px);
+        }
+
+        .nav a.active {
+            background: linear-gradient(
+                135deg,
+                #e0f2fe,
+                #f0faff
+            );
+            color: #0284c7;
+        }
+
+        .nav-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 9px;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+        }
+
+        .nav a.active .nav-icon {
+            background: #ffffff;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+            margin-left: 255px;
+            width: calc(100% - 255px);
+            padding: 25px 35px 50px;
+        }
+
+        /* =========================
+           TOPBAR
+        ========================= */
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .page-title h1 {
+            font-family: "Manrope", sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .page-title p {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .admin-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(
+                135deg,
+                #38bdf8,
+                #0284c7
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            box-shadow: 0 7px 18px rgba(14,165,233,.22);
+        }
+
+        .admin-info strong {
+            display: block;
+            font-size: 14px;
+        }
+
+        .admin-info span {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .welcome-card {
+            background:
+                radial-gradient(
+                    circle at 85% 20%,
+                    rgba(125,211,252,.35),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    #075985,
+                    #0284c7,
+                    #38bdf8
+                );
+
+            border-radius: 24px;
+            padding: 32px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 25px;
+            box-shadow:
+                0 18px 40px rgba(14,165,233,.18);
+        }
+
+        .welcome-card::before {
+            content: "";
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,.15);
+            right: 80px;
+            top: -90px;
+        }
+
+        .welcome-card::after {
+            content: "";
+            position: absolute;
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,.1);
+            right: -50px;
+            bottom: -130px;
+        }
+
+        .welcome-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .welcome-card small {
+            opacity: .75;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: .5px;
+        }
+
+        .welcome-card h2 {
+            font-family: "Manrope", sans-serif;
+            font-size: 30px;
+            margin: 8px 0;
+        }
+
+        .welcome-card p {
+            font-size: 14px;
+            opacity: .85;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        /* =========================
+           STATS
+        ========================= */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid #e5eef5;
+            border-radius: 20px;
+            padding: 22px;
+            position: relative;
+            overflow: hidden;
+            transition: .25s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow:
+                0 15px 30px rgba(15,23,42,.07);
+        }
+
+        .stat-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stat-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+        }
+
+        .blue {
+            background: #e0f2fe;
+            color: #0284c7;
+        }
+
+        .green {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .purple {
+            background: #f3e8ff;
+            color: #9333ea;
+        }
+
+        .orange {
+            background: #ffedd5;
+            color: #ea580c;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 20px;
+        }
+
+        .stat-value {
+            font-family: "Manrope", sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            margin-top: 5px;
+        }
+
+        /* =========================
+           SECTION HEADER
+        ========================= */
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .section-header h2 {
+            font-family: "Manrope", sans-serif;
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .section-header span {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        /* =========================
+           MANAGEMENT CARDS
+        ========================= */
+
+        .management-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .management-card {
+            background: white;
+            border: 1px solid #e5eef5;
+            border-radius: 20px;
+            padding: 25px;
+            transition: .25s ease;
+            cursor: pointer;
+        }
+
+        .management-card:hover {
+            transform: translateY(-5px);
+            border-color: #bae6fd;
+            box-shadow:
+                0 15px 30px rgba(14,165,233,.09);
+        }
+
+        .management-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: #e0f2fe;
+            color: #0284c7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 18px;
+        }
+
+        .management-card h3 {
+            font-size: 16px;
+            margin-bottom: 7px;
+        }
+
+        .management-card p {
+            color: #64748b;
+            font-size: 12px;
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        .manage-btn {
+            border: none;
+            background: #f0f9ff;
+            color: #0284c7;
+            padding: 9px 14px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .manage-btn:hover {
+            background: #0284c7;
+            color: white;
+        }
+
+        /* =========================
+           ACTIVITY
+        ========================= */
+
+        .activity-card {
+            background: white;
+            border: 1px solid #e5eef5;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .activity-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 18px 22px;
+            border-bottom: 1px solid #eef4f8;
+        }
+
+        .activity-row:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: #eff9ff;
+            color: #0284c7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .activity-text {
+            flex: 1;
+        }
+
+        .activity-text strong {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 3px;
+        }
+
+        .activity-text span {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .activity-status {
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        /* =========================
+           LOADING
+        ========================= */
+
+        .loading {
+            opacity: .5;
+        }
+
+        /* =========================
+           LOGOUT
+        ========================= */
+
+        .logout-btn {
+            margin-top: 25px;
+            width: 100%;
+            border: none;
+            background: #fff1f2;
+            color: #e11d48;
+            padding: 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            transition: .2s;
+        }
+
+        .logout-btn:hover {
+            background: #ffe4e6;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 1100px) {
+
+            .stats-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .management-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                width: 75px;
+                padding: 20px 10px;
+            }
+
+            .logo {
+                justify-content: center;
+                padding: 5px 0 30px;
+            }
+
+            .logo-text,
+            .menu-title,
+            .nav a span,
+            .logout-btn {
+                display: none;
+            }
+
+            .nav a {
+                justify-content: center;
+                padding: 12px;
+            }
+
+            .nav-icon {
+                margin: 0;
+            }
+
+            .main {
+                margin-left: 75px;
+                width: calc(100% - 75px);
+                padding: 20px;
+            }
+
+            .management-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .main {
+                padding: 15px;
+            }
+
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .page-title h1 {
+                font-size: 22px;
+            }
+
+            .admin-info {
+                display: none;
+            }
+
+            .welcome-card {
+                padding: 25px;
+            }
+
+            .welcome-card h2 {
+                font-size: 24px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 16px;
+            }
+
+            .stat-value {
+                font-size: 23px;
+            }
+
+            .activity-row {
+                padding: 15px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                +
+            </div>
+
+            <div class="logo-text">
+                MediCare<span>+</span>
+            </div>
+
+        </div>
+
+
+        <div class="menu-title">
+            Administration
+        </div>
+
+
+        <nav class="nav">
+
+            <a href="/admin-dashboard"
+               class="active">
+
+                <div class="nav-icon">
+                    🏠
+                </div>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a href="#patients">
+
+                <div class="nav-icon">
+                    👥
+                </div>
+
+                <span>
+                    Patients
+                </span>
+
+            </a>
+
+
+            <a href="#doctors">
+
+                <div class="nav-icon">
+                    🩺
+                </div>
+
+                <span>
+                    Doctors
+                </span>
+
+            </a>
+
+
+            <a href="#appointments">
+
+                <div class="nav-icon">
+                    📅
+                </div>
+
+                <span>
+                    Appointments
+                </span>
+
+            </a>
+
+
+            <a href="/notifications">
+
+                <div class="nav-icon">
+                    🔔
+                </div>
+
+                <span>
+                    Notifications
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <button
+            class="logout-btn"
+            onclick="logout()">
+
+            ⇥ &nbsp; Logout
+
+        </button>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="main">
+
+
+        <!-- TOP BAR -->
+
+        <div class="topbar">
+
+            <div class="page-title">
+
+                <h1>
+                    Admin Dashboard
+                </h1>
+
+                <p>
+                    Monitor and manage the MediCare+ platform.
+                </p>
+
+            </div>
+
+
+            <div class="admin-profile">
+
+                <div class="admin-avatar">
+                    A
+                </div>
+
+                <div class="admin-info">
+
+                    <strong>
+                        Administrator
+                    </strong>
+
+                    <span>
+                        Platform Admin
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             HERO
+        ========================== -->
+
+        <section class="welcome-card">
+
+            <div class="welcome-content">
+
+                <small>
+                    MEDICARE+ CONTROL CENTER
+                </small>
+
+                <h2>
+                    Everything healthcare.
+                    <br>
+                    One intelligent platform.
+                </h2>
+
+                <p>
+                    Monitor patients, doctors, appointments
+                    and platform activity from one centralized
+                    administration space.
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             STATISTICS
+        ========================== -->
+
+        <div class="stats-grid">
+
+
+            <!-- PATIENTS -->
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <div class="stat-icon blue">
+                        👥
+                    </div>
+
+                </div>
+
+                <div class="stat-label">
+                    Total Patients
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="totalPatients">
+
+                    0
+
+                </div>
+
+            </div>
+
+
+
+            <!-- DOCTORS -->
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <div class="stat-icon green">
+                        🩺
+                    </div>
+
+                </div>
+
+                <div class="stat-label">
+                    Total Doctors
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="totalDoctors">
+
+                    0
+
+                </div>
+
+            </div>
+
+
+
+            <!-- APPOINTMENTS -->
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <div class="stat-icon purple">
+                        📅
+                    </div>
+
+                </div>
+
+                <div class="stat-label">
+                    Total Appointments
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="totalAppointments">
+
+                    0
+
+                </div>
+
+            </div>
+
+
+
+            <!-- COMPLETED -->
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <div class="stat-icon orange">
+                        ✓
+                    </div>
+
+                </div>
+
+                <div class="stat-label">
+                    Completed Appointments
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="completedAppointments">
+
+                    0
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =========================
+             MANAGEMENT
+        ========================== -->
+
+        <div class="section-header">
+
+            <h2>
+                Quick Management
+            </h2>
+
+            <span>
+                Platform controls
+            </span>
+
+        </div>
+
+
+        <div class="management-grid">
+
+
+            <!-- PATIENT MANAGEMENT -->
+
+            <div
+                class="management-card"
+                id="patients">
+
+                <div class="management-icon">
+                    👥
+                </div>
+
+                <h3>
+                    Patient Management
+                </h3>
+
+                <p>
+                    View registered patients,
+                    account details and patient activity.
+                </p>
+
+                <button
+                    class="manage-btn"
+                    onclick="patientManagement()">
+
+                    Manage Patients →
+
+                </button>
+
+            </div>
+
+
+
+            <!-- DOCTOR MANAGEMENT -->
+
+            <div
+                class="management-card"
+                id="doctors">
+
+                <div class="management-icon">
+                    🩺
+                </div>
+
+                <h3>
+                    Doctor Management
+                </h3>
+
+                <p>
+                    Manage doctors, specialties,
+                    availability and professional profiles.
+                </p>
+
+                <button
+                    class="manage-btn"
+                    onclick="doctorManagement()">
+
+                    Manage Doctors →
+
+                </button>
+
+            </div>
+
+
+
+            <!-- APPOINTMENT MANAGEMENT -->
+
+            <div
+                class="management-card"
+                id="appointments">
+
+                <div class="management-icon">
+                    📅
+                </div>
+
+                <h3>
+                    Appointment Management
+                </h3>
+
+                <p>
+                    Monitor appointments,
+                    statuses and platform activity.
+                </p>
+
+                <button
+                    class="manage-btn"
+                    onclick="appointmentManagement()">
+
+                    View Appointments →
+
+                </button>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =========================
+             PLATFORM ACTIVITY
+        ========================== -->
+
+        <div class="section-header">
+
+            <h2>
+                Platform Activity
+            </h2>
+
+            <span>
+                Live system overview
+            </span>
+
+        </div>
+
+
+        <div class="activity-card">
+
+
+            <div class="activity-row">
+
+                <div class="activity-icon">
+                    👥
+                </div>
+
+                <div class="activity-text">
+
+                    <strong>
+                        Patient registration system
+                    </strong>
+
+                    <span>
+                        Patient accounts are stored
+                        in the MediCare+ database.
+                    </span>
+
+                </div>
+
+                <div class="activity-status">
+                    ACTIVE
+                </div>
+
+            </div>
+
+
+
+            <div class="activity-row">
+
+                <div class="activity-icon">
+                    🩺
+                </div>
+
+                <div class="activity-text">
+
+                    <strong>
+                        Doctor management system
+                    </strong>
+
+                    <span>
+                        Doctors and their professional
+                        profiles are available.
+                    </span>
+
+                </div>
+
+                <div class="activity-status">
+                    ACTIVE
+                </div>
+
+            </div>
+
+
+
+            <div class="activity-row">
+
+                <div class="activity-icon">
+                    📅
+                </div>
+
+                <div class="activity-text">
+
+                    <strong>
+                        Appointment system
+                    </strong>
+
+                    <span>
+                        Booking, cancellation and
+                        completion tracking enabled.
+                    </span>
+
+                </div>
+
+                <div class="activity-status">
+                    ACTIVE
+                </div>
+
+            </div>
+
+
+
+            <div class="activity-row">
+
+                <div class="activity-icon">
+                    🔔
+                </div>
+
+                <div class="activity-text">
+
+                    <strong>
+                        Notification system
+                    </strong>
+
+                    <span>
+                        Appointment status notifications
+                        are being generated.
+                    </span>
+
+                </div>
+
+                <div class="activity-status">
+                    ACTIVE
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </main>
+
+</div>
+
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+
+/* =====================================
+   LOAD ADMIN STATISTICS
+===================================== */
+
+async function loadStatistics() {
+
+    try {
+
+        const response =
+            await fetch("/api/admin/stats");
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load admin statistics"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        document.getElementById(
+            "totalPatients"
+        ).textContent =
+            data.patients;
+
+
+        document.getElementById(
+            "totalDoctors"
+        ).textContent =
+            data.doctors;
+
+
+        document.getElementById(
+            "totalAppointments"
+        ).textContent =
+            data.appointments;
+
+
+        document.getElementById(
+            "completedAppointments"
+        ).textContent =
+            data.completed;
+
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Admin statistics error:",
+            error
+        );
+
+    }
+
+}
+
+
+
+/* =====================================
+   PATIENT MANAGEMENT
+===================================== */
+function patientManagement() {
+    window.location.href = "/admin-patients";
+}
+
+
+/* =====================================
+   DOCTOR MANAGEMENT
+===================================== */
+function doctorManagement() {
+    window.location.href = "/admin-doctors";
+}
+
+
+
+/* =====================================
+   APPOINTMENT MANAGEMENT
+===================================== */
+
+function appointmentManagement() {
+    window.location.href = "/admin-appointments";
+}
+
+/* =====================================
+   LOGOUT
+===================================== */
+
+function logout() {
+
+    window.location.href = "/";
+
+}
+
+
+
+/* =====================================
+   PAGE LOAD
+===================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        loadStatistics();
+
+    }
+);
+
+
+</script>
+
+
+</body>
+</html>

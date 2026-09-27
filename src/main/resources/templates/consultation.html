@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>MediCare+ | Consultation</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5fbff;
+            color: #0f172a;
+            min-height: 100vh;
+        }
+
+        /* ================================
+           NAVBAR
+        ================================= */
+
+        .navbar {
+            height: 76px;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid #e0f2fe;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 7%;
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: #0284c7;
+        }
+
+        .logo span {
+            color: #38bdf8;
+        }
+
+        .back-btn {
+            border: none;
+            background: #e0f2fe;
+            color: #0369a1;
+
+            padding: 11px 18px;
+            border-radius: 12px;
+
+            cursor: pointer;
+            font-weight: 600;
+
+            transition: 0.25s;
+        }
+
+        .back-btn:hover {
+            background: #bae6fd;
+            transform: translateY(-2px);
+        }
+
+
+        /* ================================
+           PAGE
+        ================================= */
+
+        .page {
+            width: min(1050px, 92%);
+            margin: 45px auto 80px;
+        }
+
+
+        /* ================================
+           HEADER
+        ================================= */
+
+        .page-header {
+            margin-bottom: 28px;
+        }
+
+        .eyebrow {
+            color: #0284c7;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: clamp(32px, 5vw, 52px);
+            line-height: 1.05;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 16px;
+        }
+
+
+        /* ================================
+           PATIENT CARD
+        ================================= */
+
+        .patient-card {
+            background: linear-gradient(
+                135deg,
+                #0284c7,
+                #38bdf8
+            );
+
+            color: white;
+
+            border-radius: 24px;
+
+            padding: 28px;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+
+            gap: 20px;
+
+            box-shadow:
+                0 20px 50px rgba(14,165,233,0.18);
+
+            margin-bottom: 25px;
+        }
+
+        .patient-label {
+            font-size: 12px;
+            opacity: 0.75;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .patient-value {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+
+        /* ================================
+           FORM CARD
+        ================================= */
+
+        .card {
+            background: white;
+            border: 1px solid #e0f2fe;
+            border-radius: 24px;
+
+            padding: 32px;
+
+            box-shadow:
+                0 12px 35px rgba(15,23,42,0.05);
+
+            margin-bottom: 22px;
+        }
+
+        .card-title {
+            font-size: 21px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .card-description {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+
+        /* ================================
+           FORM
+        ================================= */
+
+        .field {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            margin-bottom: 8px;
+        }
+
+        .required {
+            color: #ef4444;
+        }
+
+        textarea,
+        input {
+            width: 100%;
+
+            border: 1px solid #dbeafe;
+
+            background: #f8fcff;
+
+            border-radius: 14px;
+
+            padding: 14px 16px;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        textarea:focus,
+        input:focus {
+            border-color: #38bdf8;
+
+            background: white;
+
+            box-shadow:
+                0 0 0 4px rgba(56,189,248,0.12);
+        }
+
+
+        /* ================================
+           MEDICINE GRID
+        ================================= */
+
+        .medicine-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+
+            gap: 12px;
+        }
+
+
+        /* ================================
+           BUTTON
+        ================================= */
+
+        .submit-area {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+
+        .complete-btn {
+            border: none;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0284c7,
+                    #38bdf8
+                );
+
+            color: white;
+
+            padding: 16px 28px;
+
+            border-radius: 15px;
+
+            font-size: 15px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 12px 28px rgba(14,165,233,0.25);
+
+            transition: 0.25s;
+        }
+
+        .complete-btn:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 18px 35px rgba(14,165,233,0.30);
+        }
+
+        .complete-btn:active {
+            transform: scale(0.97);
+        }
+
+        .complete-btn.loading {
+            opacity: 0.65;
+            pointer-events: none;
+        }
+
+
+        /* ================================
+           SUCCESS
+        ================================= */
+
+        .success {
+            display: none;
+
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+
+            color: #047857;
+
+            padding: 18px;
+
+            border-radius: 15px;
+
+            margin-bottom: 20px;
+
+            font-weight: 600;
+        }
+
+
+        /* ================================
+           ERROR
+        ================================= */
+
+        .error {
+            display: none;
+
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+
+            color: #b91c1c;
+
+            padding: 18px;
+
+            border-radius: 15px;
+
+            margin-bottom: 20px;
+
+            font-weight: 600;
+        }
+
+
+        /* ================================
+           RESPONSIVE
+        ================================= */
+
+        @media(max-width: 750px) {
+
+            .patient-card {
+                grid-template-columns: 1fr;
+            }
+
+            .medicine-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .card {
+                padding: 22px;
+            }
+
+            .submit-area {
+                justify-content: stretch;
+            }
+
+            .complete-btn {
+                width: 100%;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+<!-- ================================
+     NAVBAR
+================================= -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        MediCare<span>+</span>
+    </div>
+
+    <button
+        class="back-btn"
+        onclick="goBack()">
+
+        ← Back to Dashboard
+
+    </button>
+
+</nav>
+
+
+<!-- ================================
+     PAGE
+================================= -->
+
+<main class="page">
+
+    <section class="page-header">
+
+        <div class="eyebrow">
+            Doctor Workspace
+        </div>
+
+        <h1>
+            Complete Consultation
+        </h1>
+
+        <p class="subtitle">
+            Record the consultation, diagnosis and prescription
+            for this patient.
+        </p>
+
+    </section>
+
+
+    <!-- ============================
+         PATIENT INFO
+    ============================= -->
+
+    <section class="patient-card">
+
+        <div>
+
+            <div class="patient-label">
+                Patient
+            </div>
+
+            <div
+                class="patient-value"
+                id="patientName">
+
+                Loading...
+
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <div class="patient-label">
+                Doctor
+            </div>
+
+            <div
+                class="patient-value"
+                id="doctorName">
+
+                Loading...
+
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <div class="patient-label">
+                Appointment
+            </div>
+
+            <div
+                class="patient-value"
+                id="appointmentInfo">
+
+                Loading...
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <div
+        class="success"
+        id="successMessage">
+
+        ✓ Consultation completed successfully.
+        Medical record and prescription have been created.
+
+    </div>
+
+
+    <div
+        class="error"
+        id="errorMessage">
+
+    </div>
+
+
+    <!-- ============================
+         CONSULTATION
+    ============================= -->
+
+    <section class="card">
+
+        <div class="card-title">
+            Consultation Summary
+        </div>
+
+        <div class="card-description">
+            Record the doctor's diagnosis and observations.
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Diagnosis / Consultation Summary
+                <span class="required">*</span>
+            </label>
+
+            <textarea
+                id="diagnosis"
+                placeholder="Enter diagnosis or consultation summary...">
+            </textarea>
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Doctor Notes
+            </label>
+
+            <textarea
+                id="notes"
+                placeholder="Add additional observations, advice or follow-up instructions...">
+            </textarea>
+
+        </div>
+
+    </section>
+
+
+    <!-- ============================
+         PRESCRIPTION
+    ============================= -->
+
+    <section class="card">
+
+        <div class="card-title">
+            Prescription
+        </div>
+
+        <div class="card-description">
+            Leave the medicine field empty if no prescription
+            is required.
+        </div>
+
+
+        <div class="medicine-grid">
+
+            <div class="field">
+
+                <label>
+                    Medicine
+                </label>
+
+                <input
+                    type="text"
+                    id="medicine"
+                    placeholder="Medicine name">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Morning
+                </label>
+
+                <input
+                    type="text"
+                    id="morning"
+                    placeholder="1">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Afternoon
+                </label>
+
+                <input
+                    type="text"
+                    id="afternoon"
+                    placeholder="0">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Night
+                </label>
+
+                <input
+                    type="text"
+                    id="night"
+                    placeholder="1">
+
+            </div>
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Duration
+            </label>
+
+            <input
+                type="text"
+                id="duration"
+                placeholder="e.g. 5 days">
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Instructions
+            </label>
+
+            <textarea
+                id="instructions"
+                placeholder="e.g. Take after meals with water.">
+            </textarea>
+
+        </div>
+
+    </section>
+
+
+    <!-- ============================
+         SUBMIT
+    ============================= -->
+
+    <div class="submit-area">
+
+        <button
+            class="complete-btn"
+            id="completeBtn"
+            onclick="completeConsultation()">
+
+            ✓ Complete Consultation
+
+        </button>
+
+    </div>
+
+</main>
+
+
+<script>
+
+    const appointmentId =
+        /*[[${appointmentId}]]*/ 0;
+
+
+    // ==========================================
+    // LOAD APPOINTMENT
+    // ==========================================
+
+    async function loadAppointment() {
+
+        try {
+
+            const response =
+                await fetch("/api/appointments/doctor");
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to load appointment."
+                );
+            }
+
+            const appointments =
+                await response.json();
+
+
+            const appointment =
+                appointments.find(
+                    a =>
+                    Number(a.id) ===
+                    Number(appointmentId)
+                );
+
+
+            if (!appointment) {
+
+                showError(
+                    "Appointment could not be found."
+                );
+
+                return;
+            }
+
+
+            document.getElementById(
+                "patientName"
+            ).textContent =
+                appointment.patientName || "Patient";
+
+
+            document.getElementById(
+                "doctorName"
+            ).textContent =
+                appointment.doctorName || "Doctor";
+
+
+            document.getElementById(
+                "appointmentInfo"
+            ).textContent =
+                (appointment.appointmentDate || "")
+                + " • "
+                + (appointment.appointmentTime || "");
+
+        }
+
+        catch(error) {
+
+            showError(
+                "Could not load appointment information."
+            );
+
+            console.error(error);
+        }
+
+    }
+
+
+    // ==========================================
+    // COMPLETE CONSULTATION
+    // ==========================================
+
+    async function completeConsultation() {
+
+        const diagnosis =
+            document.getElementById(
+                "diagnosis"
+            ).value.trim();
+
+
+        if (!diagnosis) {
+
+            showError(
+                "Please enter the diagnosis or consultation summary."
+            );
+
+            return;
+        }
+
+
+        const button =
+            document.getElementById(
+                "completeBtn"
+            );
+
+
+        button.classList.add("loading");
+
+        button.textContent =
+            "Saving consultation...";
+
+
+        const data = {
+
+            diagnosis:
+                diagnosis,
+
+            notes:
+                document.getElementById(
+                    "notes"
+                ).value.trim(),
+
+            medicine:
+                document.getElementById(
+                    "medicine"
+                ).value.trim(),
+
+            morning:
+                document.getElementById(
+                    "morning"
+                ).value.trim(),
+
+            afternoon:
+                document.getElementById(
+                    "afternoon"
+                ).value.trim(),
+
+            night:
+                document.getElementById(
+                    "night"
+                ).value.trim(),
+
+            duration:
+                document.getElementById(
+                    "duration"
+                ).value.trim(),
+
+            instructions:
+                document.getElementById(
+                    "instructions"
+                ).value.trim()
+        };
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/consultations/"
+                    + appointmentId
+                    + "/complete",
+                    {
+
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify(data)
+                    }
+                );
+
+
+            const result =
+                await response.text();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    result ||
+                    "Unable to complete consultation."
+                );
+            }
+
+
+            showSuccess();
+
+
+            button.textContent =
+                "✓ Consultation Completed";
+
+
+            setTimeout(
+                () => {
+
+                    window.location.href =
+                        "/doctor-dashboard";
+
+                },
+                1800
+            );
+
+        }
+
+        catch(error) {
+
+            showError(
+                error.message
+            );
+
+            button.classList.remove(
+                "loading"
+            );
+
+            button.textContent =
+                "✓ Complete Consultation";
+        }
+
+    }
+
+
+    // ==========================================
+    // SUCCESS
+    // ==========================================
+
+    function showSuccess() {
+
+        document.getElementById(
+            "successMessage"
+        ).style.display =
+            "block";
+
+        document.getElementById(
+            "errorMessage"
+        ).style.display =
+            "none";
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+
+    // ==========================================
+    // ERROR
+    // ==========================================
+
+    function showError(message) {
+
+        const error =
+            document.getElementById(
+                "errorMessage"
+            );
+
+        error.textContent =
+            "⚠ " + message;
+
+        error.style.display =
+            "block";
+
+        document.getElementById(
+            "successMessage"
+        ).style.display =
+            "none";
+
+    }
+
+
+    // ==========================================
+    // BACK
+    // ==========================================
+
+    function goBack() {
+
+        window.location.href =
+            "/doctor-dashboard";
+
+    }
+
+
+    // ==========================================
+    // START
+    // ==========================================
+
+    loadAppointment();
+
+</script>
+
+
+</body>
+</html>

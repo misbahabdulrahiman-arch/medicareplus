@@ -1,0 +1,2691 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Doctor Management | MediCare+</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            background: #f5fbff;
+            color: #0f172a;
+            min-height: 100vh;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: linear-gradient(
+                180deg,
+                #075985,
+                #0284c7
+            );
+            color: white;
+            padding: 28px 18px;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            margin-bottom: 40px;
+            padding-left: 12px;
+        }
+
+        .logo span {
+            color: #bae6fd;
+        }
+
+        .nav-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            opacity: .65;
+            margin: 20px 12px 10px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 13px 14px;
+            border-radius: 13px;
+            margin-bottom: 6px;
+            color: rgba(255,255,255,.85);
+            text-decoration: none;
+            transition: .25s;
+            font-size: 14px;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: rgba(255,255,255,.17);
+            color: white;
+            transform: translateX(3px);
+        }
+
+        .nav-icon {
+            width: 25px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .sidebar-bottom {
+            position: absolute;
+            bottom: 25px;
+            left: 18px;
+            right: 18px;
+        }
+
+        .back-btn {
+            width: 100%;
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            background: rgba(255,255,255,.13);
+            color: white;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,.25);
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 250px;
+            padding: 35px 42px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+        }
+
+        .eyebrow {
+            color: #0284c7;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            font-size: 34px;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            margin-top: 7px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* ================= ADD BUTTON ================= */
+
+        .add-btn {
+            border: none;
+            background: linear-gradient(
+                135deg,
+                #0ea5e9,
+                #0284c7
+            );
+            color: white;
+            padding: 13px 20px;
+            border-radius: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow:
+                0 10px 25px
+                rgba(14,165,233,.22);
+            transition: .25s;
+        }
+
+        .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 15px 30px
+                rgba(14,165,233,.3);
+        }
+
+        /* ================= TOOLBAR ================= */
+
+        .toolbar {
+            background: white;
+            border: 1px solid #e0f2fe;
+            border-radius: 20px;
+            padding: 17px;
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            box-shadow:
+                0 10px 30px
+                rgba(15,23,42,.04);
+        }
+
+        .search-box {
+            flex: 1;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            border: 1px solid #dbeafe;
+            background: #f8fcff;
+            padding:
+                13px
+                15px
+                13px
+                43px;
+            border-radius: 12px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .search-box input:focus {
+            border-color: #38bdf8;
+            box-shadow:
+                0 0 0 3px
+                rgba(56,189,248,.12);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 12px;
+            color: #64748b;
+        }
+
+        .refresh-btn {
+            border: 1px solid #dbeafe;
+            background: white;
+            padding: 0 18px;
+            border-radius: 12px;
+            cursor: pointer;
+            color: #0284c7;
+            font-weight: 600;
+        }
+
+        .refresh-btn:hover {
+            background: #effaff;
+        }
+
+        /* ================= STATS ================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .stat {
+            background: white;
+            border: 1px solid #e0f2fe;
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow:
+                0 10px 30px
+                rgba(15,23,42,.04);
+        }
+
+        .stat-label {
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 800;
+            color: #075985;
+        }
+
+        /* ================= SECTION HEADER ================= */
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 17px;
+        }
+
+        .section-header h2 {
+            font-size: 20px;
+        }
+
+        #resultText {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        /* ================= DOCTOR GRID ================= */
+
+        .doctor-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        /* ================= DOCTOR CARD ================= */
+
+        .doctor-card {
+            background: white;
+            border: 1px solid #e0f2fe;
+            border-radius: 22px;
+            padding: 23px;
+            position: relative;
+            overflow: hidden;
+            transition: .3s;
+            box-shadow:
+                0 10px 30px
+                rgba(15,23,42,.04);
+        }
+
+        .doctor-card:hover {
+            transform: translateY(-5px);
+            box-shadow:
+                0 20px 45px
+                rgba(14,165,233,.12);
+            border-color: #bae6fd;
+        }
+
+        /* ================= DOCTOR TOP ================= */
+
+        .doctor-top {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 18px;
+        }
+
+        .doctor-avatar {
+            width: 58px;
+            height: 58px;
+            border-radius: 17px;
+            background:
+                linear-gradient(
+                    135deg,
+                    #e0f2fe,
+                    #bae6fd
+                );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+            font-weight: 800;
+            color: #0369a1;
+        }
+
+        .doctor-name {
+            font-size: 17px;
+            font-weight: 750;
+        }
+
+        .specialization {
+            color: #0284c7;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        /* ================= STATUS ================= */
+
+        .status {
+            position: absolute;
+            right: 18px;
+            top: 18px;
+            padding: 5px 9px;
+            border-radius: 20px;
+            background: #ecfdf5;
+            color: #059669;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        /* ================= INFO ================= */
+
+        .doctor-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .info-box {
+            background: #f8fcff;
+            padding: 10px;
+            border-radius: 11px;
+        }
+
+        .info-label {
+            color: #94a3b8;
+            font-size: 10px;
+            text-transform: uppercase;
+        }
+
+        .info-value {
+            margin-top: 3px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* ================= ACTION BUTTONS ================= */
+
+        .doctor-actions {
+            display: flex;
+            gap: 7px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 10px 6px;
+            border-radius: 11px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 700;
+            transition: .2s;
+        }
+
+        .view-btn {
+            border: 1px solid #bae6fd;
+            background: #f0f9ff;
+            color: #0369a1;
+        }
+
+        .view-btn:hover {
+            background: #e0f2fe;
+        }
+
+        .edit-btn {
+            border: 1px solid #bfdbfe;
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .edit-btn:hover {
+            background: #dbeafe;
+        }
+
+        .delete-btn {
+            border: 1px solid #fecaca;
+            background: #fff5f5;
+            color: #dc2626;
+        }
+
+        .delete-btn:hover {
+            background: #fee2e2;
+        }
+
+        /* ================= EMPTY ================= */
+
+        .empty {
+            background: white;
+            border: 1px dashed #bae6fd;
+            border-radius: 20px;
+            padding: 55px 20px;
+            text-align: center;
+            color: #64748b;
+            grid-column: 1 / -1;
+        }
+
+        .empty-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        /* ================= MODAL ================= */
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(15,23,42,.45);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 500;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-box {
+            width: 100%;
+            max-width: 560px;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow:
+                0 30px 80px
+                rgba(15,23,42,.2);
+            animation: pop .25s ease;
+        }
+
+        @keyframes pop {
+
+            from {
+                opacity: 0;
+                transform:
+                    scale(.94)
+                    translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform:
+                    scale(1)
+                    translateY(0);
+            }
+        }
+
+        .modal-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-head h2 {
+            font-size: 21px;
+        }
+
+        .modal-subtitle {
+            color: #64748b;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .close-btn {
+            border: none;
+            background: #f1f5f9;
+            width: 35px;
+            height: 35px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .close-btn:hover {
+            background: #e2e8f0;
+        }
+
+        /* ================= DETAILS ================= */
+
+        .detail-row {
+            padding: 13px 0;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .detail-row span:first-child {
+            color: #64748b;
+        }
+
+        .detail-row span:last-child {
+            font-weight: 650;
+            text-align: right;
+        }
+
+        /* ================= FORM ================= */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 0;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .modal-box label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: #475569;
+            margin-bottom: 6px;
+        }
+
+        .modal-box input,
+        .modal-box select {
+
+            width: 100%;
+
+            border:
+                1px solid #dbeafe;
+
+            background: #f8fcff;
+
+            padding: 12px;
+
+            border-radius: 11px;
+
+            outline: none;
+
+            font-size: 13px;
+
+            color: #0f172a;
+        }
+
+        .modal-box input:focus,
+        .modal-box select:focus {
+
+            border-color: #38bdf8;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(56,189,248,.12);
+        }
+
+        .modal-note {
+            margin-top: 15px;
+            padding: 11px 13px;
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 11px;
+            color: #0369a1;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .save-btn {
+
+            width: 100%;
+
+            margin-top: 22px;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0ea5e9,
+                    #0284c7
+                );
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition: .2s;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-1px);
+            box-shadow:
+                0 10px 25px
+                rgba(14,165,233,.25);
+        }
+
+        .save-btn:disabled {
+            opacity: .65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .cancel-form-btn {
+
+            width: 100%;
+
+            margin-top: 9px;
+
+            padding: 12px;
+
+            border: 1px solid #dbeafe;
+
+            border-radius: 13px;
+
+            background: white;
+
+            color: #475569;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+        .cancel-form-btn:hover {
+            background: #f8fafc;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media(max-width:1100px) {
+
+            .doctor-grid {
+                grid-template-columns:
+                    repeat(2,1fr);
+            }
+
+            .stats {
+                grid-template-columns:
+                    repeat(3,1fr);
+            }
+        }
+
+        @media(max-width:800px) {
+
+            .sidebar {
+                width: 70px;
+                padding: 20px 10px;
+            }
+
+            .logo {
+                font-size: 0;
+                text-align: center;
+                padding: 0;
+            }
+
+            .logo::first-letter {
+                font-size: 25px;
+            }
+
+            .nav-item span:not(.nav-icon),
+            .nav-title,
+            .sidebar-bottom {
+                display: none;
+            }
+
+            .nav-item {
+                justify-content: center;
+            }
+
+            .main {
+                margin-left: 70px;
+                padding: 25px 18px;
+            }
+
+            .doctor-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .toolbar {
+                flex-direction: column;
+            }
+
+            .refresh-btn {
+                padding: 12px;
+            }
+
+            .topbar {
+                align-items: flex-start;
+                gap: 15px;
+                flex-direction: column;
+            }
+        }
+
+        @media(max-width:600px) {
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .doctor-actions {
+                flex-wrap: wrap;
+            }
+
+            .action-btn {
+                min-width: 30%;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+        MediCare<span>+</span>
+    </div>
+
+    <div class="nav-title">
+        Management
+    </div>
+
+    <a href="/admin-dashboard" class="nav-item">
+
+        <span class="nav-icon">
+            ⌂
+        </span>
+
+        <span>
+            Dashboard
+        </span>
+
+    </a>
+
+    <a href="/admin-patients" class="nav-item">
+
+        <span class="nav-icon">
+            ♙
+        </span>
+
+        <span>
+            Patients
+        </span>
+
+    </a>
+
+    <a href="/admin-doctors" class="nav-item active">
+
+        <span class="nav-icon">
+            ⚕
+        </span>
+
+        <span>
+            Doctors
+        </span>
+
+    </a>
+
+    <a href="/admin-appointments" class="nav-item">
+
+        <span class="nav-icon">
+            ▣
+        </span>
+
+        <span>
+            Appointments
+        </span>
+
+    </a>
+
+    <a href="/notifications" class="nav-item">
+
+        <span class="nav-icon">
+            ♧
+        </span>
+
+        <span>
+            Notifications
+        </span>
+
+    </a>
+
+    <div class="sidebar-bottom">
+
+        <button
+            class="back-btn"
+            onclick="window.location.href='/admin-dashboard'">
+
+            ← Back to Dashboard
+
+        </button>
+
+    </div>
+
+</aside>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+        <div>
+
+            <div class="eyebrow">
+                Clinical Network
+            </div>
+
+            <h1>
+                Doctor Management
+            </h1>
+
+            <p class="subtitle">
+                Manage your healthcare professionals and clinical network.
+            </p>
+
+        </div>
+
+        <button
+            class="add-btn"
+            onclick="showAddDoctor()">
+
+            + Add Doctor
+
+        </button>
+
+    </div>
+
+
+    <!-- SEARCH -->
+
+    <div class="toolbar">
+
+        <div class="search-box">
+
+            <span class="search-icon">
+                ⌕
+            </span>
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search by doctor name or specialization..."
+                oninput="searchDoctors()">
+
+        </div>
+
+        <button
+            class="refresh-btn"
+            onclick="loadDoctors()">
+
+            ↻ Refresh
+
+        </button>
+
+    </div>
+
+
+    <!-- STATS -->
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <div class="stat-label">
+                Total Doctors
+            </div>
+
+            <div
+                class="stat-value"
+                id="totalDoctors">
+
+                0
+
+            </div>
+
+        </div>
+
+        <div class="stat">
+
+            <div class="stat-label">
+                Available Today
+            </div>
+
+            <div
+                class="stat-value"
+                id="availableDoctors">
+
+                0
+
+            </div>
+
+        </div>
+
+        <div class="stat">
+
+            <div class="stat-label">
+                Specializations
+            </div>
+
+            <div
+                class="stat-value"
+                id="specializations">
+
+                0
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SECTION HEADER -->
+
+    <div class="section-header">
+
+        <h2>
+            Medical Professionals
+        </h2>
+
+        <span id="resultText">
+            Loading doctors...
+        </span>
+
+    </div>
+
+
+    <!-- DOCTOR GRID -->
+
+    <div
+        class="doctor-grid"
+        id="doctorGrid">
+
+        <div class="empty">
+
+            <div class="empty-icon">
+                ⚕
+            </div>
+
+            Loading doctor network...
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- =====================================================
+     MODAL
+===================================================== -->
+
+<div
+    class="modal"
+    id="doctorModal">
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+
+            <div>
+
+                <h2 id="modalTitle">
+                    Doctor Profile
+                </h2>
+
+                <div
+                    class="modal-subtitle"
+                    id="modalSubtitle">
+
+                    Healthcare professional details
+
+                </div>
+
+            </div>
+
+            <button
+                class="close-btn"
+                onclick="closeModal()">
+
+                ×
+
+            </button>
+
+        </div>
+
+        <div id="doctorDetails"></div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+let allDoctors = [];
+
+let editingDoctorId = null;
+
+
+/* =====================================================
+   LOAD DOCTORS
+===================================================== */
+
+async function loadDoctors() {
+
+    try {
+
+        const response =
+            await fetch("/api/admin/doctors");
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Failed to load doctors"
+            );
+        }
+
+        allDoctors =
+            await response.json();
+
+        updateStats(allDoctors);
+
+        renderDoctors(allDoctors);
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        document
+            .getElementById("doctorGrid")
+            .innerHTML = `
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        ⚠️
+                    </div>
+
+                    <h3>
+                        Unable to load doctors
+                    </h3>
+
+                    <p>
+                        Please restart the application
+                        and try again.
+                    </p>
+
+                </div>
+
+            `;
+
+        document
+            .getElementById("resultText")
+            .textContent =
+            "Unable to load";
+    }
+}
+
+
+/* =====================================================
+   UPDATE STATS
+===================================================== */
+
+function updateStats(doctors) {
+
+    document
+        .getElementById("totalDoctors")
+        .textContent =
+        doctors.length;
+
+    const available =
+        doctors.filter(function(doctor) {
+
+            return doctor.availability &&
+                doctor.availability
+                    .toLowerCase()
+                    .includes("today");
+
+        });
+
+    document
+        .getElementById("availableDoctors")
+        .textContent =
+        available.length;
+
+    const uniqueSpecializations =
+        new Set(
+            doctors
+                .map(
+                    d => d.specialization
+                )
+                .filter(Boolean)
+        );
+
+    document
+        .getElementById("specializations")
+        .textContent =
+        uniqueSpecializations.size;
+}
+
+
+/* =====================================================
+   RENDER DOCTORS
+===================================================== */
+
+function renderDoctors(doctors) {
+
+    const grid =
+        document.getElementById(
+            "doctorGrid"
+        );
+
+    document
+        .getElementById(
+            "resultText"
+        )
+        .textContent =
+        doctors.length +
+        " doctor" +
+        (
+            doctors.length === 1
+                ? ""
+                : "s"
+        );
+
+    if (doctors.length === 0) {
+
+        grid.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    🔎
+                </div>
+
+                <h3>
+                    No doctors found
+                </h3>
+
+                <p>
+                    Try another name
+                    or specialization.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    grid.innerHTML =
+        doctors.map(function(doctor) {
+
+            const initials =
+                getInitials(
+                    doctor.name
+                );
+
+            const availability =
+                doctor.availability ||
+                "Not specified";
+
+            return `
+
+                <div class="doctor-card">
+
+                    <div class="status">
+
+                        ${escapeHtml(
+                            availability
+                        )}
+
+                    </div>
+
+
+                    <div class="doctor-top">
+
+                        <div class="doctor-avatar">
+
+                            ${initials}
+
+                        </div>
+
+
+                        <div>
+
+                            <div class="doctor-name">
+
+                                ${escapeHtml(
+                                    doctor.name ||
+                                    "Unknown Doctor"
+                                )}
+
+                            </div>
+
+                            <div class="specialization">
+
+                                ${escapeHtml(
+                                    doctor.specialization ||
+                                    "Specialist"
+                                )}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="doctor-info">
+
+                        <div class="info-box">
+
+                            <div class="info-label">
+                                Experience
+                            </div>
+
+                            <div class="info-value">
+
+                                ${doctor.experience || 0}
+                                years
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="info-box">
+
+                            <div class="info-label">
+                                Rating
+                            </div>
+
+                            <div class="info-value">
+
+                                ★
+                                ${doctor.rating || "N/A"}
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="info-box">
+
+                            <div class="info-label">
+                                Patients
+                            </div>
+
+                            <div class="info-value">
+
+                                ${doctor.totalPatients || 0}
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="info-box">
+
+                            <div class="info-label">
+                                Consultation
+                            </div>
+
+                            <div class="info-value">
+
+                                ₹${doctor.consultationFee || 0}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="doctor-actions">
+
+                        <button
+                            class="action-btn view-btn"
+                            onclick="viewDoctor(${doctor.id})">
+
+                            View
+
+                        </button>
+
+
+                        <button
+                            class="action-btn edit-btn"
+                            onclick="editDoctor(${doctor.id})">
+
+                            ✎ Edit
+
+                        </button>
+
+
+                        <button
+                            class="action-btn delete-btn"
+                            onclick="deleteDoctor(
+                                ${doctor.id},
+                                '${escapeForAttribute(
+                                    doctor.name
+                                )}'
+                            )">
+
+                            Delete
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }).join("");
+}
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+function searchDoctors() {
+
+    const value =
+        document
+            .getElementById(
+                "searchInput"
+            )
+            .value
+            .toLowerCase()
+            .trim();
+
+    const filtered =
+        allDoctors.filter(
+            function(doctor) {
+
+                const name =
+                    (
+                        doctor.name ||
+                        ""
+                    )
+                    .toLowerCase();
+
+                const specialization =
+                    (
+                        doctor.specialization ||
+                        ""
+                    )
+                    .toLowerCase();
+
+                return (
+                    name.includes(value) ||
+                    specialization.includes(
+                        value
+                    )
+                );
+            }
+        );
+
+    renderDoctors(filtered);
+}
+
+
+/* =====================================================
+   VIEW DOCTOR
+===================================================== */
+
+function viewDoctor(id) {
+
+    const doctor =
+        allDoctors.find(
+            d => d.id === id
+        );
+
+    if (!doctor) return;
+
+    document
+        .getElementById("modalTitle")
+        .textContent =
+        "Doctor Profile";
+
+    document
+        .getElementById("modalSubtitle")
+        .textContent =
+        "Healthcare professional details";
+
+    document
+        .getElementById(
+            "doctorDetails"
+        )
+        .innerHTML = `
+
+            <div class="detail-row">
+
+                <span>Name</span>
+
+                <span>
+                    ${escapeHtml(
+                        doctor.name || "-"
+                    )}
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span>Specialization</span>
+
+                <span>
+                    ${escapeHtml(
+                        doctor.specialization || "-"
+                    )}
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span>Email</span>
+
+                <span>
+                    ${escapeHtml(
+                        doctor.email || "-"
+                    )}
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span>Phone</span>
+
+                <span>
+                    ${escapeHtml(
+                        doctor.phone || "-"
+                    )}
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span>Qualification</span>
+
+                <span>
+                    ${escapeHtml(
+                        doctor.qualification || "-"
+                    )}
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span>Experience</span>
+
+                <span>
+                    ${doctor.experience || 0}
+                    years
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span>Rating</span>
+
+                <span>
+                    ★
+                    ${doctor.rating || "N/A"}
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span>Total Patients</span>
+
+                <span>
+                    ${doctor.totalPatients || 0}
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span>Consultation Fee</span>
+
+                <span>
+                    ₹${doctor.consultationFee || 0}
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span>Availability</span>
+
+                <span>
+                    ${escapeHtml(
+                        doctor.availability || "-"
+                    )}
+                </span>
+
+            </div>
+
+        `;
+
+    document
+        .getElementById(
+            "doctorModal"
+        )
+        .classList.add(
+            "active"
+        );
+}
+
+
+/* =====================================================
+   EDIT DOCTOR
+===================================================== */
+
+function editDoctor(id) {
+
+    const doctor =
+        allDoctors.find(
+            d => d.id === id
+        );
+
+    if (!doctor) return;
+
+    editingDoctorId = id;
+
+    document
+        .getElementById("modalTitle")
+        .textContent =
+        "Edit Doctor";
+
+    document
+        .getElementById("modalSubtitle")
+        .textContent =
+        "Update this doctor's professional information.";
+
+    document
+        .getElementById(
+            "doctorDetails"
+        )
+        .innerHTML = `
+
+            <form id="editDoctorForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>
+                            Doctor Name
+                        </label>
+
+                        <input
+                            id="editDoctorName"
+                            type="text"
+                            value="${escapeHtml(
+                                doctor.name || ""
+                            )}"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Specialization
+                        </label>
+
+                        <input
+                            id="editDoctorSpecialization"
+                            type="text"
+                            value="${escapeHtml(
+                                doctor.specialization || ""
+                            )}"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Qualification
+                        </label>
+
+                        <input
+                            id="editDoctorQualification"
+                            type="text"
+                            value="${escapeHtml(
+                                doctor.qualification || ""
+                            )}">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Email
+                        </label>
+
+                        <input
+                            id="editDoctorEmail"
+                            type="email"
+                            value="${escapeHtml(
+                                doctor.email || ""
+                            )}"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Phone
+                        </label>
+
+                        <input
+                            id="editDoctorPhone"
+                            type="text"
+                            value="${escapeHtml(
+                                doctor.phone || ""
+                            )}">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Experience (Years)
+                        </label>
+
+                        <input
+                            id="editDoctorExperience"
+                            type="number"
+                            min="0"
+                            value="${doctor.experience || 0}">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Rating
+                        </label>
+
+                        <input
+                            id="editDoctorRating"
+                            type="number"
+                            min="0"
+                            max="5"
+                            step="0.1"
+                            value="${doctor.rating || 0}">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Total Patients
+                        </label>
+
+                        <input
+                            id="editDoctorPatients"
+                            type="number"
+                            min="0"
+                            value="${doctor.totalPatients || 0}">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Consultation Fee (₹)
+                        </label>
+
+                        <input
+                            id="editDoctorFee"
+                            type="number"
+                            min="0"
+                            value="${doctor.consultationFee || 0}">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Availability
+                        </label>
+
+                        <select
+                            id="editDoctorAvailability">
+
+                            <option
+                                ${doctor.availability === "Available Today"
+                                    ? "selected"
+                                    : ""}>
+
+                                Available Today
+
+                            </option>
+
+                            <option
+                                ${doctor.availability === "Available Tomorrow"
+                                    ? "selected"
+                                    : ""}>
+
+                                Available Tomorrow
+
+                            </option>
+
+                            <option
+                                ${doctor.availability === "Available This Week"
+                                    ? "selected"
+                                    : ""}>
+
+                                Available This Week
+
+                            </option>
+
+                            <option
+                                ${doctor.availability === "Currently Unavailable"
+                                    ? "selected"
+                                    : ""}>
+
+                                Currently Unavailable
+
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label>
+                            New Password
+                            <span style="
+                                color:#94a3b8;
+                                font-weight:500;
+                            ">
+                                (optional)
+                            </span>
+                        </label>
+
+                        <input
+                            id="editDoctorPassword"
+                            type="password"
+                            placeholder="Leave blank to keep current password">
+
+                    </div>
+
+                </div>
+
+
+                <div class="modal-note">
+
+                    🔐 Leave the password field blank
+                    if you don't want to change the
+                    doctor's current login password.
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                    id="saveDoctorBtn">
+
+                    Save Changes
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="cancel-form-btn"
+                    onclick="closeModal()">
+
+                    Cancel
+
+                </button>
+
+            </form>
+
+        `;
+
+
+    document
+        .getElementById(
+            "doctorModal"
+        )
+        .classList.add(
+            "active"
+        );
+
+
+    document
+        .getElementById(
+            "editDoctorForm"
+        )
+        .addEventListener(
+            "submit",
+            saveDoctorChanges
+        );
+}
+
+
+/* =====================================================
+   SAVE EDITED DOCTOR
+===================================================== */
+
+async function saveDoctorChanges(event) {
+
+    event.preventDefault();
+
+    if (!editingDoctorId) {
+        return;
+    }
+
+    const button =
+        document.getElementById(
+            "saveDoctorBtn"
+        );
+
+    button.disabled = true;
+
+    button.textContent =
+        "Saving Changes...";
+
+
+    const password =
+        document
+            .getElementById(
+                "editDoctorPassword"
+            )
+            .value;
+
+
+    const doctor = {
+
+        name:
+            document
+                .getElementById(
+                    "editDoctorName"
+                )
+                .value
+                .trim(),
+
+        specialization:
+            document
+                .getElementById(
+                    "editDoctorSpecialization"
+                )
+                .value
+                .trim(),
+
+        qualification:
+            document
+                .getElementById(
+                    "editDoctorQualification"
+                )
+                .value
+                .trim(),
+
+        email:
+            document
+                .getElementById(
+                    "editDoctorEmail"
+                )
+                .value
+                .trim(),
+
+        phone:
+            document
+                .getElementById(
+                    "editDoctorPhone"
+                )
+                .value
+                .trim(),
+
+        experience:
+            Number(
+                document
+                    .getElementById(
+                        "editDoctorExperience"
+                    )
+                    .value
+            ) || 0,
+
+        rating:
+            Number(
+                document
+                    .getElementById(
+                        "editDoctorRating"
+                    )
+                    .value
+            ) || 0,
+
+        totalPatients:
+            Number(
+                document
+                    .getElementById(
+                        "editDoctorPatients"
+                    )
+                    .value
+            ) || 0,
+
+        consultationFee:
+            Number(
+                document
+                    .getElementById(
+                        "editDoctorFee"
+                    )
+                    .value
+            ) || 0,
+
+        availability:
+            document
+                .getElementById(
+                    "editDoctorAvailability"
+                )
+                .value
+    };
+
+
+    if (password.trim() !== "") {
+
+        doctor.password =
+            password;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/admin/doctors/" +
+                editingDoctorId,
+                {
+                    method: "PUT",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(
+                            doctor
+                        )
+                }
+            );
+
+
+        const result =
+            await response.text();
+
+
+        if (!response.ok) {
+
+            alert(
+                result ||
+                "Unable to update doctor."
+            );
+
+            button.disabled = false;
+
+            button.textContent =
+                "Save Changes";
+
+            return;
+        }
+
+
+        alert(
+            "✅ Doctor updated successfully!"
+        );
+
+
+        editingDoctorId = null;
+
+        closeModal();
+
+        await loadDoctors();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Unable to update doctor. " +
+            "Please make sure the " +
+            "Spring Boot application " +
+            "is running."
+        );
+
+        button.disabled = false;
+
+        button.textContent =
+            "Save Changes";
+    }
+}
+
+
+/* =====================================================
+   CLOSE MODAL
+===================================================== */
+
+function closeModal() {
+
+    editingDoctorId = null;
+
+    document
+        .getElementById(
+            "doctorModal"
+        )
+        .classList.remove(
+            "active"
+        );
+
+    document
+        .getElementById(
+            "doctorDetails"
+        )
+        .innerHTML = "";
+}
+
+
+document
+    .getElementById(
+        "doctorModal"
+    )
+    .addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target === this
+            ) {
+
+                closeModal();
+
+            }
+
+        }
+    );
+
+
+/* =====================================================
+   DELETE DOCTOR
+===================================================== */
+
+async function deleteDoctor(
+    id,
+    name
+) {
+
+    const confirmed =
+        confirm(
+            "Delete " +
+            name +
+            " from MediCare+?\n\n" +
+            "This action cannot be undone."
+        );
+
+    if (!confirmed) return;
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/admin/doctors/" +
+                id,
+                {
+                    method: "DELETE"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Delete failed"
+            );
+        }
+
+
+        alert(
+            "Doctor deleted successfully."
+        );
+
+
+        loadDoctors();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Unable to delete doctor."
+        );
+    }
+}
+
+
+/* =====================================================
+   ADD DOCTOR MODAL
+===================================================== */
+
+function showAddDoctor() {
+
+    editingDoctorId = null;
+
+    document
+        .getElementById("modalTitle")
+        .textContent =
+        "Add New Doctor";
+
+    document
+        .getElementById("modalSubtitle")
+        .textContent =
+        "Create a new healthcare professional account.";
+
+    document
+        .getElementById(
+            "doctorDetails"
+        )
+        .innerHTML = `
+
+            <form id="addDoctorForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>
+                            Doctor Name
+                        </label>
+
+                        <input
+                            id="doctorName"
+                            type="text"
+                            placeholder="Dr. John Smith"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Specialization
+                        </label>
+
+                        <input
+                            id="doctorSpecialization"
+                            type="text"
+                            placeholder="Cardiologist"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Qualification
+                        </label>
+
+                        <input
+                            id="doctorQualification"
+                            type="text"
+                            placeholder="MBBS, MD"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Email
+                        </label>
+
+                        <input
+                            id="doctorEmail"
+                            type="email"
+                            placeholder="doctor@medicareplus.com"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Phone
+                        </label>
+
+                        <input
+                            id="doctorPhone"
+                            type="text"
+                            placeholder="+91 9876543210">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Password
+                        </label>
+
+                        <input
+                            id="doctorPassword"
+                            type="password"
+                            placeholder="Doctor login password"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Experience (Years)
+                        </label>
+
+                        <input
+                            id="doctorExperience"
+                            type="number"
+                            min="0"
+                            placeholder="8">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Consultation Fee (₹)
+                        </label>
+
+                        <input
+                            id="doctorFee"
+                            type="number"
+                            min="0"
+                            placeholder="800">
+
+                    </div>
+
+                </div>
+
+
+                <div style="margin-top:15px;">
+
+                    <label>
+                        Availability
+                    </label>
+
+                    <select
+                        id="doctorAvailability">
+
+                        <option>
+                            Available Today
+                        </option>
+
+                        <option>
+                            Available Tomorrow
+                        </option>
+
+                        <option>
+                            Available This Week
+                        </option>
+
+                        <option>
+                            Currently Unavailable
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="save-btn">
+
+                    + Add Doctor to MediCare+
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="cancel-form-btn"
+                    onclick="closeModal()">
+
+                    Cancel
+
+                </button>
+
+            </form>
+
+        `;
+
+
+    document
+        .getElementById(
+            "doctorModal"
+        )
+        .classList.add(
+            "active"
+        );
+
+
+    document
+        .getElementById(
+            "addDoctorForm"
+        )
+        .addEventListener(
+            "submit",
+            addDoctor
+        );
+}
+
+
+/* =====================================================
+   ADD DOCTOR
+===================================================== */
+
+async function addDoctor(event) {
+
+    event.preventDefault();
+
+
+    const doctor = {
+
+        name:
+            document
+                .getElementById(
+                    "doctorName"
+                )
+                .value
+                .trim(),
+
+        specialization:
+            document
+                .getElementById(
+                    "doctorSpecialization"
+                )
+                .value
+                .trim(),
+
+        qualification:
+            document
+                .getElementById(
+                    "doctorQualification"
+                )
+                .value
+                .trim(),
+
+        email:
+            document
+                .getElementById(
+                    "doctorEmail"
+                )
+                .value
+                .trim(),
+
+        phone:
+            document
+                .getElementById(
+                    "doctorPhone"
+                )
+                .value
+                .trim(),
+
+        password:
+            document
+                .getElementById(
+                    "doctorPassword"
+                )
+                .value,
+
+        experience:
+            Number(
+                document
+                    .getElementById(
+                        "doctorExperience"
+                    )
+                    .value
+            ) || 0,
+
+        consultationFee:
+            Number(
+                document
+                    .getElementById(
+                        "doctorFee"
+                    )
+                    .value
+            ) || 0,
+
+        rating: 5.0,
+
+        totalPatients: 0,
+
+        availability:
+            document
+                .getElementById(
+                    "doctorAvailability"
+                )
+                .value
+    };
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/admin/doctors",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(
+                            doctor
+                        )
+                }
+            );
+
+
+        const result =
+            await response.text();
+
+
+        if (!response.ok) {
+
+            alert(result);
+
+            return;
+        }
+
+
+        alert(
+            "🎉 Doctor added successfully!"
+        );
+
+
+        closeModal();
+
+        loadDoctors();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Unable to add doctor. " +
+            "Please make sure the " +
+            "Spring Boot application " +
+            "is running."
+        );
+    }
+}
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function getInitials(name) {
+
+    if (!name)
+        return "DR";
+
+    const parts =
+        name
+            .replace("Dr.", "")
+            .trim()
+            .split(" ");
+
+
+    if (
+        parts.length === 1
+    ) {
+
+        return parts[0]
+            .substring(0, 2)
+            .toUpperCase();
+    }
+
+
+    return (
+        parts[0][0] +
+        parts[
+            parts.length - 1
+        ][0]
+    ).toUpperCase();
+}
+
+
+function escapeHtml(value) {
+
+    return String(
+        value || ""
+    )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+}
+
+
+function escapeForAttribute(value) {
+
+    return String(
+        value || ""
+    )
+        .replace(
+            /\\/g,
+            "\\\\"
+        )
+        .replace(
+            /'/g,
+            "\\'"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        );
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+loadDoctors();
+
+</script>
+
+</body>
+
+</html>

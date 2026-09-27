@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Book Appointment | MediCare+</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+
+        body {
+            background: #f7fcff;
+        }
+
+        .booking-page {
+            min-height: 100vh;
+            padding: 125px 7% 80px;
+            background:
+                radial-gradient(circle at 10% 15%, rgba(56,189,248,.13), transparent 28%),
+                radial-gradient(circle at 90% 80%, rgba(14,165,233,.10), transparent 30%),
+                #f7fcff;
+        }
+
+        .booking-header {
+            max-width: 1000px;
+            margin: 0 auto 35px;
+        }
+
+        .booking-back {
+            display: inline-block;
+            margin-bottom: 18px;
+            color: #0284c7;
+            font-size: 14px;
+            font-weight: 700;
+            transition: .25s ease;
+        }
+
+        .booking-back:hover {
+            transform: translateX(-5px);
+        }
+
+        .booking-header span {
+            color: #0284c7;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .booking-header h1 {
+            margin: 8px 0 10px;
+            color: #0f172a;
+            font-size: clamp(38px, 5vw, 58px);
+            letter-spacing: -2px;
+        }
+
+        .booking-header p {
+            color: #64748b;
+            font-size: 16px;
+        }
+
+        /* PROGRESS */
+
+        .booking-progress {
+            max-width: 1000px;
+            margin: 0 auto 25px;
+            padding: 18px 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,.75);
+            border: 1px solid #e0f2fe;
+            border-radius: 18px;
+            backdrop-filter: blur(15px);
+        }
+
+        .progress-step {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            color: #94a3b8;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .progress-number {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #e2e8f0;
+            color: #64748b;
+        }
+
+        .progress-step.active {
+            color: #0284c7;
+        }
+
+        .progress-step.active .progress-number {
+            background: #0ea5e9;
+            color: white;
+            box-shadow: 0 0 0 5px rgba(14,165,233,.10);
+        }
+
+        /* MAIN */
+
+        .booking-container {
+            max-width: 1000px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1.35fr .65fr;
+            gap: 22px;
+        }
+
+        .booking-card,
+        .summary-card {
+            background: rgba(255,255,255,.92);
+            border: 1px solid #e0f2fe;
+            border-radius: 28px;
+            box-shadow: 0 20px 60px rgba(14,165,233,.09);
+        }
+
+        .booking-card {
+            padding: 35px;
+        }
+
+        .step {
+            display: none;
+            animation: fadeStep .35s ease;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        @keyframes fadeStep {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .step-title {
+            margin-bottom: 8px;
+            color: #0f172a;
+            font-size: 25px;
+        }
+
+        .step-description {
+            margin-bottom: 25px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* DOCTOR */
+
+        .selected-doctor {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 2px solid #bae6fd;
+            border-radius: 20px;
+            background: #f8fcff;
+            cursor: pointer;
+            transition: .25s ease;
+        }
+
+        .selected-doctor:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(14,165,233,.10);
+        }
+
+        .doctor-mini-avatar {
+            width: 65px;
+            height: 65px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 18px;
+            background: linear-gradient(145deg,#bae6fd,#0ea5e9,#0284c7);
+            color: white;
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .selected-doctor h3 {
+            margin-bottom: 4px;
+            color: #0f172a;
+        }
+
+        .selected-doctor p {
+            color: #0284c7;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .verified-small {
+            margin-left: auto;
+            padding: 6px 10px;
+            border-radius: 50px;
+            background: #e0f2fe;
+            color: #0284c7;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        /* INPUTS */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #334155;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid #dbeafe;
+            border-radius: 13px;
+            background: #f8fcff;
+            color: #0f172a;
+            font-family: inherit;
+            outline: none;
+            transition: .2s ease;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            border-color: #38bdf8;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(56,189,248,.10);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* DATE + TIME */
+
+        .date-time-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .time-grid {
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            gap: 10px;
+        }
+
+        .time-option {
+            padding: 13px 8px;
+            border: 1px solid #dbeafe;
+            border-radius: 12px;
+            background: white;
+            color: #334155;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .time-option:hover {
+            border-color: #38bdf8;
+            transform: translateY(-2px);
+        }
+
+        .time-option.selected {
+            border-color: #0ea5e9;
+            background: #e0f2fe;
+            color: #0284c7;
+        }
+
+        /* CONSULTATION */
+
+        .consultation-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .consultation-option {
+            padding: 22px;
+            border: 1px solid #dbeafe;
+            border-radius: 18px;
+            background: white;
+            cursor: pointer;
+            transition: .25s ease;
+        }
+
+        .consultation-option:hover {
+            transform: translateY(-3px);
+            border-color: #38bdf8;
+        }
+
+        .consultation-option.selected {
+            border: 2px solid #0ea5e9;
+            background: #f0f9ff;
+        }
+
+        .consultation-icon {
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+
+        .consultation-option strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #0f172a;
+        }
+
+        .consultation-option small {
+            color: #64748b;
+        }
+
+        /* BUTTONS */
+
+        .booking-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .booking-next,
+        .booking-back-btn {
+            border: none;
+            padding: 14px 22px;
+            border-radius: 13px;
+            font-family: inherit;
+            font-weight: 800;
+            cursor: pointer;
+            transition: .25s ease;
+        }
+
+        .booking-next {
+            margin-left: auto;
+            background: #0ea5e9;
+            color: white;
+            box-shadow: 0 10px 25px rgba(14,165,233,.20);
+        }
+
+        .booking-next:hover {
+            background: #0284c7;
+            transform: translateY(-2px);
+        }
+
+        .booking-back-btn {
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        .booking-back-btn:hover {
+            background: #e2e8f0;
+        }
+
+        /* SUMMARY */
+
+        .summary-card {
+            height: fit-content;
+            padding: 27px;
+            position: sticky;
+            top: 105px;
+        }
+
+        .summary-card h3 {
+            margin-bottom: 20px;
+            color: #0f172a;
+        }
+
+        .summary-doctor {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e0f2fe;
+        }
+
+        .summary-avatar {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background: #e0f2fe;
+            color: #0284c7;
+            font-weight: 800;
+        }
+
+        .summary-doctor strong {
+            display: block;
+            color: #0f172a;
+            font-size: 14px;
+        }
+
+        .summary-doctor span {
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 14px;
+            font-size: 13px;
+        }
+
+        .summary-row span:first-child {
+            color: #94a3b8;
+        }
+
+        .summary-row span:last-child {
+            color: #334155;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 18px;
+            margin-top: 18px;
+            border-top: 1px solid #e0f2fe;
+        }
+
+        .summary-total span:first-child {
+            color: #64748b;
+        }
+
+        .summary-total strong {
+            color: #0284c7;
+            font-size: 20px;
+        }
+
+        /* SUCCESS */
+
+        .success-step {
+            text-align: center;
+            padding: 30px 10px;
+        }
+
+        .success-icon {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #e0f2fe;
+            color: #0284c7;
+            font-size: 38px;
+            animation: successPop .5s ease;
+        }
+
+        @keyframes successPop {
+            0% {
+                transform: scale(.5);
+                opacity: 0;
+            }
+
+            70% {
+                transform: scale(1.12);
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .success-step h2 {
+            margin-bottom: 10px;
+            color: #0f172a;
+        }
+
+        .success-step p {
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        .appointment-id {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 12px 18px;
+            border-radius: 12px;
+            background: #f0f9ff;
+            color: #0284c7;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        /* MOBILE */
+
+        @media(max-width:850px) {
+
+            .booking-page {
+                padding: 105px 5% 60px;
+            }
+
+            .booking-container {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-card {
+                position: static;
+            }
+
+            .booking-progress {
+                overflow-x: auto;
+                gap: 20px;
+            }
+
+            .progress-step {
+                white-space: nowrap;
+            }
+        }
+
+        @media(max-width:550px) {
+
+            .booking-card {
+                padding: 23px;
+            }
+
+            .date-time-grid,
+            .consultation-options {
+                grid-template-columns: 1fr;
+            }
+
+            .time-grid {
+                grid-template-columns: repeat(2,1fr);
+            }
+
+            .booking-buttons {
+                flex-direction: column;
+            }
+
+            .booking-next,
+            .booking-back-btn {
+                width: 100%;
+            }
+
+            .booking-next {
+                margin-left: 0;
+            }
+
+            .selected-doctor {
+                align-items: flex-start;
+            }
+
+            .verified-small {
+                display: none;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <a href="/" class="logo">
+        <span class="logo-icon">✚</span>
+        <span>MediCare<span class="logo-plus">+</span></span>
+    </a>
+
+    <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/#doctors">Find Doctors</a>
+        <a href="/#services">Services</a>
+        <a href="/#about">About</a>
+    </nav>
+
+    <div class="nav-actions">
+        <a href="#" class="login-btn">Log in</a>
+        <a href="/#doctors" class="btn-primary">Get Started →</a>
+    </div>
+
+</header>
+
+
+<main class="booking-page">
+
+    <div class="booking-header">
+
+        <a href="/doctor/sarah" class="booking-back">
+            ← Back to Dr. Sarah Mitchell
+        </a>
+
+        <span>MEDICARE+ APPOINTMENTS</span>
+
+        <h1>Book your visit.</h1>
+
+        <p>
+            Choose a time that works for you. It only takes a minute.
+        </p>
+
+    </div>
+
+
+    <!-- PROGRESS -->
+
+    <div class="booking-progress">
+
+        <div class="progress-step active" data-progress="1">
+            <div class="progress-number">1</div>
+            Doctor
+        </div>
+
+        <div class="progress-step" data-progress="2">
+            <div class="progress-number">2</div>
+            Date & Time
+        </div>
+
+        <div class="progress-step" data-progress="3">
+            <div class="progress-number">3</div>
+            Details
+        </div>
+
+        <div class="progress-step" data-progress="4">
+            <div class="progress-number">4</div>
+            Confirm
+        </div>
+
+    </div>
+
+
+    <div class="booking-container">
+
+        <div class="booking-card">
+
+
+            <!-- STEP 1 -->
+
+            <div class="step active" id="step1">
+
+                <h2 class="step-title">
+                    Choose your doctor
+                </h2>
+
+                <p class="step-description">
+                    Your selected specialist is ready for your appointment.
+                </p>
+
+                <div class="selected-doctor">
+
+                    <div class="doctor-mini-avatar">
+                        SM
+                    </div>
+
+                    <div>
+                        <h3>Dr. Sarah Mitchell</h3>
+                        <p>Cardiologist · ★ 4.9</p>
+                    </div>
+
+                    <span class="verified-small">
+                        ✓ VERIFIED
+                    </span>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Consultation fee
+                    </label>
+
+                    <input
+                        class="form-input"
+                        value="₹800"
+                        readonly
+                    >
+
+                </div>
+
+                <div class="booking-buttons">
+
+                    <button
+                        class="booking-next"
+                        onclick="nextStep()">
+                        Continue →
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- STEP 2 -->
+
+            <div class="step" id="step2">
+
+                <h2 class="step-title">
+                    Pick a date & time
+                </h2>
+
+                <p class="step-description">
+                    Select an available slot for your consultation.
+                </p>
+
+                <div class="date-time-grid">
+
+                    <div class="form-group">
+
+                        <label>
+                            Appointment date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="appointmentDate"
+                            class="form-input"
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Time zone
+                        </label>
+
+                        <select class="form-select">
+                            <option>India Standard Time (IST)</option>
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Available time slots
+                    </label>
+
+                    <div class="time-grid">
+
+                        <button class="time-option">
+                            09:00 AM
+                        </button>
+
+                        <button class="time-option">
+                            10:30 AM
+                        </button>
+
+                        <button class="time-option">
+                            12:00 PM
+                        </button>
+
+                        <button class="time-option">
+                            02:00 PM
+                        </button>
+
+                        <button class="time-option">
+                            04:30 PM
+                        </button>
+
+                        <button class="time-option">
+                            06:00 PM
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="booking-buttons">
+
+                    <button
+                        class="booking-back-btn"
+                        onclick="previousStep()">
+                        ← Back
+                    </button>
+
+                    <button
+                        class="booking-next"
+                        onclick="nextStep()">
+                        Continue →
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- STEP 3 -->
+
+            <div class="step" id="step3">
+
+                <h2 class="step-title">
+                    Tell us a little more
+                </h2>
+
+                <p class="step-description">
+                    This helps the doctor prepare for your consultation.
+                </p>
+
+                <div class="form-group">
+
+                    <label>
+                        Reason for visit
+                    </label>
+
+                    <textarea
+                        id="reason"
+                        class="form-textarea"
+                        placeholder="Example: Regular heart check-up, chest discomfort, follow-up..."
+                    ></textarea>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Consultation type
+                    </label>
+
+                    <div class="consultation-options">
+
+                        <div
+                            class="consultation-option selected"
+                            onclick="selectConsultation(this, 'Video consultation')">
+
+                            <div class="consultation-icon">
+                                ◉
+                            </div>
+
+                            <strong>
+                                Video consultation
+                            </strong>
+
+                            <small>
+                                Meet your doctor online
+                            </small>
+
+                        </div>
+
+
+                        <div
+                            class="consultation-option"
+                            onclick="selectConsultation(this, 'In-person visit')">
+
+                            <div class="consultation-icon">
+                                ♡
+                            </div>
+
+                            <strong>
+                                In-person visit
+                            </strong>
+
+                            <small>
+                                Visit the clinic
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="booking-buttons">
+
+                    <button
+                        class="booking-back-btn"
+                        onclick="previousStep()">
+                        ← Back
+                    </button>
+
+                    <button
+                        class="booking-next"
+                        onclick="nextStep()">
+                        Review →
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- STEP 4 -->
+
+            <div class="step" id="step4">
+
+                <h2 class="step-title">
+                    Review your appointment
+                </h2>
+
+                <p class="step-description">
+                    Everything look right? Confirm your appointment below.
+                </p>
+
+                <div class="selected-doctor">
+
+                    <div class="doctor-mini-avatar">
+                        SM
+                    </div>
+
+                    <div>
+                        <h3>Dr. Sarah Mitchell</h3>
+                        <p>Cardiologist</p>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Appointment
+                    </label>
+
+                    <input
+                        class="form-input"
+                        id="reviewDate"
+                        readonly
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Consultation
+                    </label>
+
+                    <input
+                        class="form-input"
+                        id="reviewConsultation"
+                        readonly
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Reason
+                    </label>
+
+                    <textarea
+                        class="form-textarea"
+                        id="reviewReason"
+                        readonly
+                    ></textarea>
+
+                </div>
+
+                <div class="booking-buttons">
+
+                    <button
+                        class="booking-back-btn"
+                        onclick="previousStep()">
+                        ← Edit
+                    </button>
+
+                    <button
+                        class="booking-next"
+                        onclick="confirmBooking()">
+                        Confirm Appointment ✓
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- SUCCESS -->
+
+            <div class="step" id="successStep">
+
+                <div class="success-step">
+
+                    <div class="success-icon">
+                        ✓
+                    </div>
+
+                    <h2>
+                        Appointment confirmed!
+                    </h2>
+
+                    <p>
+                        Your appointment with Dr. Sarah Mitchell
+                        has been successfully booked.
+                    </p>
+
+                    <div class="appointment-id">
+                        MC-2026-10482
+                    </div>
+
+                    <p>
+                        A confirmation will appear in your MediCare+
+                        dashboard.
+                    </p>
+
+                    <a
+                        href="/"
+                        class="btn-primary"
+                        style="display:inline-flex;margin-top:15px;">
+                        Back to MediCare+ →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- SUMMARY -->
+
+        <aside class="summary-card">
+
+            <h3>
+                Appointment summary
+            </h3>
+
+            <div class="summary-doctor">
+
+                <div class="summary-avatar">
+                    SM
+                </div>
+
+                <div>
+
+                    <strong>
+                        Dr. Sarah Mitchell
+                    </strong>
+
+                    <span>
+                        Cardiologist
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="summary-row">
+
+                <span>Date</span>
+
+                <span id="summaryDate">
+                    Not selected
+                </span>
+
+            </div>
+
+            <div class="summary-row">
+
+                <span>Time</span>
+
+                <span id="summaryTime">
+                    Not selected
+                </span>
+
+            </div>
+
+            <div class="summary-row">
+
+                <span>Consultation</span>
+
+                <span id="summaryConsultation">
+                    Video consultation
+                </span>
+
+            </div>
+
+            <div class="summary-total">
+
+                <span>Total</span>
+
+                <strong>
+                    ₹800
+                </strong>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+</main>
+
+
+<script>
+
+    let currentStep = 1;
+
+    let selectedTime = "";
+
+    let selectedConsultation = "Video consultation";
+
+
+    function showStep(step) {
+
+        document.querySelectorAll(".step").forEach(function(element) {
+            element.classList.remove("active");
+        });
+
+        document
+            .getElementById("step" + step)
+            .classList.add("active");
+
+        document
+            .querySelectorAll(".progress-step")
+            .forEach(function(element) {
+                element.classList.remove("active");
+            });
+
+        document
+            .querySelector('[data-progress="' + step + '"]')
+            .classList.add("active");
+
+    }
+
+
+    function nextStep() {
+
+        if (currentStep === 2 && !selectedTime) {
+
+            alert("Please select an available time slot.");
+
+            return;
+        }
+
+        if (currentStep === 3) {
+
+            const reason =
+                document.getElementById("reason").value.trim();
+
+            if (!reason) {
+
+                alert("Please enter the reason for your visit.");
+
+                return;
+            }
+
+            updateReview();
+
+        }
+
+        if (currentStep < 4) {
+
+            currentStep++;
+
+            showStep(currentStep);
+
+        }
+
+    }
+
+
+    function previousStep() {
+
+        if (currentStep > 1) {
+
+            currentStep--;
+
+            showStep(currentStep);
+
+        }
+
+    }
+
+
+    document
+        .querySelectorAll(".time-option")
+        .forEach(function(button) {
+
+            button.addEventListener("click", function() {
+
+                document
+                    .querySelectorAll(".time-option")
+                    .forEach(function(btn) {
+                        btn.classList.remove("selected");
+                    });
+
+                this.classList.add("selected");
+
+                selectedTime = this.textContent.trim();
+
+                document.getElementById("summaryTime").textContent =
+                    selectedTime;
+
+            });
+
+        });
+
+
+    document
+        .getElementById("appointmentDate")
+        .addEventListener("change", function() {
+
+            if (this.value) {
+
+                const date =
+                    new Date(this.value + "T00:00:00");
+
+                const formatted =
+                    date.toLocaleDateString("en-IN", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric"
+                    });
+
+                document.getElementById("summaryDate").textContent =
+                    formatted;
+
+            }
+
+        });
+
+
+    function selectConsultation(element, type) {
+
+        document
+            .querySelectorAll(".consultation-option")
+            .forEach(function(option) {
+                option.classList.remove("selected");
+            });
+
+        element.classList.add("selected");
+
+        selectedConsultation = type;
+
+        document.getElementById("summaryConsultation").textContent =
+            type;
+
+    }
+
+
+    function updateReview() {
+
+        const date =
+            document.getElementById("appointmentDate").value;
+
+        let formattedDate = "Date not selected";
+
+        if (date) {
+
+            const dateObject =
+                new Date(date + "T00:00:00");
+
+            formattedDate =
+                dateObject.toLocaleDateString("en-IN", {
+                    weekday: "long",
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric"
+                });
+
+        }
+
+        document.getElementById("reviewDate").value =
+            formattedDate + " · " + selectedTime;
+
+        document.getElementById("reviewConsultation").value =
+            selectedConsultation;
+
+        document.getElementById("reviewReason").value =
+            document.getElementById("reason").value;
+
+    }
+
+
+    async function confirmBooking() {
+
+        const date =
+            document.getElementById("appointmentDate").value;
+
+        const reason =
+            document.getElementById("reason").value.trim();
+
+        if (!date) {
+            alert("Please select an appointment date.");
+            return;
+        }
+
+        if (!selectedTime) {
+            alert("Please select an appointment time.");
+            return;
+        }
+
+        if (!reason) {
+            alert("Please enter the reason for your visit.");
+            return;
+        }
+
+        const appointment = {
+        	    doctorName: "Dr. Sarah Mitchell",
+        	    appointmentDate: date,
+        	    appointmentTime: selectedTime,
+        	    reason: reason,
+        	    consultationType: selectedConsultation,
+        	    fee: 800
+        	};
+        
+        
+        try {
+
+            const response = await fetch("/api/appointments", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(appointment)
+
+            });
+
+
+            if (!response.ok) {
+
+                throw new Error("Could not create appointment.");
+
+            }
+
+
+            const savedAppointment =
+                await response.json();
+
+
+            console.log("Saved appointment:", savedAppointment);
+
+
+            document
+                .querySelectorAll(".step")
+                .forEach(function(element) {
+                    element.classList.remove("active");
+                });
+
+
+            document
+                .getElementById("successStep")
+                .classList.add("active");
+
+
+            document
+                .querySelectorAll(".progress-step")
+                .forEach(function(element) {
+                    element.classList.remove("active");
+                });
+
+
+            document.querySelector(".appointment-id").textContent =
+                "MC-" + savedAppointment.id;
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "Something went wrong while booking your appointment. Please try again."
+            );
+
+        }
+	
+    }
+
+
+    // Prevent selecting dates in the past
+
+    const dateInput =
+        document.getElementById("appointmentDate");
+
+    const today =
+        new Date().toISOString().split("T")[0];
+
+    dateInput.min = today;
+
+</script>
+
+</body>
+</html>

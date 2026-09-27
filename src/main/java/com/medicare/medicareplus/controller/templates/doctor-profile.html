@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Dr. Sarah Mitchell | MediCare+</title>
+
+    <link rel="stylesheet"
+          href="/css/style.css">
+
+    <style>
+
+        /* ==============================
+           DOCTOR PROFILE PAGE
+        ============================== */
+
+        .profile-page {
+            min-height: 100vh;
+
+            padding: 120px 8% 90px;
+
+            background:
+                radial-gradient(
+                    circle at 85% 15%,
+                    rgba(56, 189, 248, 0.14),
+                    transparent 30%
+                ),
+                #f7fcff;
+        }
+
+
+        .profile-back {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            margin-bottom: 30px;
+
+            color: #0284c7;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            transition: 0.25s ease;
+        }
+
+        .profile-back:hover {
+            transform: translateX(-4px);
+        }
+
+
+        /* Main profile card */
+
+        .profile-container {
+
+            max-width: 1150px;
+
+            margin: auto;
+
+            background: white;
+
+            border: 1px solid #e0f2fe;
+
+            border-radius: 32px;
+
+            padding: 45px;
+
+            display: grid;
+
+            grid-template-columns: 280px 1fr;
+
+            gap: 50px;
+
+            box-shadow:
+                0 25px 70px
+                rgba(14, 165, 233, 0.10);
+
+        }
+
+
+        /* Doctor visual */
+
+        .profile-visual {
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+        }
+
+
+        .large-doctor-avatar {
+
+            width: 250px;
+
+            height: 280px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 30px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #bae6fd,
+                    #38bdf8,
+                    #0284c7
+                );
+
+            color: white;
+
+            font-size: 60px;
+
+            font-weight: 800;
+
+            box-shadow:
+                0 25px 50px
+                rgba(14, 165, 233, 0.20);
+
+            margin-bottom: 20px;
+
+            transition: 0.4s ease;
+
+        }
+
+
+        .large-doctor-avatar:hover {
+
+            transform:
+                translateY(-6px)
+                rotate(-1deg);
+
+            box-shadow:
+                0 30px 60px
+                rgba(14, 165, 233, 0.28);
+
+        }
+
+
+        .verified-profile {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 7px 12px;
+
+            border-radius: 50px;
+
+            background: #e0f2fe;
+
+            color: #0284c7;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+        }
+
+
+        /* Doctor information */
+
+        .profile-information {
+
+            padding-top: 10px;
+
+        }
+
+
+        .profile-label {
+
+            display: inline-block;
+
+            margin-bottom: 12px;
+
+            color: #0284c7;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            letter-spacing: 1.5px;
+
+        }
+
+
+        .profile-information h1 {
+
+            margin-bottom: 8px;
+
+            color: #0f172a;
+
+            font-size: clamp(38px, 5vw, 58px);
+
+            line-height: 1.05;
+
+            letter-spacing: -2px;
+
+        }
+
+
+        .profile-specialization {
+
+            margin-bottom: 18px;
+
+            color: #0284c7;
+
+            font-size: 19px;
+
+            font-weight: 700;
+
+        }
+
+
+        .profile-rating {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .stars {
+
+            color: #f59e0b;
+
+            font-size: 17px;
+
+        }
+
+
+        .rating-number {
+
+            color: #475569;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+        }
+
+
+        .profile-description {
+
+            max-width: 680px;
+
+            margin-bottom: 30px;
+
+            color: #64748b;
+
+            font-size: 16px;
+
+            line-height: 1.8;
+
+        }
+
+
+        /* Stats */
+
+        .profile-stats {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 12px;
+
+            margin-bottom: 32px;
+
+        }
+
+
+        .profile-stat {
+
+            padding: 18px;
+
+            border-radius: 18px;
+
+            background: #f8fcff;
+
+            border: 1px solid #e0f2fe;
+
+        }
+
+
+        .profile-stat strong {
+
+            display: block;
+
+            margin-bottom: 3px;
+
+            color: #0284c7;
+
+            font-size: 23px;
+
+        }
+
+
+        .profile-stat span {
+
+            color: #94a3b8;
+
+            font-size: 12px;
+
+        }
+
+
+        /* Booking area */
+
+        .booking-area {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 18px;
+
+            flex-wrap: wrap;
+
+        }
+
+
+        .book-appointment-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 15px 25px;
+
+            border-radius: 14px;
+
+            background: #0ea5e9;
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: 800;
+
+            box-shadow:
+                0 12px 28px
+                rgba(14, 165, 233, 0.22);
+
+            transition: 0.25s ease;
+
+        }
+
+
+        .book-appointment-btn:hover {
+
+            background: #0284c7;
+
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 18px 35px
+                rgba(14, 165, 233, 0.30);
+
+        }
+
+
+        .availability {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            color: #64748b;
+
+            font-size: 13px;
+
+        }
+
+
+        .available-dot {
+
+            width: 8px;
+
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: #22c55e;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(34, 197, 94, 0.10);
+
+        }
+
+
+        /* ==============================
+           MOBILE
+        ============================== */
+
+        @media (max-width: 800px) {
+
+            .profile-page {
+
+                padding:
+                    100px 5% 60px;
+
+            }
+
+
+            .profile-container {
+
+                grid-template-columns: 1fr;
+
+                padding: 28px;
+
+                gap: 30px;
+
+            }
+
+
+            .profile-visual {
+
+                align-items: flex-start;
+
+            }
+
+
+            .large-doctor-avatar {
+
+                width: 100%;
+
+                max-width: 300px;
+
+                height: 260px;
+
+            }
+
+
+            .profile-information h1 {
+
+                font-size: 40px;
+
+            }
+
+
+            .profile-stats {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .booking-area {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+            }
+
+
+            .book-appointment-btn {
+
+                width: 100%;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ==============================
+         NAVBAR
+    ============================== -->
+
+    <header class="navbar">
+
+        <a href="/" class="logo">
+
+            <span class="logo-icon">
+                ✚
+            </span>
+
+            <span>
+                MediCare<span class="logo-plus">+</span>
+            </span>
+
+        </a>
+
+
+        <nav class="nav-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/#doctors">
+                Find Doctors
+            </a>
+
+            <a href="/#services">
+                Services
+            </a>
+
+            <a href="/#about">
+                About
+            </a>
+
+        </nav>
+
+
+        <div class="nav-actions">
+
+            <a href="#" class="login-btn">
+                Log in
+            </a>
+
+            <a href="/#doctors" class="btn-primary">
+                Get Started →
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- ==============================
+         PROFILE
+    ============================== -->
+
+    <main class="profile-page">
+
+
+        <a href="/#doctors"
+           class="profile-back">
+
+            ← Back to doctors
+
+        </a>
+
+
+        <div class="profile-container">
+
+
+            <!-- DOCTOR IMAGE / AVATAR -->
+
+            <div class="profile-visual">
+
+                <div class="large-doctor-avatar">
+
+                    SM
+
+                </div>
+
+
+                <div class="verified-profile">
+
+                    ✓ Verified Doctor
+
+                </div>
+
+            </div>
+
+
+            <!-- INFORMATION -->
+
+            <div class="profile-information">
+
+
+                <span class="profile-label">
+
+                    MEDICARE+ SPECIALIST
+
+                </span>
+
+
+                <h1>
+
+                    Dr. Sarah Mitchell
+
+                </h1>
+
+
+                <div class="profile-specialization">
+
+                    Cardiologist
+
+                </div>
+
+
+                <div class="profile-rating">
+
+                    <span class="stars">
+                        ★★★★★
+                    </span>
+
+                    <span class="rating-number">
+                        4.9 · 248 reviews
+                    </span>
+
+                </div>
+
+
+                <p class="profile-description">
+
+                    Dr. Sarah Mitchell is a cardiologist
+                    specializing in preventive heart care,
+                    cardiovascular health and personalized
+                    treatment plans.
+
+                    <br><br>
+
+                    Her approach focuses on helping patients
+                    understand their health clearly while
+                    creating comfortable, personalized care
+                    experiences.
+
+                </p>
+
+
+                <!-- STATS -->
+
+                <div class="profile-stats">
+
+
+                    <div class="profile-stat">
+
+                        <strong>
+                            12+
+                        </strong>
+
+                        <span>
+                            Years Experience
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-stat">
+
+                        <strong>
+                            2.4K+
+                        </strong>
+
+                        <span>
+                            Patients
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-stat">
+
+                        <strong>
+                            98%
+                        </strong>
+
+                        <span>
+                            Satisfaction
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- BOOKING -->
+
+                <div class="booking-area">
+
+
+                    <a
+                        href="/booking"
+                        class="book-appointment-btn"
+                    >
+
+                        Book Appointment →
+
+                    </a>
+
+
+                    <div class="availability">
+
+                        <span class="available-dot"></span>
+
+                        Available for appointments
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- ==============================
+         FOOTER
+    ============================== -->
+
+    <footer class="footer">
+
+
+        <div class="footer-logo">
+
+            <span class="logo-icon">
+                ✚
+            </span>
+
+            MediCare<span>+</span>
+
+        </div>
+
+
+        <p>
+            Healthcare, without the waiting.
+        </p>
+
+
+        <div class="footer-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/#doctors">
+                Doctors
+            </a>
+
+            <a href="/#services">
+                Services
+            </a>
+
+            <a href="/#about">
+                About
+            </a>
+
+        </div>
+
+
+        <small>
+            © 2026 MediCare+. All rights reserved.
+        </small>
+
+
+    </footer>
+
+
+</body>
+
+</html>

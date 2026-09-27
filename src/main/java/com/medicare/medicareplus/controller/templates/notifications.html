@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MediCare+ | Notifications</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f6fbff;
+            color: #0f172a;
+        }
+
+        .navbar {
+            height: 75px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            box-shadow: 0 5px 25px rgba(15, 23, 42, .06);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            color: #075985;
+        }
+
+        .logo span {
+            color: #0ea5e9;
+        }
+
+        .back {
+            text-decoration: none;
+            color: #0284c7;
+            font-weight: 600;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 950px;
+            margin: 50px auto;
+        }
+
+        .heading {
+            margin-bottom: 30px;
+        }
+
+        .heading h1 {
+            font-size: 34px;
+            margin-bottom: 8px;
+        }
+
+        .heading p {
+            color: #64748b;
+        }
+
+        .notification {
+            background: white;
+            border-radius: 20px;
+            padding: 22px;
+            margin-bottom: 16px;
+            display: flex;
+            gap: 18px;
+            align-items: flex-start;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, .06);
+            border-left: 4px solid #0ea5e9;
+            transition: .25s;
+        }
+
+        .notification:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(14, 165, 233, .10);
+        }
+
+        .notification.unread {
+            background: #f0f9ff;
+        }
+
+        .icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 15px;
+            background: #e0f2fe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-content h3 {
+            font-size: 17px;
+            margin-bottom: 7px;
+        }
+
+        .notification-content p {
+            color: #475569;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .date {
+            margin-top: 10px;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        .empty {
+            background: white;
+            border-radius: 22px;
+            padding: 60px 30px;
+            text-align: center;
+            color: #64748b;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, .05);
+        }
+
+        .empty-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #64748b;
+        }
+
+        @media(max-width: 600px) {
+
+            .navbar {
+                padding: 0 5%;
+            }
+
+            .container {
+                width: 92%;
+                margin-top: 35px;
+            }
+
+            .heading h1 {
+                font-size: 28px;
+            }
+
+            .notification {
+                padding: 18px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+        MediCare<span>+</span>
+    </div>
+
+    <a href="/dashboard" class="back">
+        ← Dashboard
+    </a>
+
+</nav>
+
+
+<main class="container">
+
+    <div class="heading">
+
+        <h1>Your Notifications 🔔</h1>
+
+        <p>
+            Stay updated about your appointments and healthcare activity.
+        </p>
+
+    </div>
+
+
+    <div id="notificationsContainer">
+
+        <div class="loading">
+            Loading notifications...
+        </div>
+
+    </div>
+
+</main>
+
+
+<script>
+
+async function loadNotifications() {
+
+    const container =
+        document.getElementById(
+            "notificationsContainer"
+        );
+
+    try {
+
+        const response =
+            await fetch("/api/notifications");
+
+        if (!response.ok) {
+
+            if (response.status === 401) {
+
+                window.location.href =
+                    "/login";
+
+                return;
+            }
+
+            throw new Error(
+                "Unable to load notifications"
+            );
+        }
+
+        const notifications =
+            await response.json();
+
+
+        if (
+            !notifications ||
+            notifications.length === 0
+        ) {
+
+            container.innerHTML = `
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        🔔
+                    </div>
+
+                    <h2>No notifications yet</h2>
+
+                    <p style="margin-top:8px;">
+                        We'll let you know when something important happens.
+                    </p>
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        container.innerHTML = "";
+
+
+        notifications
+            .slice()
+            .reverse()
+            .forEach(function(notification) {
+
+                let icon = "🔔";
+
+
+                if (
+                    notification.type ===
+                    "APPOINTMENT"
+                ) {
+
+                    if (
+                        notification.title
+                            .toLowerCase()
+                            .includes("completed")
+                    ) {
+
+                        icon = "✅";
+
+                    } else if (
+                        notification.title
+                            .toLowerCase()
+                            .includes("cancel")
+                    ) {
+
+                        icon = "❌";
+
+                    } else if (
+                        notification.title
+                            .toLowerCase()
+                            .includes("reschedule")
+                    ) {
+
+                        icon = "📅";
+
+                    } else {
+
+                        icon = "🩺";
+                    }
+                }
+
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                card.className =
+                    "notification" +
+                    (
+                        notification.readStatus
+                            ? ""
+                            : " unread"
+                    );
+
+
+                card.innerHTML = `
+
+                    <div class="icon">
+                        ${icon}
+                    </div>
+
+                    <div class="notification-content">
+
+                        <h3>
+                            ${escapeHtml(
+                                notification.title ||
+                                "Notification"
+                            )}
+                        </h3>
+
+                        <p>
+                            ${escapeHtml(
+                                notification.message ||
+                                ""
+                            )}
+                        </p>
+
+                        <div class="date">
+                            ${escapeHtml(
+                                notification.notificationDate ||
+                                "Recently"
+                            )}
+                        </div>
+
+                    </div>
+
+                `;
+
+
+                container.appendChild(card);
+
+            });
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    ⚠️
+                </div>
+
+                <h2>Unable to load notifications</h2>
+
+                <p style="margin-top:8px;">
+                    Please refresh the page and try again.
+                </p>
+
+            </div>
+
+        `;
+    }
+}
+
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+
+loadNotifications();
+
+</script>
+
+</body>
+</html>

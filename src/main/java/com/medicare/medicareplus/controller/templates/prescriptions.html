@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>MediCare+ | Prescriptions</title>
+
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            font-family: "Inter", sans-serif;
+
+            background: #f7fcff;
+
+            color: #0f172a;
+
+        }
+
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+
+            height: 76px;
+
+            background: rgba(255,255,255,0.92);
+
+            backdrop-filter: blur(16px);
+
+            border-bottom: 1px solid #e0f2fe;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 7%;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 100;
+
+        }
+
+
+        .logo {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            font-size: 20px;
+
+            font-weight: 800;
+
+        }
+
+
+        .logo-icon {
+
+            width: 40px;
+
+            height: 40px;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #38bdf8,
+                    #0ea5e9
+                );
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 21px;
+
+            box-shadow:
+                0 8px 20px
+                rgba(14,165,233,0.2);
+
+        }
+
+
+        .logo span {
+            color: #0ea5e9;
+        }
+
+
+        .nav-links {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 28px;
+
+        }
+
+
+        .nav-links a {
+
+            font-size: 13px;
+
+            color: #64748b;
+
+            font-weight: 600;
+
+            transition: 0.25s ease;
+
+        }
+
+
+        .nav-links a:hover {
+
+            color: #0284c7;
+
+        }
+
+
+        .nav-links a.active {
+
+            color: #0284c7;
+
+        }
+
+
+        .dashboard-btn {
+
+            padding: 10px 17px;
+
+            background: #e0f2fe;
+
+            color: #0284c7 !important;
+
+            border-radius: 10px;
+
+        }
+
+
+        /* =========================
+           PAGE
+        ========================= */
+
+        .page {
+
+            max-width: 1180px;
+
+            margin: auto;
+
+            padding: 55px 25px 80px;
+
+        }
+
+
+        .page-heading {
+
+            margin-bottom: 35px;
+
+        }
+
+
+        .eyebrow {
+
+            display: inline-block;
+
+            background: #e0f2fe;
+
+            color: #0284c7;
+
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+            margin-bottom: 14px;
+
+        }
+
+
+        .page-heading h1 {
+
+            font-size: 38px;
+
+            letter-spacing: -1.5px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .page-heading p {
+
+            color: #64748b;
+
+            font-size: 14px;
+
+        }
+
+
+        /* =========================
+           PRESCRIPTION GRID
+        ========================= */
+
+        .prescription-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 20px;
+
+        }
+
+
+        .prescription-card {
+
+            background: white;
+
+            border: 1px solid #e1f2fa;
+
+            border-radius: 22px;
+
+            padding: 25px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(15,23,42,0.04);
+
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
+
+        }
+
+
+        .prescription-card:hover {
+
+            transform:
+                translateY(-5px);
+
+            box-shadow:
+                0 20px 40px
+                rgba(14,165,233,0.1);
+
+        }
+
+
+        /* =========================
+           CARD TOP
+        ========================= */
+
+        .card-top {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            justify-content: space-between;
+
+            margin-bottom: 22px;
+
+        }
+
+
+        .medicine-icon {
+
+            width: 52px;
+
+            height: 52px;
+
+            border-radius: 16px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #e0f2fe,
+                    #bae6fd
+                );
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 23px;
+
+            color: #0284c7;
+
+        }
+
+
+        .date {
+
+            color: #94a3b8;
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+        }
+
+
+        .medicine-name {
+
+            font-size: 19px;
+
+            font-weight: 800;
+
+            margin-bottom: 6px;
+
+        }
+
+
+        .doctor-name {
+
+            color: #64748b;
+
+            font-size: 12px;
+
+        }
+
+
+        /* =========================
+           DOSAGE
+        ========================= */
+
+        .dosage-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 10px;
+
+            margin-top: 22px;
+
+        }
+
+
+        .dosage {
+
+            background: #f8fcff;
+
+            border: 1px solid #e7f4fa;
+
+            border-radius: 13px;
+
+            padding: 13px;
+
+            text-align: center;
+
+        }
+
+
+        .dosage-icon {
+
+            font-size: 18px;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .dosage-label {
+
+            display: block;
+
+            color: #94a3b8;
+
+            font-size: 9px;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: .5px;
+
+            margin-bottom: 4px;
+
+        }
+
+
+        .dosage-value {
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            color: #334155;
+
+        }
+
+
+        /* =========================
+           DETAILS
+        ========================= */
+
+        .details {
+
+            margin-top: 20px;
+
+            padding-top: 18px;
+
+            border-top: 1px solid #edf6fa;
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 12px;
+
+        }
+
+
+        .detail span {
+
+            display: block;
+
+            color: #94a3b8;
+
+            font-size: 10px;
+
+            margin-bottom: 4px;
+
+        }
+
+
+        .detail strong {
+
+            font-size: 12px;
+
+        }
+
+
+        .instructions {
+
+            margin-top: 17px;
+
+            background: #f0f9ff;
+
+            border-radius: 12px;
+
+            padding: 12px 14px;
+
+            color: #475569;
+
+            font-size: 11px;
+
+            line-height: 1.6;
+
+        }
+
+
+        .instructions strong {
+
+            color: #0284c7;
+
+        }
+
+
+        /* =========================
+           EMPTY STATE
+        ========================= */
+
+        .empty-state {
+
+            background: white;
+
+            border: 1px solid #e1f2fa;
+
+            border-radius: 24px;
+
+            padding: 70px 25px;
+
+            text-align: center;
+
+            display: none;
+
+        }
+
+
+        .empty-icon {
+
+            width: 70px;
+
+            height: 70px;
+
+            margin: 0 auto 18px;
+
+            border-radius: 22px;
+
+            background: #e0f2fe;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 30px;
+
+        }
+
+
+        .empty-state h3 {
+
+            font-size: 19px;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .empty-state p {
+
+            color: #94a3b8;
+
+            font-size: 13px;
+
+        }
+
+
+        /* =========================
+           LOADING
+        ========================= */
+
+        .loading {
+
+            grid-column: 1 / -1;
+
+            text-align: center;
+
+            padding: 70px;
+
+            color: #94a3b8;
+
+            font-size: 13px;
+
+        }
+
+
+        .spinner {
+
+            width: 32px;
+
+            height: 32px;
+
+            border: 3px solid #e0f2fe;
+
+            border-top-color: #0ea5e9;
+
+            border-radius: 50%;
+
+            animation: spin 0.8s linear infinite;
+
+            margin: 0 auto 15px;
+
+        }
+
+
+        @keyframes spin {
+
+            to {
+                transform: rotate(360deg);
+            }
+
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            .prescription-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .nav-links {
+
+                gap: 12px;
+
+            }
+
+            .page-heading h1 {
+
+                font-size: 31px;
+
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .navbar {
+
+                padding: 0 20px;
+
+            }
+
+            .nav-links a:not(.dashboard-btn) {
+
+                display: none;
+
+            }
+
+            .page {
+
+                padding:
+                    40px 18px 60px;
+
+            }
+
+            .dosage-grid {
+
+                gap: 7px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================
+     NAVBAR
+====================================== -->
+
+<nav class="navbar">
+
+
+    <a href="/" class="logo">
+
+        <div class="logo-icon">
+            +
+        </div>
+
+        MediCare<span>+</span>
+
+    </a>
+
+
+    <div class="nav-links">
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/appointments">
+            Appointments
+        </a>
+
+        <a href="/medical-records">
+            Records
+        </a>
+
+        <a href="/prescriptions"
+           class="active">
+            Prescriptions
+        </a>
+
+        <a href="/dashboard"
+           class="dashboard-btn">
+            Dashboard
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- =====================================
+     PAGE
+====================================== -->
+
+<main class="page">
+
+
+    <div class="page-heading">
+
+        <div class="eyebrow">
+            Your Treatment
+        </div>
+
+
+        <h1>
+            Prescriptions
+        </h1>
+
+
+        <p>
+            Keep track of your prescribed medicines,
+            dosage and treatment instructions.
+        </p>
+
+    </div>
+
+
+    <!-- =====================================
+         PRESCRIPTIONS
+    ====================================== -->
+
+    <div
+        class="prescription-grid"
+        id="prescriptionGrid"
+    >
+
+        <div class="loading">
+
+            <div class="spinner"></div>
+
+            Loading your prescriptions...
+
+        </div>
+
+    </div>
+
+
+    <!-- EMPTY STATE -->
+
+    <div
+        class="empty-state"
+        id="emptyState"
+    >
+
+        <div class="empty-icon">
+            💊
+        </div>
+
+
+        <h3>
+            No prescriptions yet
+        </h3>
+
+
+        <p>
+            Your prescribed medicines will appear here
+            after your doctor adds them.
+        </p>
+
+    </div>
+
+
+</main>
+
+
+<script>
+
+
+    /* ================================
+       LOAD PRESCRIPTIONS
+    ================================= */
+
+    async function loadPrescriptions() {
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/prescriptions"
+                );
+
+
+            /* NOT LOGGED IN */
+
+            if (response.status === 401) {
+
+                window.location.href =
+                    "/login";
+
+                return;
+
+            }
+
+
+            const prescriptions =
+                await response.json();
+
+
+            const grid =
+                document.getElementById(
+                    "prescriptionGrid"
+                );
+
+
+            const empty =
+                document.getElementById(
+                    "emptyState"
+                );
+
+
+            /* NO PRESCRIPTIONS */
+
+            if (
+                !prescriptions ||
+                prescriptions.length === 0
+            ) {
+
+                grid.style.display = "none";
+
+                empty.style.display = "block";
+
+                return;
+
+            }
+
+
+            /* CLEAR LOADING */
+
+            grid.innerHTML = "";
+
+
+            /* CREATE CARDS */
+
+            prescriptions.forEach(
+                function (prescription) {
+
+
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    card.className =
+                        "prescription-card";
+
+
+                    card.innerHTML = `
+
+                        <div class="card-top">
+
+                            <div class="medicine-icon">
+                                💊
+                            </div>
+
+                            <div class="date">
+                                ${prescription.prescriptionDate || "Prescription"}
+                            </div>
+
+                        </div>
+
+
+                        <div class="medicine-name">
+
+                            ${prescription.medicine || "Medicine"}
+
+                        </div>
+
+
+                        <div class="doctor-name">
+
+                            Prescribed by
+                            ${prescription.doctorName || "Doctor"}
+
+                        </div>
+
+
+                        <div class="dosage-grid">
+
+
+                            <div class="dosage">
+
+                                <div class="dosage-icon">
+                                    🌅
+                                </div>
+
+                                <span class="dosage-label">
+                                    Morning
+                                </span>
+
+                                <span class="dosage-value">
+
+                                    ${prescription.morning || "—"}
+
+                                </span>
+
+                            </div>
+
+
+                            <div class="dosage">
+
+                                <div class="dosage-icon">
+                                    ☀️
+                                </div>
+
+                                <span class="dosage-label">
+                                    Afternoon
+                                </span>
+
+                                <span class="dosage-value">
+
+                                    ${prescription.afternoon || "—"}
+
+                                </span>
+
+                            </div>
+
+
+                            <div class="dosage">
+
+                                <div class="dosage-icon">
+                                    🌙
+                                </div>
+
+                                <span class="dosage-label">
+                                    Night
+                                </span>
+
+                                <span class="dosage-value">
+
+                                    ${prescription.night || "—"}
+
+                                </span>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="details">
+
+
+                            <div class="detail">
+
+                                <span>
+                                    Duration
+                                </span>
+
+                                <strong>
+                                    ${prescription.duration || "Not specified"}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="detail">
+
+                                <span>
+                                    Doctor
+                                </span>
+
+                                <strong>
+                                    ${prescription.doctorName || "Doctor"}
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
+
+                        ${
+                            prescription.instructions
+                            ?
+                            `
+                            <div class="instructions">
+
+                                <strong>
+                                    Instructions:
+                                </strong>
+
+                                ${prescription.instructions}
+
+                            </div>
+                            `
+                            :
+                            ""
+                        }
+
+                    `;
+
+
+                    grid.appendChild(card);
+
+                }
+            );
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Could not load prescriptions:",
+                error
+            );
+
+
+            document.getElementById(
+                "prescriptionGrid"
+            ).innerHTML = `
+
+                <div class="loading">
+
+                    Unable to load prescriptions.
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+    /* ================================
+       START
+    ================================= */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            loadPrescriptions();
+
+        }
+    );
+
+
+</script>
+
+
+</body>
+
+</html>

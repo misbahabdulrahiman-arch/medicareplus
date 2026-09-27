@@ -1,0 +1,3675 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>MediCare+ | Dashboard</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f7fcff;
+            color: #0f172a;
+            min-height: 100vh;
+        }
+
+        /* =========================================
+           SIDEBAR
+        ========================================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+
+            width: 250px;
+            height: 100vh;
+
+            background: white;
+
+            border-right: 1px solid #e0f2fe;
+
+            padding: 28px 18px;
+
+            z-index: 1000;
+
+            transition: 0.3s ease;
+
+            overflow-y: auto;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+
+            color: #0284c7;
+
+            padding: 0 12px 35px;
+        }
+
+        .logo span {
+            color: #0f172a;
+        }
+
+        .nav-title {
+            color: #94a3b8;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.5px;
+
+            padding: 0 12px;
+
+            margin-bottom: 12px;
+        }
+
+        .nav-link {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            text-decoration: none;
+
+            color: #64748b;
+
+            padding: 13px 14px;
+
+            border-radius: 13px;
+
+            margin-bottom: 5px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            transition: 0.25s;
+        }
+
+        .nav-link:hover {
+            background: #f0f9ff;
+
+            color: #0284c7;
+
+            transform: translateX(3px);
+        }
+
+        .nav-link.active {
+            background: #e0f2fe;
+
+            color: #0284c7;
+        }
+
+        .nav-icon {
+            width: 22px;
+
+            text-align: center;
+
+            font-size: 17px;
+        }
+
+        .logout-link {
+            margin-top: 25px;
+
+            color: #ef4444;
+        }
+
+        .logout-link:hover {
+            background: #fef2f2;
+
+            color: #dc2626;
+        }
+
+
+        /* =========================================
+           MAIN CONTENT
+        ========================================= */
+
+        .main {
+            margin-left: 250px;
+
+            min-height: 100vh;
+
+            padding: 0 38px 50px;
+        }
+
+
+        /* =========================================
+           TOPBAR
+        ========================================= */
+
+        .topbar {
+            height: 85px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            border-bottom: 1px solid #e0f2fe;
+
+            margin-bottom: 35px;
+        }
+
+        .menu-btn {
+            display: none;
+
+            border: none;
+
+            background: #e0f2fe;
+
+            color: #0284c7;
+
+            width: 42px;
+
+            height: 42px;
+
+            border-radius: 12px;
+
+            font-size: 20px;
+
+            cursor: pointer;
+        }
+
+        .welcome-small {
+            color: #64748b;
+
+            font-size: 13px;
+
+            margin-bottom: 5px;
+        }
+
+        .topbar h2 {
+            font-size: 24px;
+        }
+
+        .top-right {
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+        }
+
+        .date {
+            color: #64748b;
+
+            font-size: 13px;
+        }
+
+        .avatar {
+            width: 45px;
+
+            height: 45px;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #38bdf8,
+                    #0284c7
+                );
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-weight: 800;
+
+            box-shadow:
+                0 8px 20px
+                rgba(14,165,233,0.25);
+        }
+
+
+        /* =========================================
+           HERO
+        ========================================= */
+
+        .hero {
+            background:
+                linear-gradient(
+                    135deg,
+                    #e0f2fe,
+                    #f0f9ff,
+                    white
+                );
+
+            border: 1px solid #bae6fd;
+
+            border-radius: 28px;
+
+            padding: 35px;
+
+            margin-bottom: 28px;
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: "";
+
+            position: absolute;
+
+            width: 230px;
+
+            height: 230px;
+
+            background: #bae6fd;
+
+            opacity: 0.3;
+
+            border-radius: 50%;
+
+            right: -80px;
+
+            top: -80px;
+        }
+
+        .hero-content {
+            position: relative;
+
+            z-index: 2;
+        }
+
+        .hero-label {
+            color: #0284c7;
+
+            font-size: 12px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 2px;
+
+            font-weight: 800;
+
+            margin-bottom: 10px;
+        }
+
+        .hero h1 {
+            font-size: 34px;
+
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            color: #64748b;
+
+            max-width: 650px;
+
+            line-height: 1.6;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================================
+           STATS
+        ========================================= */
+
+        .stats-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: white;
+
+            border: 1px solid #e0f2fe;
+
+            border-radius: 20px;
+
+            padding: 22px;
+
+            box-shadow:
+                0 8px 25px
+                rgba(14,165,233,0.05);
+
+            transition: 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 15px 35px
+                rgba(14,165,233,0.10);
+        }
+
+        .stat-top {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 17px;
+        }
+
+        .stat-icon {
+            width: 43px;
+
+            height: 43px;
+
+            background: #e0f2fe;
+
+            border-radius: 13px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 19px;
+        }
+
+        .stat-label {
+            color: #64748b;
+
+            font-size: 12px;
+
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-size: 26px;
+
+            font-weight: 800;
+
+            margin-bottom: 4px;
+        }
+
+        .stat-description {
+            color: #94a3b8;
+
+            font-size: 11px;
+        }
+
+
+        /* =========================================
+           SECTION
+        ========================================= */
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-header {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 17px;
+        }
+
+        .section-header h3 {
+            font-size: 19px;
+        }
+
+        .section-header a {
+            color: #0284c7;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+
+        /* =========================================
+           GRID
+        ========================================= */
+
+        .content-grid {
+            display: grid;
+
+            grid-template-columns:
+                1.5fr 1fr;
+
+            gap: 22px;
+        }
+
+        .card {
+            background: white;
+
+            border: 1px solid #e0f2fe;
+
+            border-radius: 23px;
+
+            padding: 25px;
+
+            box-shadow:
+                0 8px 30px
+                rgba(14,165,233,0.05);
+        }
+
+
+        /* =========================================
+           APPOINTMENT
+        ========================================= */
+
+        .appointment-card {
+            display: flex;
+
+            align-items: center;
+
+            gap: 18px;
+
+            padding: 18px;
+
+            border-radius: 18px;
+
+            background: #f8fdff;
+
+            border: 1px solid #e0f2fe;
+        }
+
+        .doctor-avatar {
+            width: 60px;
+
+            height: 60px;
+
+            border-radius: 17px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #bae6fd,
+                    #38bdf8
+                );
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 27px;
+        }
+
+        .appointment-info {
+            flex: 1;
+        }
+
+        .appointment-info h4 {
+            font-size: 16px;
+
+            margin-bottom: 5px;
+        }
+
+        .appointment-info p {
+            color: #64748b;
+
+            font-size: 12px;
+
+            margin-bottom: 7px;
+        }
+
+        .appointment-meta {
+            display: flex;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: #e0f2fe;
+
+            color: #0369a1;
+
+            padding: 5px 9px;
+
+            border-radius: 8px;
+
+            font-size: 10px;
+
+            font-weight: 700;
+        }
+
+        .no-appointment {
+            text-align: center;
+
+            padding: 30px;
+
+            color: #94a3b8;
+        }
+
+
+        /* =========================================
+           HEALTH
+        ========================================= */
+
+        .health-list {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 15px;
+        }
+
+        .health-item {
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+        }
+
+        .health-icon {
+            width: 40px;
+
+            height: 40px;
+
+            background: #f0f9ff;
+
+            border-radius: 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+        }
+
+        .health-info {
+            flex: 1;
+        }
+
+        .health-info-top {
+            display: flex;
+
+            justify-content: space-between;
+
+            margin-bottom: 6px;
+        }
+
+        .health-name {
+            font-size: 12px;
+
+            color: #64748b;
+        }
+
+        .health-value {
+            font-size: 13px;
+
+            font-weight: 800;
+        }
+
+        .progress {
+            height: 6px;
+
+            background: #e0f2fe;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #38bdf8,
+                    #0284c7
+                );
+
+            border-radius: 10px;
+        }
+
+
+        /* =========================================
+           HEALTH SNAPSHOT
+        ========================================= */
+
+        .snapshot-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 14px;
+        }
+
+        .snapshot {
+            background: #f8fdff;
+
+            border: 1px solid #e0f2fe;
+
+            border-radius: 16px;
+
+            padding: 17px;
+        }
+
+        .snapshot-label {
+            color: #94a3b8;
+
+            font-size: 11px;
+
+            margin-bottom: 7px;
+        }
+
+        .snapshot-value {
+            font-size: 20px;
+
+            font-weight: 800;
+        }
+
+
+        /* =========================================
+           QUICK ACTIONS
+        ========================================= */
+
+        .quick-actions {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 14px;
+        }
+
+        .quick-action {
+            text-decoration: none;
+
+            background: white;
+
+            border: 1px solid #e0f2fe;
+
+            border-radius: 18px;
+
+            padding: 20px;
+
+            color: #0f172a;
+
+            transition: 0.3s;
+        }
+
+        .quick-action:hover {
+            transform: translateY(-4px);
+
+            border-color: #7dd3fc;
+
+            box-shadow:
+                0 12px 30px
+                rgba(14,165,233,0.10);
+        }
+
+        .quick-icon {
+            width: 43px;
+
+            height: 43px;
+
+            border-radius: 13px;
+
+            background: #e0f2fe;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin-bottom: 12px;
+
+            font-size: 18px;
+        }
+
+        .quick-action strong {
+            display: block;
+
+            font-size: 13px;
+
+            margin-bottom: 5px;
+        }
+
+        .quick-action span {
+            color: #94a3b8;
+
+            font-size: 11px;
+        }
+
+
+        /* =========================================
+           HEALTH SCORE
+        ========================================= */
+
+        .score-card {
+            display: flex;
+
+            align-items: center;
+
+            gap: 22px;
+        }
+
+        .score-circle {
+            width: 105px;
+
+            height: 105px;
+
+            border-radius: 50%;
+
+            background:
+                conic-gradient(
+                    #0ea5e9 82%,
+                    #e0f2fe 82%
+                );
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            flex-shrink: 0;
+        }
+
+        .score-inner {
+            width: 78px;
+
+            height: 78px;
+
+            background: white;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            flex-direction: column;
+        }
+
+        .score-number {
+            font-size: 24px;
+
+            font-weight: 800;
+
+            color: #0284c7;
+        }
+
+        .score-small {
+            font-size: 9px;
+
+            color: #94a3b8;
+        }
+
+        .score-text h4 {
+            margin-bottom: 7px;
+        }
+
+        .score-text p {
+            color: #64748b;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================================
+           OVERLAY
+        ========================================= */
+
+        .overlay {
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                rgba(15,23,42,0.35);
+
+            z-index: 900;
+        }
+
+        .overlay.show {
+            display: block;
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media(max-width: 1000px) {
+
+            .stats-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-actions {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media(max-width: 750px) {
+
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+
+                padding: 0 18px 40px;
+            }
+
+            .menu-btn {
+                display: block;
+            }
+
+            .topbar {
+                height: 75px;
+            }
+
+            .topbar h2 {
+                font-size: 19px;
+            }
+
+            .date {
+                display: none;
+            }
+
+            .hero {
+                padding: 25px;
+
+                border-radius: 22px;
+            }
+
+            .hero h1 {
+                font-size: 27px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+
+                gap: 12px;
+            }
+
+            .stat-card {
+                padding: 17px;
+            }
+
+            .stat-value {
+                font-size: 21px;
+            }
+
+        }
+
+
+        @media(max-width: 500px) {
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .snapshot-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .appointment-card {
+                align-items: flex-start;
+            }
+
+            .score-card {
+                flex-direction: column;
+
+                text-align: center;
+            }
+
+        }
+        
+        /* =========================================
+   CONSULTATION HISTORY
+========================================= */
+
+.consultation-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.consultation-card {
+    background: #f8fdff;
+    border: 1px solid #e0f2fe;
+    border-radius: 18px;
+    padding: 20px;
+    transition: 0.25s;
+}
+
+.consultation-card:hover {
+    transform: translateY(-3px);
+    border-color: #7dd3fc;
+    box-shadow: 0 12px 30px rgba(14,165,233,0.08);
+}
+
+.consultation-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.consultation-doctor {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.consultation-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #bae6fd, #38bdf8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 21px;
+}
+
+.consultation-doctor h4 {
+    font-size: 15px;
+    margin-bottom: 4px;
+}
+
+.consultation-doctor p {
+    color: #64748b;
+    font-size: 12px;
+}
+
+.completed-badge {
+    background: #ecfdf5;
+    color: #047857;
+    border: 1px solid #a7f3d0;
+    padding: 6px 10px;
+    border-radius: 9px;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.consultation-date {
+    color: #64748b;
+    font-size: 12px;
+    margin: 15px 0 10px;
+}
+
+.consultation-diagnosis {
+    background: white;
+    border: 1px solid #e0f2fe;
+    border-radius: 13px;
+    padding: 13px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.consultation-diagnosis strong {
+    display: block;
+    margin-bottom: 5px;
+    color: #0284c7;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.consultation-actions {
+    display: flex;
+    gap: 9px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.consultation-btn {
+    border: none;
+    background: #e0f2fe;
+    color: #0369a1;
+    padding: 9px 13px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.consultation-btn:hover {
+    background: #bae6fd;
+    transform: translateY(-1px);
+}
+
+.consultation-btn.primary {
+    background: #0284c7;
+    color: white;
+}
+
+.consultation-btn.primary:hover {
+    background: #0369a1;
+}
+
+.consultation-empty {
+    text-align: center;
+    padding: 35px 20px;
+    color: #94a3b8;
+}
+
+.consultation-empty-icon {
+    font-size: 34px;
+    margin-bottom: 10px;
+}
+
+@media(max-width: 600px) {
+
+    .consultation-top {
+        flex-direction: column;
+    }
+
+    .completed-badge {
+        align-self: flex-start;
+    }
+
+}
+
+/* =========================================================
+   CONSULTATION MODAL
+   ========================================================= */
+
+.consultation-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 25px;
+
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.consultation-modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+.consultation-modal-backdrop {
+    position: absolute;
+    inset: 0;
+
+    background: rgba(7, 89, 133, 0.28);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.consultation-modal-box {
+    position: relative;
+    z-index: 2;
+
+    width: min(700px, 100%);
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    background: rgba(255, 255, 255, 0.97);
+
+    border: 1px solid rgba(14, 165, 233, 0.16);
+
+    border-radius: 30px;
+
+    box-shadow:
+        0 30px 80px rgba(7, 89, 133, 0.22),
+        0 10px 30px rgba(14, 165, 233, 0.12);
+
+    transform: translateY(25px) scale(0.97);
+    transition: transform 0.3s ease;
+}
+
+.consultation-modal.active .consultation-modal-box {
+    transform: translateY(0) scale(1);
+}
+
+
+/* CLOSE BUTTON */
+
+.consultation-close {
+    position: absolute;
+
+    top: 18px;
+    right: 20px;
+
+    width: 40px;
+    height: 40px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #f0f9ff;
+    color: #075985;
+
+    font-size: 25px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.consultation-close:hover {
+    background: #e0f2fe;
+    transform: rotate(90deg);
+}
+
+
+/* HEADER */
+
+.consultation-modal-header {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+
+    padding: 32px 32px 25px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f0f9ff 0%,
+            #ffffff 55%,
+            #e0f2fe 100%
+        );
+
+    border-bottom: 1px solid #e0f2fe;
+}
+
+.consultation-modal-icon {
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 18px;
+
+    background: linear-gradient(
+        135deg,
+        #0ea5e9,
+        #38bdf8
+    );
+
+    color: white;
+
+    font-size: 27px;
+
+    box-shadow: 0 10px 25px rgba(14, 165, 233, 0.25);
+}
+
+.consultation-label {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: #0ea5e9;
+}
+
+.consultation-modal-header h2 {
+    margin: 4px 0;
+
+    font-size: 23px;
+    font-weight: 750;
+
+    color: #0f172a;
+}
+
+.consultation-modal-header p {
+    margin: 0;
+
+    font-size: 13px;
+    color: #64748b;
+}
+
+
+/* CONTENT */
+
+.consultation-modal-content {
+    padding: 28px 32px;
+}
+
+.modal-info-card {
+    display: flex;
+    gap: 15px;
+
+    padding: 18px;
+
+    margin-bottom: 14px;
+
+    background: #f8fcff;
+
+    border: 1px solid #e0f2fe;
+    border-radius: 18px;
+}
+
+.modal-card-icon {
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 13px;
+
+    background: #e0f2fe;
+
+    font-size: 20px;
+}
+
+.modal-info-card span {
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+
+    color: #64748b;
+}
+
+.modal-info-card p {
+    margin: 0;
+
+    color: #0f172a;
+
+    font-size: 14px;
+    line-height: 1.65;
+}
+
+.diagnosis-card {
+    background: linear-gradient(
+        135deg,
+        #f0f9ff,
+        #ffffff
+    );
+
+    border-color: #bae6fd;
+}
+
+
+/* PRESCRIPTION */
+
+.modal-prescription {
+    margin-top: 22px;
+
+    border: 1px solid #dbeafe;
+
+    border-radius: 22px;
+
+    overflow: hidden;
+
+    background: white;
+}
+
+.modal-section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 20px 22px;
+
+    background: #f8fcff;
+
+    border-bottom: 1px solid #e0f2fe;
+}
+
+.modal-section-title span {
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 1.4px;
+
+    color: #0ea5e9;
+}
+
+.modal-section-title h3 {
+    margin: 3px 0 0;
+
+    font-size: 18px;
+    color: #0f172a;
+}
+
+.rx-icon {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 13px;
+
+    background: #e0f2fe;
+
+    color: #0284c7;
+
+    font-weight: 800;
+    font-style: italic;
+}
+
+
+#modalPrescriptionContent {
+    padding: 20px 22px;
+}
+
+.prescription-main {
+    padding: 17px;
+
+    border-radius: 16px;
+
+    background: #f8fafc;
+
+    border: 1px solid #e2e8f0;
+}
+
+.prescription-medicine {
+    font-size: 17px;
+    font-weight: 750;
+
+    color: #0f172a;
+
+    margin-bottom: 14px;
+}
+
+.prescription-timings {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 10px;
+}
+
+.prescription-time {
+    padding: 12px;
+
+    border-radius: 12px;
+
+    background: white;
+
+    border: 1px solid #e2e8f0;
+}
+
+.prescription-time span {
+    display: block;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    color: #64748b;
+
+    margin-bottom: 4px;
+}
+
+.prescription-time strong {
+    font-size: 13px;
+    color: #0f172a;
+}
+
+.prescription-details {
+    margin-top: 15px;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 10px;
+}
+
+.prescription-detail {
+    padding: 13px;
+
+    border-radius: 12px;
+
+    background: #f0f9ff;
+}
+
+.prescription-detail span {
+    display: block;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    color: #64748b;
+
+    margin-bottom: 4px;
+}
+
+.prescription-detail p {
+    margin: 0;
+
+    font-size: 13px;
+
+    color: #0f172a;
+}
+
+.no-prescription {
+    padding: 25px;
+
+    text-align: center;
+
+    color: #64748b;
+
+    font-size: 13px;
+
+    background: #f8fafc;
+
+    border-radius: 14px;
+}
+
+
+/* FOOTER */
+
+.consultation-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+
+    padding: 20px 32px 28px;
+
+    border-top: 1px solid #e2e8f0;
+}
+
+.modal-action {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 44px;
+
+    padding: 0 19px;
+
+    border-radius: 12px;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.modal-action.secondary {
+    border: 1px solid #dbeafe;
+
+    background: white;
+
+    color: #475569;
+}
+
+.modal-action.secondary:hover {
+    background: #f8fafc;
+}
+
+.modal-action.primary {
+    border: none;
+
+    background: linear-gradient(
+        135deg,
+        #0ea5e9,
+        #0284c7
+    );
+
+    color: white;
+
+    box-shadow:
+        0 8px 18px rgba(14, 165, 233, 0.2);
+}
+
+.modal-action.primary:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 25px rgba(14, 165, 233, 0.28);
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .consultation-modal {
+        padding: 12px;
+    }
+
+    .consultation-modal-box {
+        border-radius: 24px;
+        max-height: 94vh;
+    }
+
+    .consultation-modal-header {
+        padding: 25px 20px 20px;
+    }
+
+    .consultation-modal-content {
+        padding: 20px;
+    }
+
+    .consultation-modal-footer {
+        padding: 16px 20px 22px;
+
+        flex-direction: column;
+    }
+
+    .modal-action {
+        width: 100%;
+    }
+
+    .prescription-timings {
+        grid-template-columns: 1fr;
+    }
+
+    .prescription-details {
+        grid-template-columns: 1fr;
+    }
+}
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         SIDEBAR
+    ========================================= -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="logo">
+            MediCare<span>+</span>
+        </div>
+
+
+        <div class="nav-title">
+            Main
+        </div>
+
+
+        <a href="/dashboard"
+           class="nav-link active">
+
+            <span class="nav-icon">
+                🏠
+            </span>
+
+            Dashboard
+
+        </a>
+
+
+        <a href="/appointments"
+           class="nav-link">
+
+            <span class="nav-icon">
+                📅
+            </span>
+
+            Appointments
+
+        </a>
+
+
+        <a href="/booking"
+           class="nav-link">
+
+            <span class="nav-icon">
+                ➕
+            </span>
+
+            Book Appointment
+
+        </a>
+
+
+        <div class="nav-title"
+             style="margin-top:25px;">
+
+            Health
+
+        </div>
+
+
+        <a href="/medical-records"
+           class="nav-link">
+
+            <span class="nav-icon">
+                🗂️
+            </span>
+
+            Medical Records
+
+        </a>
+
+
+        <a href="/prescriptions"
+           class="nav-link">
+
+            <span class="nav-icon">
+                💊
+            </span>
+
+            Prescriptions
+
+        </a>
+
+
+        <a href="/lab-reports"
+           class="nav-link">
+
+            <span class="nav-icon">
+                🧪
+            </span>
+
+            Lab Reports
+
+        </a>
+
+
+        <a href="/notifications"
+           class="nav-link">
+
+            <span class="nav-icon">
+                🔔
+            </span>
+
+            Notifications
+
+        </a>
+
+
+        <a href="/health"
+           class="nav-link">
+
+            <span class="nav-icon">
+                ❤️
+            </span>
+
+            Health Overview
+
+        </a>
+
+
+        <div class="nav-title"
+             style="margin-top:25px;">
+
+            Account
+
+        </div>
+
+
+        <a href="/profile"
+           class="nav-link">
+
+            <span class="nav-icon">
+                👤
+            </span>
+
+            Profile & Settings
+
+        </a>
+
+
+        <a href="/medibot"
+           class="nav-link">
+
+            <span class="nav-icon">
+                🤖
+            </span>
+
+            MediBot
+
+        </a>
+
+
+        <a href="#"
+           class="nav-link logout-link"
+           onclick="logout(event)">
+
+            <span class="nav-icon">
+                🚪
+            </span>
+
+            Logout
+
+        </a>
+
+    </aside>
+
+
+    <div class="overlay"
+         id="overlay"
+         onclick="toggleSidebar()">
+    </div>
+
+
+    <!-- =========================================
+         MAIN
+    ========================================= -->
+
+    <main class="main">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div style="display:flex;
+                        align-items:center;
+                        gap:14px;">
+
+                <button class="menu-btn"
+                        onclick="toggleSidebar()">
+
+                    ☰
+
+                </button>
+
+
+                <div>
+
+                    <div class="welcome-small">
+                        Welcome back
+                    </div>
+
+                    <h2 id="userName">
+                        Loading...
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="top-right">
+
+                <div class="date"
+                     id="currentDate">
+                </div>
+
+                <div class="avatar"
+                     id="userAvatar">
+                    ?
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =========================================
+             HERO
+        ========================================= -->
+
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <div class="hero-label">
+                    Your health space
+                </div>
+
+                <h1>
+                    Healthcare,
+                    without the waiting.
+                </h1>
+
+                <p>
+                    Manage appointments, health information,
+                    prescriptions, medical records and more —
+                    all from one simple healthcare experience.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             STATS
+        ========================================= -->
+
+        <section class="stats-grid">
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <span class="stat-label">
+                        Upcoming
+                    </span>
+
+                    <div class="stat-icon">
+                        📅
+                    </div>
+
+                </div>
+
+                <div class="stat-value"
+                     id="appointmentCount">
+                    —
+                </div>
+
+                <div class="stat-description">
+                    scheduled appointments
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <span class="stat-label">
+                        Heart Rate
+                    </span>
+
+                    <div class="stat-icon">
+                        ❤️
+                    </div>
+
+                </div>
+
+                <div class="stat-value">
+
+                    <span id="heartRate">
+                        —
+                    </span>
+
+                    <small style="font-size:12px;">
+                        bpm
+                    </small>
+
+                </div>
+
+                <div class="stat-description">
+                    latest recorded reading
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <span class="stat-label">
+                        Blood Pressure
+                    </span>
+
+                    <div class="stat-icon">
+                        🩺
+                    </div>
+
+                </div>
+
+                <div class="stat-value"
+                     id="bloodPressure">
+                    —
+                </div>
+
+                <div class="stat-description">
+                    latest recorded reading
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <span class="stat-label">
+                        Sleep
+                    </span>
+
+                    <div class="stat-icon">
+                        🌙
+                    </div>
+
+                </div>
+
+                <div class="stat-value">
+
+                    <span id="sleepHours">
+                        —
+                    </span>
+
+                    <small style="font-size:12px;">
+                        hrs
+                    </small>
+
+                </div>
+
+                <div class="stat-description">
+                    latest recorded sleep
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =========================================
+             APPOINTMENT + HEALTH
+        ========================================= -->
+
+        <div class="content-grid">
+
+
+            <!-- UPCOMING APPOINTMENT -->
+
+            <section class="section">
+
+                <div class="section-header">
+
+                    <h3>
+                        Upcoming appointment
+                    </h3>
+
+                    <a href="/appointments">
+                        View all →
+                    </a>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div id="appointmentContainer">
+
+                        <div class="no-appointment">
+                            Loading appointment...
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- HEALTH OVERVIEW -->
+
+            <section class="section">
+
+                <div class="section-header">
+
+                    <h3>
+                        Health overview
+                    </h3>
+
+                    <a href="/health">
+                        View details →
+                    </a>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="health-list">
+
+
+                        <!-- HEART -->
+
+                        <div class="health-item">
+
+                            <div class="health-icon">
+                                ❤️
+                            </div>
+
+                            <div class="health-info">
+
+                                <div class="health-info-top">
+
+                                    <span class="health-name">
+                                        Heart Rate
+                                    </span>
+
+                                    <span class="health-value"
+                                          id="healthHeartRate">
+                                        —
+                                    </span>
+
+                                </div>
+
+                                <div class="progress">
+
+                                    <div class="progress-bar"
+                                         id="heartProgress"
+                                         style="width:0%">
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- OXYGEN -->
+
+                        <div class="health-item">
+
+                            <div class="health-icon">
+                                🫁
+                            </div>
+
+                            <div class="health-info">
+
+                                <div class="health-info-top">
+
+                                    <span class="health-name">
+                                        Oxygen
+                                    </span>
+
+                                    <span class="health-value"
+                                          id="oxygenLevel">
+                                        —
+                                    </span>
+
+                                </div>
+
+                                <div class="progress">
+
+                                    <div class="progress-bar"
+                                         id="oxygenProgress"
+                                         style="width:0%">
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- SLEEP -->
+
+                        <div class="health-item">
+
+                            <div class="health-icon">
+                                🌙
+                            </div>
+
+                            <div class="health-info">
+
+                                <div class="health-info-top">
+
+                                    <span class="health-name">
+                                        Sleep
+                                    </span>
+
+                                    <span class="health-value"
+                                          id="healthSleep">
+                                        —
+                                    </span>
+
+                                </div>
+
+                                <div class="progress">
+
+                                    <div class="progress-bar"
+                                         id="sleepProgress"
+                                         style="width:0%">
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+
+        <!-- =========================================
+             HEALTH SNAPSHOT
+        ========================================= -->
+
+        <section class="section">
+
+            <div class="section-header">
+
+                <h3>
+                    Latest health snapshot
+                </h3>
+
+                <a href="/health">
+                    Full health data →
+                </a>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="snapshot-grid">
+
+
+                    <div class="snapshot">
+
+                        <div class="snapshot-label">
+                            Heart Rate
+                        </div>
+
+                        <div class="snapshot-value"
+                             id="snapshotHeart">
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="snapshot">
+
+                        <div class="snapshot-label">
+                            Blood Pressure
+                        </div>
+
+                        <div class="snapshot-value"
+                             id="snapshotBP">
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="snapshot">
+
+                        <div class="snapshot-label">
+                            Oxygen Level
+                        </div>
+
+                        <div class="snapshot-value"
+                             id="snapshotOxygen">
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="snapshot">
+
+                        <div class="snapshot-label">
+                            Sleep
+                        </div>
+
+                        <div class="snapshot-value"
+                             id="snapshotSleep">
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="snapshot">
+
+                        <div class="snapshot-label">
+                            Weight
+                        </div>
+
+                        <div class="snapshot-value"
+                             id="snapshotWeight">
+                            —
+                        </div>
+
+                    </div>
+
+
+                    <div class="snapshot">
+
+                        <div class="snapshot-label">
+                            Recorded
+                        </div>
+
+                        <div class="snapshot-value"
+                             id="snapshotDate"
+                             style="font-size:14px;">
+                            —
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             HEALTH SCORE
+        ========================================= -->
+
+        <section class="section">
+
+            <div class="section-header">
+
+                <h3>
+                    Personal health snapshot
+                </h3>
+
+            </div>
+
+
+            <div class="card score-card">
+
+                <div class="score-circle">
+
+                    <div class="score-inner">
+
+                        <div class="score-number">
+                            82
+                        </div>
+
+                        <div class="score-small">
+                            snapshot
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="score-text">
+
+                    <h4>
+                        Your health dashboard is up to date 💙
+                    </h4>
+
+                    <p>
+                        This dashboard summarizes the latest
+                        information available in your MediCare+
+                        account. Use Health Overview for your
+                        detailed readings and trends.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+<!-- =========================================
+     CONSULTATION HISTORY
+========================================= -->
+
+<section class="section">
+
+    <div class="section-header">
+
+        <h3>
+            Recent consultations
+        </h3>
+
+        <a href="/medical-records">
+            Medical records →
+        </a>
+
+    </div>
+
+
+    <div class="card">
+
+        <div
+            class="consultation-list"
+            id="consultationHistory">
+
+            <div class="consultation-empty">
+
+                <div class="consultation-empty-icon">
+                    🩺
+                </div>
+
+                Loading consultation history...
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+        <!-- =========================================
+             QUICK ACTIONS
+        ========================================= -->
+
+        <section class="section">
+
+            <div class="section-header">
+
+                <h3>
+                    Quick actions
+                </h3>
+
+            </div>
+
+
+            <div class="quick-actions">
+
+
+                <a href="/booking"
+                   class="quick-action">
+
+                    <div class="quick-icon">
+                        📅
+                    </div>
+
+                    <strong>
+                        Book appointment
+                    </strong>
+
+                    <span>
+                        Find a doctor
+                    </span>
+
+                </a>
+
+
+                <a href="/medical-records"
+                   class="quick-action">
+
+                    <div class="quick-icon">
+                        🗂️
+                    </div>
+
+                    <strong>
+                        Medical records
+                    </strong>
+
+                    <span>
+                        View your records
+                    </span>
+
+                </a>
+
+
+                <a href="/prescriptions"
+                   class="quick-action">
+
+                    <div class="quick-icon">
+                        💊
+                    </div>
+
+                    <strong>
+                        Prescriptions
+                    </strong>
+
+                    <span>
+                        Check medications
+                    </span>
+
+                </a>
+
+
+                <a href="/lab-reports"
+                   class="quick-action">
+
+                    <div class="quick-icon">
+                        🧪
+                    </div>
+
+                    <strong>
+                        Lab reports
+                    </strong>
+
+                    <span>
+                        View test results
+                    </span>
+
+                </a>
+
+
+                <a href="/health"
+                   class="quick-action">
+
+                    <div class="quick-icon">
+                        ❤️
+                    </div>
+
+                    <strong>
+                        Health overview
+                    </strong>
+
+                    <span>
+                        Track your health
+                    </span>
+
+                </a>
+
+
+                <a href="/notifications"
+                   class="quick-action">
+
+                    <div class="quick-icon">
+                        🔔
+                    </div>
+
+                    <strong>
+                        Notifications
+                    </strong>
+
+                    <span>
+                        See latest updates
+                    </span>
+
+                </a>
+
+
+                <a href="/profile"
+                   class="quick-action">
+
+                    <div class="quick-icon">
+                        👤
+                    </div>
+
+                    <strong>
+                        Profile
+                    </strong>
+
+                    <span>
+                        Manage your account
+                    </span>
+
+                </a>
+
+
+                <a href="/medibot"
+                   class="quick-action">
+
+                    <div class="quick-icon">
+                        🤖
+                    </div>
+
+                    <strong>
+                        MediBot
+                    </strong>
+
+                    <span>
+                        Get navigation help
+                    </span>
+
+                </a>
+
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================= -->
+
+    <script>
+
+
+        /* =========================================
+           LOAD USER
+        ========================================= */
+
+        async function loadUser() {
+
+            try {
+
+                const response =
+                    await fetch("/api/users/me");
+
+                if (response.status === 401) {
+
+                    window.location.href =
+                        "/login";
+
+                    return;
+                }
+
+                const user =
+                    await response.json();
+
+
+                const name =
+                    user.name || "User";
+
+
+                document.getElementById(
+                    "userName"
+                ).textContent =
+                    name;
+
+
+                document.getElementById(
+                    "userAvatar"
+                ).textContent =
+                    name
+                        .charAt(0)
+                        .toUpperCase();
+
+
+            } catch (error) {
+
+                console.error(
+                    "User loading error:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        /* =========================================
+           LOAD APPOINTMENTS
+        ========================================= */
+
+        async function loadAppointments() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/appointments"
+                    );
+
+
+                if (response.status === 401) {
+
+                    window.location.href =
+                        "/login";
+
+                    return;
+                }
+
+
+                const appointments =
+                    await response.json();
+
+
+                const container =
+                    document.getElementById(
+                        "appointmentContainer"
+                    );
+
+
+                /*
+                 * Only appointments that are
+                 * not cancelled are counted.
+                 */
+
+                const activeAppointments =
+                    appointments.filter(
+                        function (appointment) {
+
+                            return appointment.status
+                                !== "CANCELLED";
+
+                        }
+                    );
+
+
+                document.getElementById(
+                    "appointmentCount"
+                ).textContent =
+                    activeAppointments.length;
+
+
+                /*
+                 * Find upcoming appointment
+                 */
+
+                const upcoming =
+                    activeAppointments
+                        .slice()
+                        .sort(function (a, b) {
+
+                            return (
+                                String(a.appointmentDate)
+                                    .localeCompare(
+                                        String(b.appointmentDate)
+                                    )
+                                ||
+                                String(a.appointmentTime)
+                                    .localeCompare(
+                                        String(b.appointmentTime)
+                                    )
+                            );
+
+                        })[0];
+
+
+                if (!upcoming) {
+
+                    container.innerHTML = `
+
+                        <div class="no-appointment">
+
+                            <div style="
+                                font-size:32px;
+                                margin-bottom:10px;
+                            ">
+                                📅
+                            </div>
+
+                            <div style="
+                                margin-bottom:12px;
+                            ">
+                                No upcoming appointments
+                            </div>
+
+                            <a href="/booking"
+                               style="
+                               color:#0284c7;
+                               font-size:13px;
+                               font-weight:700;
+                               text-decoration:none;
+                               ">
+                                Book an appointment →
+                            </a>
+
+                        </div>
+
+                    `;
+
+                    return;
+                }
+
+
+                container.innerHTML = `
+
+                    <div class="appointment-card">
+
+                        <div class="doctor-avatar">
+                            👩‍⚕️
+                        </div>
+
+                        <div class="appointment-info">
+
+                            <h4>
+                                ${upcoming.doctorName}
+                            </h4>
+
+                            <p>
+                                ${upcoming.reason || "General consultation"}
+                            </p>
+
+                            <div class="appointment-meta">
+
+                                <span class="badge">
+                                    📅 ${upcoming.appointmentDate}
+                                </span>
+
+                                <span class="badge">
+                                    🕐 ${upcoming.appointmentTime}
+                                </span>
+
+                                <span class="badge">
+                                    ${upcoming.consultationType || "Consultation"}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+
+            } catch (error) {
+
+                console.error(
+                    "Appointment error:",
+                    error
+                );
+
+                document.getElementById(
+                    "appointmentContainer"
+                ).innerHTML = `
+
+                    <div class="no-appointment">
+                        Unable to load appointments.
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+        /* =========================================
+           LOAD HEALTH DATA
+        ========================================= */
+
+        async function loadHealthData() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/health"
+                    );
+
+
+                if (response.status === 401) {
+
+                    window.location.href =
+                        "/login";
+
+                    return;
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                if (!data.length) {
+
+                    return;
+                }
+
+
+                /*
+                 * Sort newest record first
+                 */
+
+                data.sort(function (a, b) {
+
+                    return String(b.recordedDate)
+                        .localeCompare(
+                            String(a.recordedDate)
+                        );
+
+                });
+
+
+                const latest =
+                    data[0];
+
+
+                /* =================================
+                   STAT CARDS
+                ================================= */
+
+                document.getElementById(
+                    "heartRate"
+                ).textContent =
+                    latest.heartRate;
+
+
+                document.getElementById(
+                    "bloodPressure"
+                ).textContent =
+                    latest.bloodPressure;
+
+
+                document.getElementById(
+                    "sleepHours"
+                ).textContent =
+                    latest.sleepHours;
+
+
+                /* =================================
+                   HEALTH OVERVIEW
+                ================================= */
+
+                document.getElementById(
+                    "healthHeartRate"
+                ).textContent =
+                    latest.heartRate + " bpm";
+
+
+                document.getElementById(
+                    "oxygenLevel"
+                ).textContent =
+                    latest.oxygenLevel + "%";
+
+
+                document.getElementById(
+                    "healthSleep"
+                ).textContent =
+                    latest.sleepHours + " hrs";
+
+
+                /* =================================
+                   PROGRESS BARS
+                ================================= */
+
+                let heartPercent =
+                    Math.min(
+                        Math.max(
+                            (latest.heartRate / 120) * 100,
+                            0
+                        ),
+                        100
+                    );
+
+
+                let oxygenPercent =
+                    Math.min(
+                        Math.max(
+                            latest.oxygenLevel,
+                            0
+                        ),
+                        100
+                    );
+
+
+                let sleepPercent =
+                    Math.min(
+                        Math.max(
+                            (latest.sleepHours / 10) * 100,
+                            0
+                        ),
+                        100
+                    );
+
+
+                document.getElementById(
+                    "heartProgress"
+                ).style.width =
+                    heartPercent + "%";
+
+
+                document.getElementById(
+                    "oxygenProgress"
+                ).style.width =
+                    oxygenPercent + "%";
+
+
+                document.getElementById(
+                    "sleepProgress"
+                ).style.width =
+                    sleepPercent + "%";
+
+
+                /* =================================
+                   SNAPSHOT
+                ================================= */
+
+                document.getElementById(
+                    "snapshotHeart"
+                ).textContent =
+                    latest.heartRate +
+                    " bpm";
+
+
+                document.getElementById(
+                    "snapshotBP"
+                ).textContent =
+                    latest.bloodPressure;
+
+
+                document.getElementById(
+                    "snapshotOxygen"
+                ).textContent =
+                    latest.oxygenLevel +
+                    "%";
+
+
+                document.getElementById(
+                    "snapshotSleep"
+                ).textContent =
+                    latest.sleepHours +
+                    " hrs";
+
+
+                document.getElementById(
+                    "snapshotWeight"
+                ).textContent =
+                    latest.weight +
+                    " kg";
+
+
+                document.getElementById(
+                    "snapshotDate"
+                ).textContent =
+                    latest.recordedDate;
+
+
+            } catch (error) {
+
+                console.error(
+                    "Health data error:",
+                    error
+                );
+
+            }
+
+        }
+        
+        /* =========================================
+        LOAD CONSULTATION HISTORY
+     ========================================= */
+
+     async function loadConsultationHistory() {
+
+         const container =
+             document.getElementById(
+                 "consultationHistory"
+             );
+
+         try {
+
+             const [recordsResponse, prescriptionsResponse] =
+                 await Promise.all([
+
+                     fetch("/api/medical-records"),
+
+                     fetch("/api/prescriptions")
+
+                 ]);
+
+
+             if (recordsResponse.status === 401 ||
+                 prescriptionsResponse.status === 401) {
+
+                 window.location.href = "/login";
+
+                 return;
+             }
+
+
+             const records =
+                 await recordsResponse.json();
+
+             const prescriptions =
+                 await prescriptionsResponse.json();
+
+
+             /*
+              * Only show actual medical records.
+              * A consultation creates a medical record,
+              * so this becomes our consultation history.
+              */
+
+             if (!records || records.length === 0) {
+
+                 container.innerHTML = `
+
+                     <div class="consultation-empty">
+
+                         <div class="consultation-empty-icon">
+                             🩺
+                         </div>
+
+                         <div style="margin-bottom:6px;
+                                     color:#64748b;
+                                     font-weight:700;">
+
+                             No consultations yet
+
+                         </div>
+
+                         <div style="font-size:12px;">
+
+                             Completed consultations will appear here.
+
+                         </div>
+
+                     </div>
+
+                 `;
+
+                 return;
+             }
+
+
+             /*
+              * Newest consultation first
+              */
+
+             records.sort(function(a, b) {
+
+                 return String(b.recordDate || "")
+                     .localeCompare(
+                         String(a.recordDate || "")
+                     );
+
+             });
+
+
+             /*
+              * Show latest 5
+              */
+
+             const recentRecords =
+                 records.slice(0, 5);
+
+
+             container.innerHTML =
+                 recentRecords.map(function(record) {
+
+                     const prescription =
+                         prescriptions.find(function(p) {
+
+                             return (
+                                 p.doctorName === record.doctorName &&
+                                 p.prescriptionDate === record.recordDate
+                             );
+
+                         });
+
+
+                     return `
+
+                         <div class="consultation-card">
+
+                             <div class="consultation-top">
+
+                                 <div class="consultation-doctor">
+
+                                     <div class="consultation-avatar">
+                                         👨‍⚕️
+                                     </div>
+
+                                     <div>
+
+                                         <h4>
+                                             ${escapeHtml(
+                                                 record.doctorName ||
+                                                 "Doctor"
+                                             )}
+                                         </h4>
+
+                                         <p>
+                                             Completed consultation
+                                         </p>
+
+                                     </div>
+
+                                 </div>
+
+
+                                 <span class="completed-badge">
+                                     ✓ COMPLETED
+                                 </span>
+
+                             </div>
+
+
+                             <div class="consultation-date">
+
+                                 📅
+                                 ${escapeHtml(
+                                     record.recordDate ||
+                                     "Date unavailable"
+                                 )}
+
+                             </div>
+
+
+                             <div class="consultation-diagnosis">
+
+                                 <strong>
+                                     Diagnosis / Summary
+                                 </strong>
+
+                                 ${escapeHtml(
+                                     record.diagnosis ||
+                                     "Consultation completed."
+                                 )}
+
+                             </div>
+
+
+                             <div class="consultation-actions">
+
+                                 <a
+                                     href="/medical-records"
+                                     class="consultation-btn primary">
+
+                                     🗂 View Medical Record
+
+                                 </a>
+
+
+                                 ${
+                                     prescription
+                                     ?
+                                     `
+                                     <a
+                                         href="/prescriptions"
+                                         class="consultation-btn">
+
+                                         💊 View Prescription
+
+                                     </a>
+                                     `
+                                     :
+                                     ""
+                                 }
+
+                             </div>
+
+                         </div>
+
+                     `;
+
+                 }).join("");
+
+         }
+
+         catch(error) {
+
+             console.error(
+                 "Consultation history error:",
+                 error
+             );
+
+             container.innerHTML = `
+
+                 <div class="consultation-empty">
+
+                     Unable to load consultation history.
+
+                 </div>
+
+             `;
+
+         }
+
+     }
+
+
+     /* =========================================
+        SAFE HTML
+     ========================================= */
+
+     function escapeHtml(value) {
+
+         if (value === null ||
+             value === undefined) {
+
+             return "";
+
+         }
+
+         return String(value)
+
+             .replace(/&/g, "&amp;")
+
+             .replace(/</g, "&lt;")
+
+             .replace(/>/g, "&gt;")
+
+             .replace(/"/g, "&quot;")
+
+             .replace(/'/g, "&#039;");
+
+     }
+
+
+        /* =========================================
+           CURRENT DATE
+        ========================================= */
+
+        function showCurrentDate() {
+
+            const today =
+                new Date();
+
+
+            const options = {
+                weekday: "short",
+                month: "short",
+                day: "numeric",
+                year: "numeric"
+            };
+
+
+            document.getElementById(
+                "currentDate"
+            ).textContent =
+                today.toLocaleDateString(
+                    "en-US",
+                    options
+                );
+
+        }
+
+
+        /* =========================================
+           LOGOUT
+        ========================================= */
+
+        async function logout(event) {
+
+            if (event) {
+                event.preventDefault();
+            }
+
+
+            try {
+
+                await fetch(
+                    "/api/users/logout",
+                    {
+                        method: "POST"
+                    }
+                );
+
+            } catch (error) {
+
+                console.error(error);
+
+            }
+
+
+            window.location.href =
+                "/login";
+
+        }
+
+
+        /* =========================================
+           MOBILE SIDEBAR
+        ========================================= */
+
+        function toggleSidebar() {
+
+            const sidebar =
+                document.getElementById(
+                    "sidebar"
+                );
+
+            const overlay =
+                document.getElementById(
+                    "overlay"
+                );
+
+
+            sidebar.classList.toggle(
+                "open"
+            );
+
+
+            overlay.classList.toggle(
+                "show"
+            );
+
+        }
+
+
+        /* =========================================
+           INITIAL LOAD
+        ========================================= */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                loadUser();
+
+                loadAppointments();
+
+                loadHealthData();
+
+                showCurrentDate();
+
+            }
+        );
+        
+        document.addEventListener(
+        	    "DOMContentLoaded",
+        	    function () {
+
+        	        loadUser();
+
+        	        loadAppointments();
+
+        	        loadHealthData();
+
+        	        loadConsultationHistory();
+
+        	        showCurrentDate();
+
+        	    }
+        	);
+        
+        /* =========================================================
+        CONSULTATION MODAL
+        ========================================================= */
+
+     let consultationRecords = [];
+     let consultationPrescriptions = [];
+
+
+     function openConsultationModal(index) {
+
+         const record = consultationRecords[index];
+
+         if (!record) {
+             console.log("Consultation record not found.");
+             return;
+         }
+
+         const doctorName = record.doctorName || "MediCare+ Doctor";
+         const date = record.recordDate || "Consultation date unavailable";
+         const diagnosis = record.diagnosis || "No diagnosis summary available.";
+         const notes = record.notes || "No additional notes were added.";
+
+         document.getElementById("modalDoctorName").textContent =
+             doctorName;
+
+         document.getElementById("modalConsultationDate").textContent =
+             date;
+
+         document.getElementById("modalDiagnosis").textContent =
+             diagnosis;
+
+         document.getElementById("modalNotes").textContent =
+             notes;
+
+
+         /* Find prescription belonging to this consultation */
+
+         const prescription = consultationPrescriptions.find(function(rx) {
+
+             return (
+                 rx.doctorName === record.doctorName &&
+                 rx.prescriptionDate === record.recordDate
+             );
+
+         });
+
+
+         const prescriptionContainer =
+             document.getElementById("modalPrescriptionContent");
+
+
+         if (!prescription) {
+
+             prescriptionContainer.innerHTML = `
+                 <div class="no-prescription">
+                     No prescription was issued for this consultation.
+                 </div>
+             `;
+
+         } else {
+
+             prescriptionContainer.innerHTML = `
+
+                 <div class="prescription-main">
+
+                     <div class="prescription-medicine">
+                         💊 ${escapeHtml(
+                             prescription.medicine || "Medication"
+                         )}
+                     </div>
+
+                     <div class="prescription-timings">
+
+                         <div class="prescription-time">
+                             <span>Morning</span>
+                             <strong>
+                                 ${escapeHtml(
+                                     prescription.morning || "—"
+                                 )}
+                             </strong>
+                         </div>
+
+                         <div class="prescription-time">
+                             <span>Afternoon</span>
+                             <strong>
+                                 ${escapeHtml(
+                                     prescription.afternoon || "—"
+                                 )}
+                             </strong>
+                         </div>
+
+                         <div class="prescription-time">
+                             <span>Night</span>
+                             <strong>
+                                 ${escapeHtml(
+                                     prescription.night || "—"
+                                 )}
+                             </strong>
+                         </div>
+
+                     </div>
+
+
+                     <div class="prescription-details">
+
+                         <div class="prescription-detail">
+
+                             <span>Duration</span>
+
+                             <p>
+                                 ${escapeHtml(
+                                     prescription.duration || "—"
+                                 )}
+                             </p>
+
+                         </div>
+
+
+                         <div class="prescription-detail">
+
+                             <span>Instructions</span>
+
+                             <p>
+                                 ${escapeHtml(
+                                     prescription.instructions ||
+                                     "No special instructions."
+                                 )}
+                             </p>
+
+                         </div>
+
+                     </div>
+
+                 </div>
+             `;
+         }
+
+
+         document
+             .getElementById("consultationModal")
+             .classList.add("active");
+
+         document.body.style.overflow = "hidden";
+     }
+
+
+     function closeConsultationModal() {
+
+         document
+             .getElementById("consultationModal")
+             .classList.remove("active");
+
+         document.body.style.overflow = "";
+     }
+
+
+     /* Close with ESC */
+
+     document.addEventListener("keydown", function(event) {
+
+         if (event.key === "Escape") {
+             closeConsultationModal();
+         }
+
+     });
+        	    
+
+    </script>
+
+ <!-- ================= CONSULTATION MODAL ================= -->
+
+<div id="consultationModal" class="consultation-modal">
+    <div class="consultation-modal-backdrop" onclick="closeConsultationModal()"></div>
+
+    <div class="consultation-modal-box">
+
+        <button class="consultation-close"
+                onclick="closeConsultationModal()">×</button>
+
+        <div class="consultation-modal-header">
+            <div class="consultation-modal-icon">🩺</div>
+
+            <div>
+                <span class="consultation-label">CONSULTATION SUMMARY</span>
+                <h2 id="modalDoctorName">Doctor</h2>
+                <p id="modalConsultationDate">Consultation date</p>
+            </div>
+        </div>
+
+        <div class="consultation-modal-content">
+
+            <!-- Diagnosis -->
+            <div class="modal-info-card diagnosis-card">
+                <div class="modal-card-icon">🧠</div>
+
+                <div>
+                    <span>Diagnosis / Summary</span>
+                    <p id="modalDiagnosis">—</p>
+                </div>
+            </div>
+
+            <!-- Doctor Notes -->
+            <div class="modal-info-card">
+                <div class="modal-card-icon">📝</div>
+
+                <div>
+                    <span>Doctor's Notes</span>
+                    <p id="modalNotes">No additional notes.</p>
+                </div>
+            </div>
+
+            <!-- Prescription -->
+            <div class="modal-prescription">
+
+                <div class="modal-section-title">
+                    <div>
+                        <span>PRESCRIPTION</span>
+                        <h3>Medications</h3>
+                    </div>
+
+                    <div class="rx-icon">Rx</div>
+                </div>
+
+                <div id="modalPrescriptionContent">
+                    <div class="no-prescription">
+                        No prescription was issued for this consultation.
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="consultation-modal-footer">
+            <button class="modal-action secondary"
+                    onclick="closeConsultationModal()">
+                Close
+            </button>
+
+            <a href="/medical-records"
+               class="modal-action primary">
+                View Medical Records →
+            </a>
+        </div>
+
+    </div>
+</div>
+</body>
+
+</html>

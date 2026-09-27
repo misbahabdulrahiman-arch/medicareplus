@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile | MediCare+</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        body {
+            background: #f7fcff;
+            color: #0f172a;
+        }
+
+        .page {
+            min-height: 100vh;
+            padding: 45px 7%;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+        }
+
+        .back {
+            text-decoration: none;
+            color: #0284c7;
+            font-weight: 600;
+        }
+
+        .title h1 {
+            font-size: 38px;
+            margin-bottom: 8px;
+        }
+
+        .title p {
+            color: #64748b;
+        }
+
+        .profile-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 25px;
+        }
+
+        .profile-card,
+        .details-card {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 15px 45px rgba(14, 165, 233, 0.10);
+            border: 1px solid #e0f2fe;
+        }
+
+        .profile-card {
+            text-align: center;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #38bdf8, #0284c7);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 38px;
+            font-weight: 700;
+        }
+
+        .profile-card h2 {
+            margin-bottom: 8px;
+        }
+
+        .profile-card p {
+            color: #64748b;
+        }
+
+        .badge {
+            display: inline-block;
+            margin-top: 18px;
+            padding: 8px 16px;
+            border-radius: 30px;
+            background: #e0f2fe;
+            color: #0284c7;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .details-card h2 {
+            margin-bottom: 25px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .field label {
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .field input {
+            padding: 14px 16px;
+            border: 1px solid #dbeafe;
+            border-radius: 13px;
+            outline: none;
+            font-size: 15px;
+            background: #f8fcff;
+            transition: 0.25s;
+        }
+
+        .field input:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.12);
+            background: white;
+        }
+
+        .actions {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+        }
+
+        button {
+            border: none;
+            padding: 14px 25px;
+            border-radius: 13px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, #38bdf8, #0284c7);
+            color: white;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.25);
+        }
+
+        .logout-btn {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .logout-btn:hover {
+            background: #fecaca;
+        }
+
+        #message {
+            margin-top: 18px;
+            font-weight: 600;
+            color: #16a34a;
+        }
+
+        @media (max-width: 800px) {
+
+            .page {
+                padding: 30px 5%;
+            }
+
+            .profile-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .top {
+                align-items: flex-start;
+                gap: 15px;
+                flex-direction: column;
+            }
+
+            .title h1 {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <div class="top">
+
+        <div class="title">
+            <h1>My Profile</h1>
+            <p>Manage your MediCare+ account information.</p>
+        </div>
+
+        <a href="/dashboard" class="back">← Back to Dashboard</a>
+
+    </div>
+
+
+    <div class="profile-layout">
+
+        <!-- PROFILE SUMMARY -->
+
+        <div class="profile-card">
+
+            <div class="avatar" id="avatar">
+                M
+            </div>
+
+            <h2 id="profileName">
+                Loading...
+            </h2>
+
+            <p id="profileEmail">
+                Loading...
+            </p>
+
+            <div class="badge">
+                PATIENT
+            </div>
+
+        </div>
+
+
+        <!-- PROFILE DETAILS -->
+
+        <div class="details-card">
+
+            <h2>Personal Information</h2>
+
+            <div class="form-grid">
+
+                <div class="field">
+                    <label>Full Name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="Your name">
+                </div>
+
+
+                <div class="field">
+                    <label>Email Address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Your email">
+                </div>
+
+
+                <div class="field">
+                    <label>Phone Number</label>
+                    <input
+                        type="text"
+                        id="phone"
+                        placeholder="Your phone number">
+                </div>
+
+
+                <div class="field">
+                    <label>Account Type</label>
+                    <input
+                        type="text"
+                        value="Patient"
+                        disabled>
+                </div>
+
+            </div>
+
+
+            <div class="actions">
+
+                <button
+                    class="save-btn"
+                    onclick="saveProfile()">
+                    Save Changes
+                </button>
+
+                <button
+                    class="logout-btn"
+                    onclick="logout()">
+                    Logout
+                </button>
+
+            </div>
+
+            <div id="message"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    // LOAD CURRENT USER
+    async function loadProfile() {
+
+        try {
+
+            const response = await fetch("/api/users/me");
+
+            if (response.status === 401) {
+                window.location.href = "/login";
+                return;
+            }
+
+            const user = await response.json();
+
+            document.getElementById("name").value =
+                user.name || "";
+
+            document.getElementById("email").value =
+                user.email || "";
+
+            document.getElementById("phone").value =
+                user.phone || "";
+
+            document.getElementById("profileName").textContent =
+                user.name || "Patient";
+
+            document.getElementById("profileEmail").textContent =
+                user.email || "";
+
+            if (user.name) {
+                document.getElementById("avatar").textContent =
+                    user.name.charAt(0).toUpperCase();
+            }
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
+    }
+
+
+    // SAVE PROFILE
+    async function saveProfile() {
+
+        const name =
+            document.getElementById("name").value.trim();
+
+        const email =
+            document.getElementById("email").value.trim();
+
+        const phone =
+            document.getElementById("phone").value.trim();
+
+        if (!name || !email) {
+
+            document.getElementById("message").style.color =
+                "#dc2626";
+
+            document.getElementById("message").textContent =
+                "Name and email are required.";
+
+            return;
+        }
+
+        try {
+
+            const response = await fetch(
+                "/api/users/me",
+                {
+                    method: "PUT",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        name: name,
+                        email: email,
+                        phone: phone
+                    })
+                }
+            );
+
+            if (!response.ok) {
+
+                const error =
+                    await response.text();
+
+                document.getElementById("message").style.color =
+                    "#dc2626";
+
+                document.getElementById("message").textContent =
+                    error;
+
+                return;
+            }
+
+            const user = await response.json();
+
+            document.getElementById("profileName").textContent =
+                user.name;
+
+            document.getElementById("profileEmail").textContent =
+                user.email;
+
+            document.getElementById("avatar").textContent =
+                user.name.charAt(0).toUpperCase();
+
+            document.getElementById("message").style.color =
+                "#16a34a";
+
+            document.getElementById("message").textContent =
+                "✓ Profile updated successfully.";
+
+        } catch (error) {
+
+            console.error(error);
+
+            document.getElementById("message").style.color =
+                "#dc2626";
+
+            document.getElementById("message").textContent =
+                "Something went wrong.";
+
+        }
+    }
+
+
+    // LOGOUT
+    async function logout() {
+
+        await fetch(
+            "/api/users/logout",
+            {
+                method: "POST"
+            }
+        );
+
+        window.location.href = "/login";
+    }
+
+
+    loadProfile();
+
+</script>
+
+</body>
+</html>

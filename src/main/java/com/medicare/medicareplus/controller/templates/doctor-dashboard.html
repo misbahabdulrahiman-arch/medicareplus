@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Doctor Dashboard | MediCare+</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            background: #f5fbff;
+            color: #0f172a;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        /* =========================
+           LAYOUT
+        ========================= */
+
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            width: 250px;
+            background: #ffffff;
+            border-right: 1px solid #e2edf5;
+            padding: 28px 18px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 20;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 12px;
+            margin-bottom: 42px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 13px;
+            background: linear-gradient(135deg, #38bdf8, #0284c7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            font-weight: 800;
+            box-shadow: 0 8px 20px rgba(14,165,233,.25);
+        }
+
+        .logo span {
+            font-family: "Manrope", sans-serif;
+            font-weight: 800;
+            font-size: 20px;
+            color: #075985;
+        }
+
+        .nav-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.4px;
+            color: #94a3b8;
+            font-weight: 700;
+            padding: 0 13px;
+            margin-bottom: 12px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            width: 100%;
+            padding: 13px 14px;
+            margin-bottom: 6px;
+            border-radius: 13px;
+            text-decoration: none;
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 600;
+            transition: .25s ease;
+        }
+
+        .nav-item:hover {
+            background: #e0f2fe;
+            color: #0284c7;
+            transform: translateX(3px);
+        }
+
+        .nav-item.active {
+            background: #e0f2fe;
+            color: #0284c7;
+        }
+
+        .nav-icon {
+            width: 22px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .sidebar-bottom {
+            position: absolute;
+            left: 18px;
+            right: 18px;
+            bottom: 25px;
+        }
+
+        .logout-btn {
+            border: none;
+            background: #fff1f2;
+            color: #e11d48;
+            cursor: pointer;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 82px;
+            background: rgba(255,255,255,.88);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid #e2edf5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 38px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .welcome h1 {
+            font-family: "Manrope", sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .welcome p {
+            color: #64748b;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .doctor-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .doctor-avatar {
+            width: 43px;
+            height: 43px;
+            border-radius: 50%;
+            background: linear-gradient(135deg,#38bdf8,#0284c7);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        .doctor-name {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .doctor-specialty {
+            color: #64748b;
+            font-size: 12px;
+            margin-top: 2px;
+        }
+
+        /* =========================
+           CONTENT
+        ========================= */
+
+        .content {
+            padding: 35px 38px 50px;
+        }
+
+        .hero-card {
+            background: linear-gradient(135deg,#0284c7,#38bdf8);
+            border-radius: 25px;
+            padding: 32px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 28px;
+            box-shadow: 0 20px 50px rgba(14,165,233,.18);
+        }
+
+        .hero-card::after {
+            content: "";
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.10);
+            right: -70px;
+            top: -90px;
+        }
+
+        .hero-card h2 {
+            font-family: "Manrope", sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-card p {
+            margin-top: 8px;
+            color: rgba(255,255,255,.85);
+            font-size: 14px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* =========================
+           STATS
+        ========================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid #e4eef5;
+            border-radius: 20px;
+            padding: 22px;
+            transition: .25s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(15,23,42,.07);
+        }
+
+        .stat-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .stat-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 13px;
+            background: #e0f2fe;
+            color: #0284c7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+        }
+
+        .stat-label {
+            margin-top: 18px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .stat-value {
+            font-family: "Manrope", sans-serif;
+            font-size: 27px;
+            font-weight: 800;
+            margin-top: 4px;
+        }
+
+        /* =========================
+           SECTION HEADER
+        ========================= */
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .section-header h2 {
+            font-family: "Manrope", sans-serif;
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .section-header p {
+            color: #64748b;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        /* =========================
+           FILTERS
+        ========================= */
+
+        .filters {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            border: 1px solid #dbeafe;
+            background: white;
+            color: #64748b;
+            padding: 9px 15px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+            transition: .2s ease;
+        }
+
+        .filter-btn:hover {
+            border-color: #38bdf8;
+            color: #0284c7;
+        }
+
+        .filter-btn.active {
+            background: #0284c7;
+            color: white;
+            border-color: #0284c7;
+        }
+
+        /* =========================
+           APPOINTMENTS
+        ========================= */
+
+        .appointment-list {
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+        }
+
+        .appointment-card {
+            background: white;
+            border: 1px solid #e4eef5;
+            border-radius: 18px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            transition: .25s ease;
+        }
+
+        .appointment-card:hover {
+            border-color: #bae6fd;
+            box-shadow: 0 12px 30px rgba(14,165,233,.08);
+        }
+
+        .patient-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            min-width: 230px;
+        }
+
+        .patient-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 15px;
+            background: #e0f2fe;
+            color: #0284c7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 17px;
+        }
+
+        .patient-info h3 {
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .patient-info p {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        .appointment-details {
+            display: flex;
+            gap: 25px;
+            flex: 1;
+        }
+
+        .detail {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .detail strong {
+            display: block;
+            color: #0f172a;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .status {
+            display: inline-flex;
+            padding: 7px 11px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .status-confirmed {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .status-completed {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .status-cancelled {
+            background: #ffe4e6;
+            color: #be123c;
+        }
+
+        .appointment-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            border: none;
+            padding: 9px 13px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .complete-btn {
+            background: #0284c7;
+            color: white;
+        }
+
+        .complete-btn:hover {
+            background: #0369a1;
+            transform: translateY(-2px);
+        }
+
+        .cancel-btn {
+            background: #fff1f2;
+            color: #e11d48;
+        }
+
+        .cancel-btn:hover {
+            background: #ffe4e6;
+        }
+
+        /* =========================
+           EMPTY STATE
+        ========================= */
+
+        .empty {
+            background: white;
+            border: 1px dashed #cbd5e1;
+            border-radius: 20px;
+            padding: 50px 20px;
+            text-align: center;
+            color: #64748b;
+        }
+
+        .empty-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        /* =========================
+           LOADING
+        ========================= */
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media(max-width:1000px) {
+
+            .stats {
+                grid-template-columns: repeat(2,1fr);
+            }
+
+            .appointment-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .appointment-details {
+                flex-wrap: wrap;
+            }
+
+            .appointment-actions {
+                width: 100%;
+            }
+        }
+
+        @media(max-width:760px) {
+
+            .sidebar {
+                width: 72px;
+                padding: 20px 10px;
+            }
+
+            .logo {
+                justify-content: center;
+                padding: 0;
+            }
+
+            .logo span,
+            .nav-title,
+            .nav-item span:not(.nav-icon),
+            .sidebar-bottom .nav-item span:not(.nav-icon) {
+                display: none;
+            }
+
+            .nav-item {
+                justify-content: center;
+                padding: 13px 5px;
+            }
+
+            .main {
+                margin-left: 72px;
+                width: calc(100% - 72px);
+            }
+
+            .topbar {
+                padding: 0 20px;
+            }
+
+            .content {
+                padding: 25px 18px 40px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .doctor-profile > div:last-child {
+                display: none;
+            }
+        }
+
+        @media(max-width:520px) {
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-card {
+                padding: 25px;
+            }
+
+            .hero-card h2 {
+                font-size: 22px;
+            }
+
+            .appointment-details {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .appointment-card {
+                padding: 17px;
+            }
+
+            .appointment-actions button {
+                flex: 1;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">+</div>
+            <span>MediCare+</span>
+        </div>
+
+        <div class="nav-title">Doctor Portal</div>
+
+        <a href="/doctor-dashboard" class="nav-item active">
+            <span class="nav-icon">⌂</span>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="/appointments" class="nav-item">
+            <span class="nav-icon">◷</span>
+            <span>Appointments</span>
+        </a>
+
+        <a href="/notifications" class="nav-item">
+            <span class="nav-icon">♧</span>
+            <span>Notifications</span>
+        </a>
+
+        <a href="/" class="nav-item">
+            <span class="nav-icon">↗</span>
+            <span>Main Website</span>
+        </a>
+
+        <div class="sidebar-bottom">
+
+            <button class="nav-item logout-btn" onclick="logoutDoctor()">
+                <span class="nav-icon">↪</span>
+                <span>Logout</span>
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="welcome">
+                <h1 id="welcomeText">Good day, Doctor 👋</h1>
+                <p>Here's what's happening with your practice today.</p>
+            </div>
+
+            <div class="doctor-profile">
+
+                <div class="doctor-avatar" id="doctorAvatar">
+                    D
+                </div>
+
+                <div>
+                    <div class="doctor-name" id="doctorName">
+                        Doctor
+                    </div>
+
+                    <div class="doctor-specialty" id="doctorSpecialty">
+                        Healthcare Professional
+                    </div>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+
+        <section class="content">
+
+            <!-- HERO -->
+
+            <div class="hero-card">
+
+                <h2>Your practice, at a glance.</h2>
+
+                <p>
+                    Manage appointments, track patients and stay on top of your
+                    daily schedule from one place.
+                </p>
+
+            </div>
+
+
+            <!-- STATS -->
+
+            <div class="stats">
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <span class="stat-icon">◷</span>
+                    </div>
+
+                    <div class="stat-label">
+                        Today's Appointments
+                    </div>
+
+                    <div class="stat-value" id="todayCount">
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <span class="stat-icon">♙</span>
+                    </div>
+
+                    <div class="stat-label">
+                        Total Patients
+                    </div>
+
+                    <div class="stat-value" id="patientCount">
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <span class="stat-icon">✓</span>
+                    </div>
+
+                    <div class="stat-label">
+                        Completed
+                    </div>
+
+                    <div class="stat-value" id="completedCount">
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <span class="stat-icon">₹</span>
+                    </div>
+
+                    <div class="stat-label">
+                        Completed Earnings
+                    </div>
+
+                    <div class="stat-value" id="earnings">
+                        ₹0
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- APPOINTMENTS -->
+
+            <div class="section-header">
+
+                <div>
+                    <h2>Appointments</h2>
+                    <p>Manage your patient schedule.</p>
+                </div>
+
+            </div>
+
+
+            <!-- FILTERS -->
+
+            <div class="filters">
+
+                <button class="filter-btn active"
+                        onclick="setFilter('ALL', this)">
+                    All
+                </button>
+
+                <button class="filter-btn"
+                        onclick="setFilter('TODAY', this)">
+                    Today
+                </button>
+
+                <button class="filter-btn"
+                        onclick="setFilter('UPCOMING', this)">
+                    Upcoming
+                </button>
+
+                <button class="filter-btn"
+                        onclick="setFilter('COMPLETED', this)">
+                    Completed
+                </button>
+
+                <button class="filter-btn"
+                        onclick="setFilter('CANCELLED', this)">
+                    Cancelled
+                </button>
+
+            </div>
+
+
+            <!-- APPOINTMENT LIST -->
+
+            <div id="appointmentList" class="appointment-list">
+
+                <div class="loading">
+                    Loading appointments...
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+let allAppointments = [];
+let currentFilter = "ALL";
+
+
+/* =========================
+   LOAD DOCTOR
+========================= */
+
+async function loadDoctor() {
+
+    try {
+
+        const response =
+            await fetch("/api/doctor-auth/me");
+
+        if (!response.ok) {
+
+            window.location.href =
+                "/doctor-login";
+
+            return;
+        }
+
+        const doctor =
+            await response.json();
+
+        const name =
+            doctor.name || "Doctor";
+
+        document.getElementById("doctorName")
+            .textContent = name;
+
+        document.getElementById("doctorSpecialty")
+            .textContent =
+            doctor.specialization ||
+            "Healthcare Professional";
+
+        document.getElementById("doctorAvatar")
+            .textContent =
+            name.charAt(name.startsWith("Dr.") ? 3 : 0)
+                .toUpperCase();
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+
+/* =========================
+   LOAD APPOINTMENTS
+========================= */
+
+async function loadAppointments() {
+
+    try {
+
+        const response =
+            await fetch("/api/appointments/doctor");
+
+        if (!response.ok) {
+
+            document.getElementById("appointmentList")
+                .innerHTML = `
+                    <div class="empty">
+                        <div class="empty-icon">🔒</div>
+                        <h3>Doctor login required</h3>
+                        <p>Please login again to view appointments.</p>
+                    </div>
+                `;
+
+            return;
+        }
+
+        allAppointments =
+            await response.json();
+
+        updateStats();
+
+        renderAppointments();
+
+    } catch (error) {
+
+        console.error(error);
+
+        document.getElementById("appointmentList")
+            .innerHTML = `
+                <div class="empty">
+                    <div class="empty-icon">⚠️</div>
+                    <h3>Unable to load appointments</h3>
+                    <p>Please refresh the page and try again.</p>
+                </div>
+            `;
+
+    }
+
+}
+
+
+/* =========================
+   STATS
+========================= */
+
+function updateStats() {
+
+    const today =
+        new Date()
+            .toISOString()
+            .split("T")[0];
+
+    const todayAppointments =
+        allAppointments.filter(a =>
+            a.appointmentDate === today &&
+            a.status !== "CANCELLED"
+        );
+
+    const completed =
+        allAppointments.filter(a =>
+            a.status === "COMPLETED"
+        );
+
+    const uniquePatients =
+        new Set(
+            allAppointments
+                .map(a => a.patientName)
+                .filter(Boolean)
+        );
+
+    const fee =
+        completed.reduce(
+            (sum, appointment) =>
+                sum + (Number(appointment.fee) || 0),
+            0
+        );
+
+    document.getElementById("todayCount")
+        .textContent =
+        todayAppointments.length;
+
+    document.getElementById("patientCount")
+        .textContent =
+        uniquePatients.size;
+
+    document.getElementById("completedCount")
+        .textContent =
+        completed.length;
+
+    document.getElementById("earnings")
+        .textContent =
+        "₹" + fee.toLocaleString("en-IN");
+
+}
+
+
+/* =========================
+   FILTER
+========================= */
+
+function setFilter(filter, button) {
+
+    currentFilter = filter;
+
+    document.querySelectorAll(".filter-btn")
+        .forEach(btn =>
+            btn.classList.remove("active")
+        );
+
+    button.classList.add("active");
+
+    renderAppointments();
+
+}
+
+
+/* =========================
+   RENDER
+========================= */
+
+function renderAppointments() {
+
+    const container =
+        document.getElementById("appointmentList");
+
+    let appointments =
+        [...allAppointments];
+
+    const today =
+        new Date()
+            .toISOString()
+            .split("T")[0];
+
+
+    if (currentFilter === "TODAY") {
+
+        appointments =
+            appointments.filter(a =>
+                a.appointmentDate === today
+            );
+
+    }
+
+
+    if (currentFilter === "UPCOMING") {
+
+        appointments =
+            appointments.filter(a =>
+                a.appointmentDate >= today &&
+                a.status !== "COMPLETED" &&
+                a.status !== "CANCELLED"
+            );
+
+    }
+
+
+    if (currentFilter === "COMPLETED") {
+
+        appointments =
+            appointments.filter(a =>
+                a.status === "COMPLETED"
+            );
+
+    }
+
+
+    if (currentFilter === "CANCELLED") {
+
+        appointments =
+            appointments.filter(a =>
+                a.status === "CANCELLED"
+            );
+
+    }
+
+
+    appointments.sort(
+        (a,b) =>
+            new Date(
+                `${a.appointmentDate} ${a.appointmentTime || ""}`
+            )
+            -
+            new Date(
+                `${b.appointmentDate} ${b.appointmentTime || ""}`
+            )
+    );
+
+
+    if (appointments.length === 0) {
+
+        container.innerHTML = `
+            <div class="empty">
+
+                <div class="empty-icon">
+                    📅
+                </div>
+
+                <h3>
+                    No appointments found
+                </h3>
+
+                <p>
+                    There are no appointments in this category.
+                </p>
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        appointments.map(createAppointmentCard)
+        .join("");
+
+}
+
+
+/* =========================
+   APPOINTMENT CARD
+========================= */
+
+function createAppointmentCard(appointment) {
+
+    const patient =
+        appointment.patientName ||
+        "Patient";
+
+    const initials =
+        patient
+            .split(" ")
+            .map(word => word.charAt(0))
+            .slice(0,2)
+            .join("")
+            .toUpperCase();
+
+
+    let statusClass =
+        "status-confirmed";
+
+    if (appointment.status === "COMPLETED") {
+
+        statusClass =
+            "status-completed";
+
+    }
+
+    if (appointment.status === "CANCELLED") {
+
+        statusClass =
+            "status-cancelled";
+
+    }
+
+
+    let actions = "";
+
+
+    if (
+        appointment.status !== "COMPLETED" &&
+        appointment.status !== "CANCELLED"
+    ) {
+
+        actions = `
+
+            <button
+                class="action-btn complete-btn"
+                onclick="updateStatus(${appointment.id}, 'COMPLETED')">
+
+                ✓ Complete
+
+            </button>
+
+            <button
+                class="action-btn cancel-btn"
+                onclick="updateStatus(${appointment.id}, 'CANCELLED')">
+
+                Cancel
+
+            </button>
+
+        `;
+
+    }
+
+
+    return `
+
+        <div class="appointment-card">
+
+            <div class="patient-info">
+
+                <div class="patient-avatar">
+                    ${initials}
+                </div>
+
+                <div>
+
+                    <h3>
+                        ${escapeHtml(patient)}
+                    </h3>
+
+                    <p>
+                        ${escapeHtml(
+                            appointment.reason ||
+                            "General consultation"
+                        )}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="appointment-details">
+
+                <div class="detail">
+
+                    Date
+
+                    <strong>
+                        ${formatDate(
+                            appointment.appointmentDate
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <div class="detail">
+
+                    Time
+
+                    <strong>
+                        ${escapeHtml(
+                            appointment.appointmentTime ||
+                            "Not specified"
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <div class="detail">
+
+                    Consultation
+
+                    <strong>
+                        ${escapeHtml(
+                            appointment.consultationType ||
+                            "Consultation"
+                        )}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <span class="status ${statusClass}">
+
+                ${appointment.status || "CONFIRMED"}
+
+            </span>
+
+
+            <div class="appointment-actions">
+
+                ${actions}
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================
+   UPDATE STATUS
+========================= */
+
+async function updateStatus(id, status) {
+
+    const action =
+        status === "COMPLETED"
+            ? "mark this appointment as completed"
+            : "cancel this appointment";
+
+
+    const confirmed =
+        confirm(
+            `Are you sure you want to ${action}?`
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/appointments/doctor/${id}/status?status=${status}`,
+                {
+                    method: "PUT"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            const message =
+                await response.text();
+
+            alert(message ||
+                "Unable to update appointment."
+            );
+
+            return;
+        }
+
+
+        await loadAppointments();
+
+
+        alert(
+            status === "COMPLETED"
+                ? "Appointment marked as completed."
+                : "Appointment cancelled."
+        );
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Something went wrong. Please try again."
+        );
+
+    }
+
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+async function logoutDoctor() {
+
+    try {
+
+        await fetch(
+            "/api/doctor-auth/logout",
+            {
+                method: "POST"
+            }
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+    window.location.href =
+        "/doctor-login";
+
+}
+
+
+/* =========================
+   HELPERS
+========================= */
+
+function formatDate(dateString) {
+
+    if (!dateString) {
+        return "Not specified";
+    }
+
+    const date =
+        new Date(dateString);
+
+    if (isNaN(date)) {
+        return dateString;
+    }
+
+    return date.toLocaleDateString(
+        "en-IN",
+        {
+            day: "numeric",
+            month: "short",
+            year: "numeric"
+        }
+    );
+
+}
+
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        loadDoctor();
+
+        loadAppointments();
+
+    }
+);
+
+</script>
+
+</body>
+</html>

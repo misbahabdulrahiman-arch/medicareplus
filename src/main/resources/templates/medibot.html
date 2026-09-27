@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>MediBot | MediCare+</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top right,
+                #e0f2fe,
+                transparent 35%),
+                #f7fcff;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #0f172a;
+        }
+
+        .chat-wrapper {
+            width: min(900px, 94%);
+            height: 720px;
+
+            background: rgba(255,255,255,0.9);
+
+            border: 1px solid #dbeafe;
+
+            border-radius: 30px;
+
+            box-shadow:
+                0 25px 80px rgba(14,165,233,0.15);
+
+            overflow: hidden;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        /* HEADER */
+
+        .chat-header {
+            padding: 24px 30px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #38bdf8,
+                    #0284c7
+                );
+
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .bot-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .bot-avatar {
+            width: 52px;
+            height: 52px;
+
+            border-radius: 18px;
+
+            background: rgba(255,255,255,0.2);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 25px;
+        }
+
+        .bot-info h2 {
+            font-size: 21px;
+        }
+
+        .bot-info p {
+            font-size: 13px;
+            opacity: .85;
+            margin-top: 3px;
+        }
+
+        .online {
+            width: 10px;
+            height: 10px;
+
+            background: #bbf7d0;
+
+            border-radius: 50%;
+
+            box-shadow: 0 0 12px #bbf7d0;
+        }
+
+
+        /* MESSAGES */
+
+        .messages {
+            flex: 1;
+
+            padding: 30px;
+
+            overflow-y: auto;
+
+            display: flex;
+            flex-direction: column;
+
+            gap: 16px;
+        }
+
+        .message {
+            max-width: 72%;
+
+            padding: 14px 18px;
+
+            border-radius: 18px;
+
+            line-height: 1.5;
+
+            font-size: 14px;
+        }
+
+        .bot-message {
+            align-self: flex-start;
+
+            background: #e0f2fe;
+
+            color: #075985;
+
+            border-bottom-left-radius: 5px;
+        }
+
+        .user-message {
+            align-self: flex-end;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #38bdf8,
+                    #0284c7
+                );
+
+            color: white;
+
+            border-bottom-right-radius: 5px;
+        }
+
+
+        /* QUICK BUTTONS */
+
+        .quick-actions {
+            padding: 0 30px 18px;
+
+            display: flex;
+
+            gap: 9px;
+
+            overflow-x: auto;
+        }
+
+        .quick-actions button {
+
+            white-space: nowrap;
+
+            border: 1px solid #bae6fd;
+
+            background: #f0f9ff;
+
+            color: #0284c7;
+
+            padding: 9px 14px;
+
+            border-radius: 20px;
+
+            cursor: pointer;
+
+            font-weight: 600;
+
+            transition: .2s;
+        }
+
+        .quick-actions button:hover {
+
+            background: #e0f2fe;
+
+            transform: translateY(-2px);
+        }
+
+
+        /* INPUT */
+
+        .input-area {
+
+            padding: 18px 25px;
+
+            border-top: 1px solid #e2e8f0;
+
+            display: flex;
+
+            gap: 12px;
+
+            background: white;
+        }
+
+        .input-area input {
+
+            flex: 1;
+
+            border: 1px solid #dbeafe;
+
+            background: #f8fcff;
+
+            border-radius: 15px;
+
+            padding: 15px 18px;
+
+            outline: none;
+
+            font-size: 15px;
+        }
+
+        .input-area input:focus {
+
+            border-color: #38bdf8;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(56,189,248,.12);
+        }
+
+        .send-btn {
+
+            width: 52px;
+            height: 52px;
+
+            border: none;
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #38bdf8,
+                    #0284c7
+                );
+
+            color: white;
+
+            font-size: 20px;
+
+            cursor: pointer;
+
+            transition: .2s;
+        }
+
+        .send-btn:hover {
+
+            transform: scale(1.05);
+
+            box-shadow:
+                0 8px 25px
+                rgba(14,165,233,.25);
+        }
+
+
+        /* BACK */
+
+        .back-btn {
+
+            position: fixed;
+
+            top: 25px;
+            left: 25px;
+
+            text-decoration: none;
+
+            color: #0284c7;
+
+            font-weight: 700;
+
+            background: white;
+
+            padding: 10px 16px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 8px 25px
+                rgba(14,165,233,.10);
+        }
+
+
+        @media(max-width:600px) {
+
+            .chat-wrapper {
+                height: 90vh;
+                border-radius: 22px;
+            }
+
+            .messages {
+                padding: 20px;
+            }
+
+            .quick-actions {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .message {
+                max-width: 85%;
+            }
+
+            .back-btn {
+                position: static;
+                margin-bottom: 10px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<a href="/dashboard" class="back-btn">
+    ← Dashboard
+</a>
+
+
+<div class="chat-wrapper">
+
+
+    <!-- HEADER -->
+
+    <div class="chat-header">
+
+        <div class="bot-info">
+
+            <div class="bot-avatar">
+                🤖
+            </div>
+
+            <div>
+
+                <h2>MediBot</h2>
+
+                <p>
+                    Your MediCare+ assistant
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="online"></div>
+
+    </div>
+
+
+    <!-- MESSAGES -->
+
+    <div
+        class="messages"
+        id="messages"
+    >
+
+        <div class="message bot-message">
+
+            Hey! 👋 I'm <b>MediBot</b>.
+
+            <br><br>
+
+            I can help you navigate
+            appointments, doctors,
+            health information,
+            prescriptions and medical records.
+
+        </div>
+
+    </div>
+
+
+    <!-- QUICK ACTIONS -->
+
+    <div class="quick-actions">
+
+        <button onclick="quickMessage('Book an appointment')">
+            📅 Book appointment
+        </button>
+
+        <button onclick="quickMessage('Find a doctor')">
+            👨‍⚕️ Find doctor
+        </button>
+
+        <button onclick="quickMessage('My appointments')">
+            🗓️ My appointments
+        </button>
+
+        <button onclick="quickMessage('My health')">
+            ❤️ My health
+        </button>
+
+        <button onclick="quickMessage('My prescriptions')">
+            💊 Prescriptions
+        </button>
+
+    </div>
+
+
+    <!-- INPUT -->
+
+    <div class="input-area">
+
+        <input
+            type="text"
+            id="messageInput"
+            placeholder="Ask MediBot something..."
+            autocomplete="off"
+        >
+
+        <button
+            class="send-btn"
+            onclick="sendMessage()"
+        >
+            ➤
+        </button>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+
+    const input =
+        document.getElementById("messageInput");
+
+    const messages =
+        document.getElementById("messages");
+
+
+    // ENTER TO SEND
+
+    input.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (event.key === "Enter") {
+
+                sendMessage();
+
+            }
+
+        }
+    );
+
+
+    // ADD MESSAGE
+
+    function addMessage(
+        text,
+        type
+    ) {
+
+        const message =
+            document.createElement("div");
+
+        message.className =
+            "message " + type;
+
+        message.innerHTML =
+            text;
+
+        messages.appendChild(message);
+
+        messages.scrollTop =
+            messages.scrollHeight;
+    }
+
+
+    // SEND MESSAGE
+
+    async function sendMessage() {
+
+        const text =
+            input.value.trim();
+
+        if (!text) {
+            return;
+        }
+
+
+        addMessage(
+            text,
+            "user-message"
+        );
+
+        input.value = "";
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/chatbot",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            message: text
+                        })
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            setTimeout(
+                function() {
+
+                    addMessage(
+                        data.reply,
+                        "bot-message"
+                    );
+
+                },
+                350
+            );
+
+
+        } catch (error) {
+
+            addMessage(
+                "Sorry, I couldn't connect right now. Please try again.",
+                "bot-message"
+            );
+
+            console.error(error);
+        }
+
+    }
+
+
+    // QUICK MESSAGE
+
+    function quickMessage(text) {
+
+        input.value = text;
+
+        sendMessage();
+
+    }
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Notifications | MediCare+</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f7fcff;
+            color: #0f172a;
+            min-height: 100vh;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            height: 76px;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid #e0f2fe;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 7%;
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            color: #0284c7;
+        }
+
+        .logo span {
+            color: #0f172a;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #475569;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.25s;
+        }
+
+        .nav-links a:hover {
+            color: #0284c7;
+        }
+
+        .back-btn {
+            background: #e0f2fe;
+            color: #0369a1 !important;
+            padding: 10px 17px;
+            border-radius: 12px;
+        }
+
+        .back-btn:hover {
+            background: #bae6fd;
+        }
+
+        /* PAGE */
+
+        .page {
+            max-width: 1100px;
+            margin: auto;
+            padding: 65px 25px;
+        }
+
+        .heading {
+            margin-bottom: 35px;
+        }
+
+        .eyebrow {
+            color: #0284c7;
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 46px;
+            line-height: 1.1;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 16px;
+        }
+
+        /* NOTIFICATION CARD */
+
+        .notifications {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .notification {
+            background: white;
+            border: 1px solid #e0f2fe;
+            border-radius: 22px;
+
+            padding: 22px;
+
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+
+            box-shadow: 0 8px 30px rgba(14,165,233,0.07);
+
+            transition: 0.3s;
+        }
+
+        .notification:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(14,165,233,0.12);
+        }
+
+        .notification.unread {
+            border-left: 5px solid #0ea5e9;
+            background: #f8fdff;
+        }
+
+        .icon {
+            min-width: 48px;
+            height: 48px;
+
+            border-radius: 15px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 22px;
+
+            background: #e0f2fe;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-size: 17px;
+            font-weight: 800;
+            margin-bottom: 7px;
+        }
+
+        .notification-message {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .notification-date {
+            color: #94a3b8;
+            font-size: 12px;
+            margin-top: 9px;
+        }
+
+        .read-btn {
+            border: none;
+            background: #f0f9ff;
+            color: #0284c7;
+
+            padding: 9px 13px;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+            font-weight: 700;
+
+            transition: 0.25s;
+        }
+
+        .read-btn:hover {
+            background: #e0f2fe;
+            transform: scale(1.04);
+        }
+
+        /* EMPTY */
+
+        .empty {
+            background: white;
+            border: 1px solid #e0f2fe;
+            border-radius: 24px;
+
+            padding: 70px 30px;
+
+            text-align: center;
+
+            box-shadow: 0 10px 35px rgba(14,165,233,0.06);
+        }
+
+        .empty-icon {
+            width: 75px;
+            height: 75px;
+
+            margin: 0 auto 20px;
+
+            border-radius: 50%;
+
+            background: #e0f2fe;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 32px;
+        }
+
+        .empty h2 {
+            margin-bottom: 10px;
+        }
+
+        .empty p {
+            color: #64748b;
+        }
+
+        /* LOADING */
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #64748b;
+        }
+
+        /* MOBILE */
+
+        @media(max-width: 700px) {
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .nav-links a:not(.back-btn) {
+                display: none;
+            }
+
+            .page {
+                padding: 45px 18px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            .notification {
+                padding: 17px;
+            }
+
+            .read-btn {
+                font-size: 11px;
+                padding: 8px 10px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            MediCare<span>+</span>
+        </div>
+
+        <div class="nav-links">
+
+            <a href="/">Home</a>
+
+            <a href="/dashboard">
+                Dashboard
+            </a>
+
+            <a href="/appointments">
+                Appointments
+            </a>
+
+            <a href="/profile">
+                Profile
+            </a>
+
+            <a href="/dashboard" class="back-btn">
+                ← Dashboard
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- PAGE -->
+
+    <main class="page">
+
+        <div class="heading">
+
+            <div class="eyebrow">
+                Stay updated
+            </div>
+
+            <h1>
+                Notifications 🔔
+            </h1>
+
+            <p class="subtitle">
+                Important updates, appointment reminders and health-related activity.
+            </p>
+
+        </div>
+
+
+        <div id="notificationContainer">
+
+            <div class="loading">
+                Loading your notifications...
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            loadNotifications();
+
+        });
+
+
+        async function loadNotifications() {
+
+            const container =
+                document.getElementById("notificationContainer");
+
+            try {
+
+                const response =
+                    await fetch("/api/notifications");
+
+                if (response.status === 401) {
+
+                    window.location.href = "/login";
+
+                    return;
+                }
+
+                const notifications =
+                    await response.json();
+
+                if (!notifications.length) {
+
+                    container.innerHTML = `
+
+                        <div class="empty">
+
+                            <div class="empty-icon">
+                                🔔
+                            </div>
+
+                            <h2>
+                                You're all caught up
+                            </h2>
+
+                            <p>
+                                No new notifications right now.
+                            </p>
+
+                        </div>
+
+                    `;
+
+                    return;
+                }
+
+                container.innerHTML = "";
+
+                notifications
+                    .sort(function (a, b) {
+
+                        return b.id - a.id;
+
+                    })
+                    .forEach(function (notification) {
+
+                        const card =
+                            document.createElement("div");
+
+                        card.className =
+                            "notification" +
+                            (notification.readStatus
+                                ? ""
+                                : " unread");
+
+                        let icon = "🔔";
+
+                        if (notification.type === "APPOINTMENT") {
+                            icon = "📅";
+                        }
+
+                        if (notification.type === "HEALTH") {
+                            icon = "💙";
+                        }
+
+                        if (notification.type === "PRESCRIPTION") {
+                            icon = "💊";
+                        }
+
+                        if (notification.type === "LAB") {
+                            icon = "🧪";
+                        }
+
+                        card.innerHTML = `
+
+                            <div class="icon">
+                                ${icon}
+                            </div>
+
+                            <div class="notification-content">
+
+                                <div class="notification-title">
+                                    ${notification.title}
+                                </div>
+
+                                <div class="notification-message">
+                                    ${notification.message}
+                                </div>
+
+                                <div class="notification-date">
+                                    ${notification.notificationDate || ""}
+                                </div>
+
+                            </div>
+
+                            ${
+                                notification.readStatus
+                                ? ""
+                                : `
+                                    <button
+                                        class="read-btn"
+                                        onclick="markAsRead(${notification.id})">
+                                        Mark read
+                                    </button>
+                                `
+                            }
+
+                        `;
+
+                        container.appendChild(card);
+
+                    });
+
+            } catch (error) {
+
+                console.error(error);
+
+                container.innerHTML = `
+
+                    <div class="empty">
+
+                        <div class="empty-icon">
+                            ⚠️
+                        </div>
+
+                        <h2>
+                            Something went wrong
+                        </h2>
+
+                        <p>
+                            We couldn't load your notifications.
+                            Please try again.
+                        </p>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+        async function markAsRead(id) {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/notifications/" +
+                        id +
+                        "/read",
+                        {
+                            method: "PUT"
+                        }
+                    );
+
+                if (response.ok) {
+
+                    loadNotifications();
+
+                }
+
+            } catch (error) {
+
+                console.error(error);
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>.

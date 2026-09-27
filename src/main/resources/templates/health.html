@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MediCare+ | Health Overview</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f7fcff;
+            color: #0f172a;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: white;
+            border-right: 1px solid #e0f2fe;
+            padding: 28px 18px;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 40px;
+            padding-left: 10px;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 13px;
+            background: linear-gradient(135deg, #38bdf8, #0284c7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(14, 165, 233, 0.25);
+        }
+
+        .logo-text {
+            font-size: 21px;
+            font-weight: 800;
+            color: #075985;
+        }
+
+        .logo-text span {
+            color: #38bdf8;
+        }
+
+        .menu-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 20px 12px 10px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 13px 14px;
+            margin: 5px 0;
+            border-radius: 13px;
+            text-decoration: none;
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.25s ease;
+        }
+
+        .nav-link:hover {
+            background: #f0f9ff;
+            color: #0284c7;
+            transform: translateX(3px);
+        }
+
+        .nav-link.active {
+            background: #e0f2fe;
+            color: #0284c7;
+        }
+
+        .nav-icon {
+            width: 25px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .logout {
+            position: absolute;
+            bottom: 25px;
+            left: 18px;
+            right: 18px;
+            cursor: pointer;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+            margin-left: 250px;
+            min-height: 100vh;
+            padding: 30px 40px 60px;
+        }
+
+        /* =========================
+           TOP BAR
+        ========================= */
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+        }
+
+        .breadcrumb {
+            font-size: 13px;
+            color: #94a3b8;
+            margin-bottom: 7px;
+        }
+
+        .page-title {
+            font-size: 31px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .page-subtitle {
+            color: #64748b;
+            margin-top: 7px;
+            font-size: 14px;
+        }
+
+        .user-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 8px 13px 8px 8px;
+            border-radius: 50px;
+            border: 1px solid #e0f2fe;
+            box-shadow: 0 5px 20px rgba(15, 23, 42, 0.04);
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #38bdf8, #0284c7);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        .user-name {
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .user-role {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        /* =========================
+           HEALTH HERO
+        ========================= */
+
+        .health-hero {
+            background: linear-gradient(135deg, #075985, #0284c7, #38bdf8);
+            border-radius: 25px;
+            padding: 32px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 28px;
+            box-shadow: 0 18px 45px rgba(14, 165, 233, 0.2);
+        }
+
+        .health-hero::before {
+            content: "";
+            position: absolute;
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            right: -80px;
+            top: -100px;
+        }
+
+        .health-hero::after {
+            content: "";
+            position: absolute;
+            width: 170px;
+            height: 170px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+            right: 150px;
+            bottom: -110px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-label {
+            font-size: 12px;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+        }
+
+        .hero-title {
+            font-size: 29px;
+            margin-top: 8px;
+            font-weight: 800;
+        }
+
+        .hero-text {
+            max-width: 620px;
+            margin-top: 9px;
+            font-size: 14px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .last-updated {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-top: 20px;
+            background: rgba(255,255,255,0.13);
+            padding: 9px 13px;
+            border-radius: 30px;
+            font-size: 12px;
+        }
+
+        /* =========================
+           LOADING
+        ========================= */
+
+        .loading {
+            text-align: center;
+            padding: 45px;
+            color: #64748b;
+        }
+
+        .spinner {
+            width: 35px;
+            height: 35px;
+            border: 3px solid #e0f2fe;
+            border-top-color: #0ea5e9;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* =========================
+           METRIC GRID
+        ========================= */
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .metric-card {
+            background: white;
+            border: 1px solid #e0f2fe;
+            border-radius: 20px;
+            padding: 22px;
+            position: relative;
+            overflow: hidden;
+            transition: 0.25s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(14, 165, 233, 0.10);
+        }
+
+        .metric-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .metric-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 13px;
+            background: #e0f2fe;
+            color: #0284c7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .metric-status {
+            font-size: 10px;
+            padding: 5px 8px;
+            border-radius: 20px;
+            background: #ecfdf5;
+            color: #059669;
+            font-weight: 700;
+        }
+
+        .metric-name {
+            margin-top: 18px;
+            font-size: 12px;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .metric-value {
+            font-size: 29px;
+            font-weight: 800;
+            margin-top: 5px;
+            color: #0f172a;
+        }
+
+        .metric-unit {
+            font-size: 12px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        /* =========================
+           CONTENT GRID
+        ========================= */
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1.45fr 0.8fr;
+            gap: 22px;
+        }
+
+        .panel {
+            background: white;
+            border: 1px solid #e0f2fe;
+            border-radius: 22px;
+            padding: 25px;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+
+        .panel-title {
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        .panel-subtitle {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+
+        /* =========================
+           READING HISTORY
+        ========================= */
+
+        .reading {
+            display: grid;
+            grid-template-columns: 120px 1fr 80px;
+            align-items: center;
+            gap: 15px;
+            padding: 14px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .reading:last-child {
+            border-bottom: none;
+        }
+
+        .reading-date {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .reading-bars {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .bar {
+            height: 8px;
+            border-radius: 10px;
+            background: #e0f2fe;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #38bdf8, #0284c7);
+            border-radius: 10px;
+        }
+
+        .reading-value {
+            text-align: right;
+            font-size: 12px;
+            font-weight: 700;
+            color: #0284c7;
+        }
+
+        /* =========================
+           HEALTH SUMMARY
+        ========================= */
+
+        .summary-box {
+            background: #f7fcff;
+            border-radius: 17px;
+            padding: 17px;
+            margin-bottom: 13px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .summary-label {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .summary-value {
+            font-size: 14px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .summary-progress {
+            height: 7px;
+            background: #e0f2fe;
+            border-radius: 10px;
+            margin-top: 11px;
+            overflow: hidden;
+        }
+
+        .summary-progress span {
+            display: block;
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #38bdf8, #0284c7);
+        }
+
+        .health-note {
+            margin-top: 20px;
+            padding: 15px;
+            background: #eff6ff;
+            border-radius: 15px;
+            border-left: 4px solid #0ea5e9;
+        }
+
+        .health-note strong {
+            font-size: 12px;
+            color: #075985;
+        }
+
+        .health-note p {
+            font-size: 11px;
+            line-height: 1.6;
+            color: #64748b;
+            margin-top: 5px;
+        }
+
+        /* =========================
+           EMPTY / ERROR
+        ========================= */
+
+        .message {
+            text-align: center;
+            padding: 50px 20px;
+            color: #64748b;
+        }
+
+        .message-icon {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .message h3 {
+            color: #0f172a;
+            margin-bottom: 7px;
+        }
+
+        .retry-btn {
+            border: none;
+            background: #0284c7;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 10px;
+            margin-top: 15px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        .mobile-menu {
+            display: none;
+            border: none;
+            background: white;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 1100px) {
+
+            .metrics {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                transform: translateX(-100%);
+                transition: 0.3s ease;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .topbar {
+                gap: 15px;
+            }
+
+            .page-title {
+                font-size: 25px;
+            }
+        }
+
+        @media (max-width: 550px) {
+
+            .metrics {
+                grid-template-columns: 1fr;
+            }
+
+            .health-hero {
+                padding: 24px;
+            }
+
+            .hero-title {
+                font-size: 23px;
+            }
+
+            .user-box {
+                padding-right: 8px;
+            }
+
+            .user-name,
+            .user-role {
+                display: none;
+            }
+
+            .reading {
+                grid-template-columns: 75px 1fr 55px;
+                gap: 8px;
+            }
+        }
+
+    </style>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+</head>
+
+<body>
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo">
+        <div class="logo-icon">+</div>
+        <div class="logo-text">
+            Medi<span>Care</span>+
+        </div>
+    </div>
+
+    <div class="menu-title">Main</div>
+
+    <a href="/dashboard" class="nav-link">
+        <span class="nav-icon">⌂</span>
+        Dashboard
+    </a>
+
+    <a href="/appointments" class="nav-link">
+        <span class="nav-icon">▣</span>
+        My Appointments
+    </a>
+
+    <a href="/booking" class="nav-link">
+        <span class="nav-icon">＋</span>
+        Book Appointment
+    </a>
+
+    <div class="menu-title">Health</div>
+
+    <a href="/medical-records" class="nav-link">
+        <span class="nav-icon">▤</span>
+        Medical Records
+    </a>
+
+    <a href="/prescriptions" class="nav-link">
+        <span class="nav-icon">♧</span>
+        Prescriptions
+    </a>
+
+    <a href="/lab-reports" class="nav-link">
+        <span class="nav-icon">⌁</span>
+        Lab Reports
+    </a>
+
+    <a href="/health" class="nav-link active">
+        <span class="nav-icon">♥</span>
+        Health Overview
+    </a>
+
+    <div class="menu-title">Account</div>
+
+    <a href="#" class="nav-link">
+        <span class="nav-icon">◉</span>
+        Profile & Settings
+    </a>
+
+    <a href="#" class="nav-link">
+        <span class="nav-icon">◌</span>
+        MediBot
+    </a>
+
+    <div class="logout">
+        <a href="#" class="nav-link" onclick="logoutUser(); return false;">
+            <span class="nav-icon">↪</span>
+            Logout
+        </a>
+    </div>
+
+</aside>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="main">
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+        <div style="display:flex; align-items:flex-start; gap:14px;">
+
+            <button class="mobile-menu" onclick="toggleSidebar()">
+                ☰
+            </button>
+
+            <div>
+                <div class="breadcrumb">
+                    MediCare+ / Health Overview
+                </div>
+
+                <div class="page-title">
+                    Your Health
+                </div>
+
+                <div class="page-subtitle">
+                    A simple view of your recent health readings.
+                </div>
+            </div>
+
+        </div>
+
+        <div class="user-box">
+
+            <div class="avatar" id="userAvatar">
+                M
+            </div>
+
+            <div>
+                <div class="user-name" id="userName">
+                    Loading...
+                </div>
+
+                <div class="user-role">
+                    Patient
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         HEALTH HERO
+    ========================= -->
+
+    <section class="health-hero">
+
+        <div class="hero-content">
+
+            <div class="hero-label">
+                HEALTH OVERVIEW
+            </div>
+
+            <div class="hero-title" id="healthGreeting">
+                Your health, all in one place.
+            </div>
+
+            <div class="hero-text">
+                Track your recent readings and keep a simple view
+                of the numbers that matter to you.
+            </div>
+
+            <div class="last-updated">
+                ●
+                <span id="lastUpdated">
+                    Loading latest reading...
+                </span>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         LOADING
+    ========================= -->
+
+    <div id="loading" class="loading">
+
+        <div class="spinner"></div>
+
+        <div>
+            Loading your health data...
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         HEALTH CONTENT
+    ========================= -->
+
+    <div id="healthContent" style="display:none;">
+
+        <!-- METRICS -->
+
+        <section class="metrics">
+
+            <div class="metric-card">
+
+                <div class="metric-top">
+
+                    <div class="metric-icon">
+                        ♥
+                    </div>
+
+                    <div class="metric-status">
+                        Recorded
+                    </div>
+
+                </div>
+
+                <div class="metric-name">
+                    HEART RATE
+                </div>
+
+                <div class="metric-value">
+                    <span id="heartRate">--</span>
+                    <span class="metric-unit">bpm</span>
+                </div>
+
+            </div>
+
+
+            <div class="metric-card">
+
+                <div class="metric-top">
+
+                    <div class="metric-icon">
+                        ♥
+                    </div>
+
+                    <div class="metric-status">
+                        Recorded
+                    </div>
+
+                </div>
+
+                <div class="metric-name">
+                    BLOOD PRESSURE
+                </div>
+
+                <div class="metric-value">
+                    <span id="bloodPressure">--</span>
+                </div>
+
+            </div>
+
+
+            <div class="metric-card">
+
+                <div class="metric-top">
+
+                    <div class="metric-icon">
+                        ◉
+                    </div>
+
+                    <div class="metric-status">
+                        Recorded
+                    </div>
+
+                </div>
+
+                <div class="metric-name">
+                    OXYGEN LEVEL
+                </div>
+
+                <div class="metric-value">
+                    <span id="oxygenLevel">--</span>
+                    <span class="metric-unit">%</span>
+                </div>
+
+            </div>
+
+
+            <div class="metric-card">
+
+                <div class="metric-top">
+
+                    <div class="metric-icon">
+                        ☾
+                    </div>
+
+                    <div class="metric-status">
+                        Recorded
+                    </div>
+
+                </div>
+
+                <div class="metric-name">
+                    SLEEP
+                </div>
+
+                <div class="metric-value">
+                    <span id="sleepHours">--</span>
+                    <span class="metric-unit">hrs</span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CONTENT -->
+
+        <section class="content-grid">
+
+
+            <!-- READING HISTORY -->
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <div class="panel-title">
+                            Recent Readings
+                        </div>
+
+                        <div class="panel-subtitle">
+                            Your latest recorded health measurements
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div id="readingHistory"></div>
+
+            </div>
+
+
+            <!-- SUMMARY -->
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <div class="panel-title">
+                            Latest Summary
+                        </div>
+
+                        <div class="panel-subtitle">
+                            Most recent available reading
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="summary-box">
+
+                    <div class="summary-row">
+
+                        <span class="summary-label">
+                            Heart Rate
+                        </span>
+
+                        <span class="summary-value" id="summaryHeart">
+                            --
+                        </span>
+
+                    </div>
+
+                    <div class="summary-progress">
+                        <span id="heartProgress" style="width:70%;"></span>
+                    </div>
+
+                </div>
+
+
+                <div class="summary-box">
+
+                    <div class="summary-row">
+
+                        <span class="summary-label">
+                            Oxygen Level
+                        </span>
+
+                        <span class="summary-value" id="summaryOxygen">
+                            --
+                        </span>
+
+                    </div>
+
+                    <div class="summary-progress">
+                        <span id="oxygenProgress" style="width:98%;"></span>
+                    </div>
+
+                </div>
+
+
+                <div class="summary-box">
+
+                    <div class="summary-row">
+
+                        <span class="summary-label">
+                            Weight
+                        </span>
+
+                        <span class="summary-value" id="summaryWeight">
+                            --
+                        </span>
+
+                    </div>
+
+                    <div class="summary-progress">
+                        <span style="width:65%;"></span>
+                    </div>
+
+                </div>
+
+
+                <div class="health-note">
+
+                    <strong>
+                        Health data reminder
+                    </strong>
+
+                    <p>
+                        These readings are displayed from your
+                        MediCare+ records. They are for tracking
+                        purposes and are not a medical diagnosis.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <!-- =========================
+         ERROR
+    ========================= -->
+
+    <div id="errorMessage"
+         class="message"
+         style="display:none;">
+
+        <div class="message-icon">
+            ⚠
+        </div>
+
+        <h3>
+            Couldn't load your health data
+        </h3>
+
+        <p id="errorText">
+            Please try again.
+        </p>
+
+        <button class="retry-btn"
+                onclick="loadHealthData()">
+            Try Again
+        </button>
+
+    </div>
+
+</main>
+
+
+<script>
+
+    /* =========================
+       SIDEBAR
+    ========================= */
+
+    function toggleSidebar() {
+
+        document
+            .getElementById("sidebar")
+            .classList.toggle("open");
+
+    }
+
+
+    /* =========================
+       LOAD USER
+    ========================= */
+
+    async function loadUser() {
+
+        try {
+
+            const response =
+                await fetch("/api/users/me");
+
+            if (response.status === 401) {
+
+                window.location.href = "/login";
+                return;
+
+            }
+
+            if (!response.ok) {
+                return;
+            }
+
+            const user =
+                await response.json();
+
+            const name =
+                user.name || "Patient";
+
+            document.getElementById("userName")
+                .textContent = name;
+
+            document.getElementById("userAvatar")
+                .textContent =
+                name.charAt(0).toUpperCase();
+
+            document.getElementById("healthGreeting")
+                .textContent =
+                "Here's your health snapshot, " + name + ".";
+
+        } catch (error) {
+
+            console.error(
+                "User loading error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /* =========================
+       LOAD HEALTH DATA
+    ========================= */
+
+    async function loadHealthData() {
+
+        const loading =
+            document.getElementById("loading");
+
+        const content =
+            document.getElementById("healthContent");
+
+        const errorBox =
+            document.getElementById("errorMessage");
+
+        loading.style.display = "block";
+        content.style.display = "none";
+        errorBox.style.display = "none";
+
+        try {
+
+            const response =
+                await fetch("/api/health");
+
+            if (response.status === 401) {
+
+                window.location.href = "/login";
+                return;
+
+            }
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Server returned " + response.status
+                );
+
+            }
+
+            const data =
+                await response.json();
+
+            console.log(
+                "Health data:",
+                data
+            );
+
+
+            if (!data || data.length === 0) {
+
+                loading.style.display = "none";
+
+                errorBox.style.display = "block";
+
+                document.getElementById("errorText")
+                    .textContent =
+                    "No health readings have been recorded for your account yet.";
+
+                return;
+            }
+
+
+            /* =========================
+               SORT LATEST FIRST
+            ========================= */
+
+            data.sort(function(a, b) {
+
+                return new Date(b.recordedDate)
+                    - new Date(a.recordedDate);
+
+            });
+
+
+            const latest = data[0];
+
+
+            /* =========================
+               TOP METRICS
+            ========================= */
+
+            document.getElementById("heartRate")
+                .textContent =
+                latest.heartRate;
+
+            document.getElementById("bloodPressure")
+                .textContent =
+                latest.bloodPressure;
+
+            document.getElementById("oxygenLevel")
+                .textContent =
+                latest.oxygenLevel;
+
+            document.getElementById("sleepHours")
+                .textContent =
+                latest.sleepHours;
+
+
+            /* =========================
+               SUMMARY
+            ========================= */
+
+            document.getElementById("summaryHeart")
+                .textContent =
+                latest.heartRate + " bpm";
+
+            document.getElementById("summaryOxygen")
+                .textContent =
+                latest.oxygenLevel + "%";
+
+            document.getElementById("summaryWeight")
+                .textContent =
+                latest.weight + " kg";
+
+
+            /* =========================
+               PROGRESS
+            ========================= */
+
+            let heartProgress =
+                Math.min(
+                    Math.max(
+                        (latest.heartRate / 100) * 100,
+                        0
+                    ),
+                    100
+                );
+
+            document.getElementById("heartProgress")
+                .style.width =
+                heartProgress + "%";
+
+
+            let oxygenProgress =
+                Math.min(
+                    Math.max(
+                        latest.oxygenLevel,
+                        0
+                    ),
+                    100
+                );
+
+            document.getElementById("oxygenProgress")
+                .style.width =
+                oxygenProgress + "%";
+
+
+            /* =========================
+               LAST UPDATED
+            ========================= */
+
+            document.getElementById("lastUpdated")
+                .textContent =
+                "Latest reading: "
+                + formatDate(latest.recordedDate);
+
+
+            /* =========================
+               READING HISTORY
+            ========================= */
+
+            renderReadingHistory(data);
+
+
+            loading.style.display = "none";
+
+            content.style.display = "block";
+
+
+        } catch (error) {
+
+            console.error(
+                "Health data error:",
+                error
+            );
+
+            loading.style.display = "none";
+
+            errorBox.style.display = "block";
+
+            document.getElementById("errorText")
+                .textContent =
+                "Something went wrong while loading your health records.";
+
+        }
+
+    }
+
+
+    /* =========================
+       RENDER HISTORY
+    ========================= */
+
+    function renderReadingHistory(data) {
+
+        const container =
+            document.getElementById("readingHistory");
+
+        container.innerHTML = "";
+
+
+        const latestRecords =
+            data.slice(0, 7);
+
+
+        latestRecords.forEach(function(record) {
+
+            const heart =
+                Number(record.heartRate) || 0;
+
+            const width =
+                Math.min(
+                    Math.max(
+                        heart,
+                        0
+                    ),
+                    100
+                );
+
+
+            const row =
+                document.createElement("div");
+
+            row.className = "reading";
+
+            row.innerHTML = `
+
+                <div class="reading-date">
+                    ${formatDate(record.recordedDate)}
+                </div>
+
+                <div class="reading-bars">
+
+                    <div class="bar">
+                        <div class="bar-fill"
+                             style="width:${width}%">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="reading-value">
+                    ${record.heartRate} bpm
+                </div>
+
+            `;
+
+            container.appendChild(row);
+
+        });
+
+    }
+
+
+    /* =========================
+       DATE FORMAT
+    ========================= */
+
+    function formatDate(dateString) {
+
+        if (!dateString) {
+            return "--";
+        }
+
+        const date =
+            new Date(dateString);
+
+        if (isNaN(date.getTime())) {
+            return dateString;
+        }
+
+        return date.toLocaleDateString(
+            "en-IN",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        );
+
+    }
+
+
+    /* =========================
+       LOGOUT
+    ========================= */
+
+    async function logoutUser() {
+
+        try {
+
+            await fetch(
+                "/api/users/logout",
+                {
+                    method: "POST"
+                }
+            );
+
+            window.location.href = "/login";
+
+        } catch (error) {
+
+            console.error(
+                "Logout error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /* =========================
+       INITIAL LOAD
+    ========================= */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function() {
+
+            loadUser();
+
+            loadHealthData();
+
+        }
+    );
+
+</script>
+
+</body>
+</html>

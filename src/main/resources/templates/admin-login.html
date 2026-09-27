@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Login | MediCare+</title>
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at 15% 20%, #bae6fd 0%, transparent 28%),
+        radial-gradient(circle at 85% 80%, #e0f2fe 0%, transparent 30%),
+        #f7fcff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #0f172a;
+}
+
+.container {
+    width: 900px;
+    max-width: 94%;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    background: rgba(255,255,255,.88);
+
+    border: 1px solid rgba(186,230,253,.8);
+
+    border-radius: 30px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 30px 80px rgba(14,165,233,.15);
+
+    backdrop-filter: blur(15px);
+}
+
+
+/* ================= LEFT ================= */
+
+.left {
+    padding: 55px 45px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #075985,
+            #0284c7,
+            #38bdf8
+        );
+
+    color: white;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+.left::before {
+    content: "";
+
+    position: absolute;
+
+    width: 250px;
+    height: 250px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.08);
+
+    top: -100px;
+    right: -90px;
+}
+
+.left::after {
+    content: "";
+
+    position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.06);
+
+    bottom: -80px;
+    left: -60px;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: 800;
+
+    position: relative;
+    z-index: 2;
+}
+
+.logo span {
+    color: #bae6fd;
+}
+
+.badge {
+    display: inline-block;
+
+    margin-top: 70px;
+    margin-bottom: 18px;
+
+    padding: 7px 13px;
+
+    border-radius: 30px;
+
+    background: rgba(255,255,255,.15);
+
+    font-size: 11px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1.3px;
+
+    position: relative;
+    z-index: 2;
+}
+
+.left h1 {
+    font-size: 38px;
+    line-height: 1.1;
+
+    position: relative;
+    z-index: 2;
+}
+
+.left p {
+    margin-top: 18px;
+
+    color: rgba(255,255,255,.8);
+
+    line-height: 1.7;
+
+    font-size: 14px;
+
+    position: relative;
+    z-index: 2;
+}
+
+.features {
+    margin-top: 35px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    position: relative;
+    z-index: 2;
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    font-size: 13px;
+
+    color: rgba(255,255,255,.9);
+}
+
+.check {
+    width: 27px;
+    height: 27px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.16);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* ================= RIGHT ================= */
+
+.right {
+    padding: 55px 45px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.right h2 {
+    font-size: 29px;
+}
+
+.subtitle {
+    margin-top: 8px;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+/* ================= FORM ================= */
+
+.form {
+    margin-top: 35px;
+}
+
+label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #334155;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+
+    padding: 14px 15px;
+
+    border: 1px solid #dbeafe;
+
+    border-radius: 13px;
+
+    outline: none;
+
+    background: #f8fcff;
+
+    font-size: 14px;
+
+    transition: .25s;
+}
+
+input:focus {
+    border-color: #38bdf8;
+
+    background: white;
+
+    box-shadow:
+        0 0 0 4px rgba(56,189,248,.1);
+}
+
+
+/* ================= BUTTON ================= */
+
+.login-btn {
+    width: 100%;
+
+    padding: 15px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0284c7,
+            #38bdf8
+        );
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition: .25s;
+
+    box-shadow:
+        0 10px 25px rgba(14,165,233,.25);
+}
+
+.login-btn:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 15px 30px rgba(14,165,233,.3);
+}
+
+.login-btn:active {
+    transform: scale(.98);
+}
+
+
+/* ================= MESSAGE ================= */
+
+.message {
+    margin-top: 15px;
+
+    padding: 11px;
+
+    border-radius: 10px;
+
+    font-size: 12px;
+
+    text-align: center;
+
+    display: none;
+}
+
+.error {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.success {
+    background: #ecfdf5;
+    color: #059669;
+}
+
+
+/* ================= BACK ================= */
+
+.back {
+    margin-top: 25px;
+
+    text-align: center;
+
+    font-size: 12px;
+
+    color: #64748b;
+}
+
+.back a {
+    color: #0284c7;
+
+    text-decoration: none;
+
+    font-weight: 700;
+}
+
+
+/* ================= MOBILE ================= */
+
+@media(max-width:750px) {
+
+    .container {
+        grid-template-columns: 1fr;
+    }
+
+    .left {
+        padding: 35px;
+    }
+
+    .badge {
+        margin-top: 35px;
+    }
+
+    .left h1 {
+        font-size: 30px;
+    }
+
+    .features {
+        display: none;
+    }
+
+    .right {
+        padding: 40px 30px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- LEFT -->
+
+    <section class="left">
+
+        <div class="logo">
+            MediCare<span>+</span>
+        </div>
+
+
+        <div class="badge">
+            Secure Administration
+        </div>
+
+
+        <h1>
+            Welcome back,<br>
+            Administrator.
+        </h1>
+
+
+        <p>
+            Manage the MediCare+ healthcare ecosystem
+            from one secure control center.
+        </p>
+
+
+        <div class="features">
+
+            <div class="feature">
+
+                <div class="check">
+                    ✓
+                </div>
+
+                Manage patients
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="check">
+                    ✓
+                </div>
+
+                Manage doctors
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="check">
+                    ✓
+                </div>
+
+                Monitor appointments
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="check">
+                    ✓
+                </div>
+
+                Healthcare analytics
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- RIGHT -->
+
+    <section class="right">
+
+        <h2>
+            Admin Login
+        </h2>
+
+
+        <p class="subtitle">
+            Sign in to access the MediCare+ control center.
+        </p>
+
+
+        <form
+            class="form"
+            id="loginForm">
+
+
+            <div class="input-group">
+
+                <label>
+                    ADMIN EMAIL
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="admin@medicareplus.com"
+                    required>
+
+            </div>
+
+
+
+            <div class="input-group">
+
+                <label>
+                    PASSWORD
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter your password"
+                    required>
+
+            </div>
+
+
+
+            <button
+                type="submit"
+                class="login-btn">
+
+                Sign In →
+
+            </button>
+
+
+            <div
+                class="message error"
+                id="errorMessage">
+
+                Invalid admin credentials.
+
+            </div>
+
+
+            <div
+                class="message success"
+                id="successMessage">
+
+                Login successful. Redirecting...
+
+            </div>
+
+
+        </form>
+
+
+        <div class="back">
+
+            Not an administrator?
+
+            <a href="/">
+                Return to MediCare+
+            </a>
+
+        </div>
+
+    </section>
+
+
+</div>
+
+
+<script>
+
+document
+    .getElementById("loginForm")
+    .addEventListener("submit", async function(event) {
+
+        event.preventDefault();
+
+
+        const email =
+            document
+                .getElementById("email")
+                .value
+                .trim();
+
+
+        const password =
+            document
+                .getElementById("password")
+                .value;
+
+
+        const errorMessage =
+            document.getElementById(
+                "errorMessage"
+            );
+
+
+        const successMessage =
+            document.getElementById(
+                "successMessage"
+            );
+
+
+        errorMessage.style.display = "none";
+        successMessage.style.display = "none";
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/admin-auth/login",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            email: email,
+                            password: password
+                        })
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                const message =
+                    await response.text();
+
+                throw new Error(message);
+            }
+
+
+            successMessage.style.display =
+                "block";
+
+
+            setTimeout(function() {
+
+                window.location.href =
+                    "/admin-dashboard";
+
+            }, 700);
+
+
+        } catch (error) {
+
+            errorMessage.textContent =
+                error.message ||
+                "Invalid admin credentials.";
+
+
+            errorMessage.style.display =
+                "block";
+        }
+
+    });
+
+</script>
+
+</body>
+
+</html>

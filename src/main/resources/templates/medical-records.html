@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Medical Records | MediCare+</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Inter, Arial, sans-serif;
+            background:
+                radial-gradient(circle at 10% 10%, rgba(56,189,248,.10), transparent 30%),
+                radial-gradient(circle at 90% 20%, rgba(14,165,233,.08), transparent 30%),
+                #f7fcff;
+            color: #0f172a;
+            min-height: 100vh;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            height: 72px;
+            padding: 0 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            background: rgba(255,255,255,.82);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid #e0f2fe;
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            text-decoration: none;
+            color: #075985;
+
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .logo-icon {
+            width: 39px;
+            height: 39px;
+
+            border-radius: 13px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: white;
+
+            background: linear-gradient(
+                135deg,
+                #0ea5e9,
+                #38bdf8
+            );
+
+            box-shadow:
+                0 8px 20px rgba(14,165,233,.25);
+        }
+
+        .back-btn {
+            text-decoration: none;
+
+            padding: 10px 17px;
+
+            border-radius: 12px;
+
+            background: #e0f2fe;
+            color: #0369a1;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            transition: .2s;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            background: #bae6fd;
+        }
+
+
+        /* ================= HERO ================= */
+
+        .hero {
+            max-width: 1180px;
+            margin: auto;
+            padding: 65px 25px 35px;
+        }
+
+        .eyebrow {
+            color: #0ea5e9;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .hero h1 {
+            font-size: clamp(34px, 5vw, 55px);
+            line-height: 1.05;
+            letter-spacing: -2px;
+        }
+
+        .hero h1 span {
+            color: #0ea5e9;
+        }
+
+        .hero p {
+            margin-top: 15px;
+
+            max-width: 620px;
+
+            color: #64748b;
+
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+
+        /* ================= SUMMARY ================= */
+
+        .summary-grid {
+            max-width: 1180px;
+            margin: 0 auto 45px;
+
+            padding: 0 25px;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+        }
+
+        .summary-card {
+            padding: 22px;
+
+            background: rgba(255,255,255,.85);
+
+            border: 1px solid #e0f2fe;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 10px 30px rgba(14,165,233,.05);
+        }
+
+        .summary-icon {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #e0f2fe;
+
+            border-radius: 13px;
+
+            margin-bottom: 14px;
+
+            font-size: 20px;
+        }
+
+        .summary-card strong {
+            display: block;
+
+            font-size: 25px;
+
+            margin-bottom: 4px;
+        }
+
+        .summary-card span {
+            color: #64748b;
+
+            font-size: 12px;
+        }
+
+
+        /* ================= TIMELINE ================= */
+
+        .timeline-wrapper {
+            max-width: 900px;
+
+            margin: 0 auto;
+
+            padding: 0 25px 80px;
+        }
+
+        .timeline-title {
+            margin-bottom: 30px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .timeline-title h2 {
+            font-size: 24px;
+        }
+
+        .timeline-title span {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+
+        .timeline {
+            position: relative;
+        }
+
+        .timeline::before {
+            content: "";
+
+            position: absolute;
+
+            left: 24px;
+            top: 0;
+            bottom: 0;
+
+            width: 2px;
+
+            background: linear-gradient(
+                to bottom,
+                #38bdf8,
+                #bae6fd,
+                transparent
+            );
+        }
+
+
+        /* ================= EVENT ================= */
+
+        .timeline-event {
+            position: relative;
+
+            padding-left: 70px;
+
+            margin-bottom: 30px;
+
+            animation: reveal .5s ease both;
+        }
+
+        @keyframes reveal {
+
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+
+        .event-node {
+            position: absolute;
+
+            left: 7px;
+            top: 5px;
+
+            width: 36px;
+            height: 36px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: white;
+
+            border: 3px solid #38bdf8;
+
+            box-shadow:
+                0 0 0 6px #e0f2fe,
+                0 8px 20px rgba(14,165,233,.15);
+
+            z-index: 2;
+        }
+
+
+        .event-card {
+            background: rgba(255,255,255,.94);
+
+            border: 1px solid #e0f2fe;
+
+            border-radius: 22px;
+
+            padding: 23px;
+
+            box-shadow:
+                0 12px 35px rgba(15,23,42,.05);
+
+            transition:
+                transform .25s,
+                box-shadow .25s;
+        }
+
+        .event-card:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 20px 45px rgba(14,165,233,.11);
+        }
+
+
+        .event-top {
+            display: flex;
+
+            align-items: flex-start;
+
+            justify-content: space-between;
+
+            gap: 15px;
+        }
+
+        .event-type {
+            font-size: 10px;
+
+            font-weight: 800;
+
+            letter-spacing: 1.3px;
+
+            color: #0ea5e9;
+
+            margin-bottom: 5px;
+        }
+
+        .event-card h3 {
+            font-size: 18px;
+
+            margin-bottom: 5px;
+        }
+
+        .event-date {
+            color: #64748b;
+
+            font-size: 12px;
+        }
+
+
+        .status {
+            padding: 7px 11px;
+
+            border-radius: 20px;
+
+            background: #ecfdf5;
+
+            color: #047857;
+
+            font-size: 10px;
+
+            font-weight: 800;
+        }
+
+
+        .event-description {
+            margin-top: 17px;
+
+            color: #475569;
+
+            font-size: 13px;
+
+            line-height: 1.65;
+        }
+
+
+        .event-footer {
+            margin-top: 19px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 10px;
+        }
+
+        .doctor {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            color: #475569;
+
+            font-size: 12px;
+        }
+
+        .doctor-avatar {
+            width: 32px;
+            height: 32px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: #e0f2fe;
+        }
+
+
+        .view-btn {
+            border: none;
+
+            background: #f0f9ff;
+
+            color: #0284c7;
+
+            padding: 9px 14px;
+
+            border-radius: 11px;
+
+            font-size: 11px;
+
+            font-weight: 750;
+
+            cursor: pointer;
+
+            transition: .2s;
+        }
+
+        .view-btn:hover {
+            background: #0ea5e9;
+
+            color: white;
+
+            transform: translateX(2px);
+        }
+
+
+        /* ================= EMPTY / LOADING ================= */
+
+        .loading {
+            padding: 50px;
+
+            text-align: center;
+
+            color: #64748b;
+        }
+
+        .empty {
+            padding: 55px 25px;
+
+            text-align: center;
+
+            background: white;
+
+            border-radius: 24px;
+
+            border: 1px solid #e0f2fe;
+        }
+
+        .empty-icon {
+            font-size: 45px;
+
+            margin-bottom: 12px;
+        }
+
+        .empty h3 {
+            margin-bottom: 7px;
+        }
+
+        .empty p {
+            color: #64748b;
+
+            font-size: 13px;
+        }
+
+
+        /* ================= MODAL ================= */
+
+        .record-modal {
+            position: fixed;
+
+            inset: 0;
+
+            display: none;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            background: rgba(7,89,133,.25);
+
+            backdrop-filter: blur(12px);
+
+            z-index: 999;
+        }
+
+        .record-modal.active {
+            display: flex;
+        }
+
+        .modal-box {
+            width: min(650px, 100%);
+
+            max-height: 90vh;
+
+            overflow-y: auto;
+
+            background: white;
+
+            border-radius: 27px;
+
+            box-shadow:
+                0 30px 80px rgba(7,89,133,.25);
+
+            animation: modalIn .3s ease;
+        }
+
+        @keyframes modalIn {
+
+            from {
+                opacity: 0;
+                transform: scale(.94) translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+
+        }
+
+        .modal-header {
+            padding: 25px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #effaff,
+                    white
+                );
+
+            border-bottom: 1px solid #e0f2fe;
+
+            display: flex;
+
+            justify-content: space-between;
+        }
+
+        .modal-header h2 {
+            font-size: 21px;
+        }
+
+        .modal-header p {
+            margin-top: 5px;
+
+            color: #64748b;
+
+            font-size: 12px;
+        }
+
+        .close {
+            width: 38px;
+            height: 38px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background: #e0f2fe;
+
+            color: #0369a1;
+
+            font-size: 22px;
+
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .modal-section {
+            padding: 18px;
+
+            margin-bottom: 14px;
+
+            background: #f8fcff;
+
+            border: 1px solid #e0f2fe;
+
+            border-radius: 17px;
+        }
+
+        .modal-section label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+            font-weight: 800;
+
+            color: #0ea5e9;
+        }
+
+        .modal-section p {
+            font-size: 14px;
+
+            line-height: 1.65;
+
+            color: #334155;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media(max-width: 700px) {
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding-top: 40px;
+            }
+
+            .timeline-event {
+                padding-left: 55px;
+            }
+
+            .timeline::before {
+                left: 18px;
+            }
+
+            .event-node {
+                left: 1px;
+            }
+
+            .event-top {
+                flex-direction: column;
+            }
+
+            .event-footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .view-btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar">
+
+    <a href="/dashboard" class="logo">
+
+        <div class="logo-icon">
+            +
+        </div>
+
+        MediCare+
+
+    </a>
+
+    <a href="/dashboard" class="back-btn">
+        ← Dashboard
+    </a>
+
+</nav>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="eyebrow">
+        YOUR HEALTH • YOUR HISTORY
+    </div>
+
+    <h1>
+        Your complete
+        <span>health journey.</span>
+    </h1>
+
+    <p>
+        Every consultation, diagnosis, prescription and
+        medical record — organized in one simple timeline.
+    </p>
+
+</section>
+
+
+<!-- ================= SUMMARY ================= -->
+
+<section class="summary-grid">
+
+    <div class="summary-card">
+
+        <div class="summary-icon">
+            🩺
+        </div>
+
+        <strong id="recordCount">
+            0
+        </strong>
+
+        <span>
+            Medical Records
+        </span>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <div class="summary-icon">
+            💊
+        </div>
+
+        <strong id="prescriptionCount">
+            0
+        </strong>
+
+        <span>
+            Prescriptions
+        </span>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <div class="summary-icon">
+            📅
+        </div>
+
+        <strong id="appointmentCount">
+            0
+        </strong>
+
+        <span>
+            Appointments
+        </span>
+
+    </div>
+
+</section>
+
+
+<!-- ================= TIMELINE ================= -->
+
+<section class="timeline-wrapper">
+
+    <div class="timeline-title">
+
+        <h2>
+            Health Timeline
+        </h2>
+
+        <span id="timelineCount">
+            Loading...
+        </span>
+
+    </div>
+
+
+    <div id="timeline" class="timeline">
+
+        <div class="loading">
+            Loading your health journey...
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= MODAL ================= -->
+
+<div id="recordModal" class="record-modal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <div>
+
+                <h2 id="modalTitle">
+                    Medical Record
+                </h2>
+
+                <p id="modalDate">
+                    —
+                </p>
+
+            </div>
+
+            <button
+                class="close"
+                onclick="closeRecordModal()">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <div class="modal-section">
+
+                <label>
+                    Doctor
+                </label>
+
+                <p id="modalDoctor">
+                    —
+                </p>
+
+            </div>
+
+
+            <div class="modal-section">
+
+                <label>
+                    Diagnosis
+                </label>
+
+                <p id="modalDiagnosis">
+                    —
+                </p>
+
+            </div>
+
+
+            <div class="modal-section">
+
+                <label>
+                    Notes
+                </label>
+
+                <p id="modalNotes">
+                    —
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+let records = [];
+let prescriptions = [];
+let appointments = [];
+
+
+/* ================= LOAD EVERYTHING ================= */
+
+async function loadTimeline() {
+
+    try {
+
+        const [
+            recordsResponse,
+            prescriptionsResponse,
+            appointmentsResponse
+        ] = await Promise.all([
+
+            fetch("/api/medical-records"),
+
+            fetch("/api/prescriptions"),
+
+            fetch("/api/appointments")
+
+        ]);
+
+
+        records =
+            recordsResponse.ok
+            ? await recordsResponse.json()
+            : [];
+
+        prescriptions =
+            prescriptionsResponse.ok
+            ? await prescriptionsResponse.json()
+            : [];
+
+        appointments =
+            appointmentsResponse.ok
+            ? await appointmentsResponse.json()
+            : [];
+
+
+        updateSummary();
+
+        buildTimeline();
+
+    } catch(error) {
+
+        console.error(
+            "Timeline loading error:",
+            error
+        );
+
+        document.getElementById("timeline").innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    ⚠️
+                </div>
+
+                <h3>
+                    Unable to load your records
+                </h3>
+
+                <p>
+                    Please refresh the page and try again.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* ================= SUMMARY ================= */
+
+function updateSummary() {
+
+    document.getElementById("recordCount")
+        .textContent = records.length;
+
+    document.getElementById("prescriptionCount")
+        .textContent = prescriptions.length;
+
+    document.getElementById("appointmentCount")
+        .textContent = appointments.length;
+
+}
+
+
+/* ================= BUILD TIMELINE ================= */
+
+function buildTimeline() {
+
+    const timeline =
+        document.getElementById("timeline");
+
+
+    let events = [];
+
+
+    /* Medical records */
+
+    records.forEach(function(record) {
+
+        events.push({
+
+            type: "CONSULTATION",
+
+            icon: "🩺",
+
+            title:
+                record.diagnosis ||
+                "Medical Consultation",
+
+            date:
+                record.recordDate ||
+                "",
+
+            doctor:
+                record.doctorName ||
+                "MediCare+ Doctor",
+
+            description:
+                record.notes ||
+                "Medical consultation record.",
+
+            record: record
+
+        });
+
+    });
+
+
+    /* Prescriptions */
+
+    prescriptions.forEach(function(rx) {
+
+        events.push({
+
+            type: "PRESCRIPTION",
+
+            icon: "💊",
+
+            title:
+                rx.medicine ||
+                "Prescription",
+
+            date:
+                rx.prescriptionDate ||
+                "",
+
+            doctor:
+                rx.doctorName ||
+                "MediCare+ Doctor",
+
+            description:
+                "Medication prescribed during your consultation.",
+
+            prescription: rx
+
+        });
+
+    });
+
+
+    /* Appointments */
+
+    appointments.forEach(function(app) {
+
+        events.push({
+
+            type: "APPOINTMENT",
+
+            icon: "📅",
+
+            title:
+                app.doctorName ||
+                "Doctor Appointment",
+
+            date:
+                app.appointmentDate ||
+                "",
+
+            doctor:
+                app.doctorName ||
+                "Doctor",
+
+            description:
+                app.reason ||
+                "Scheduled healthcare appointment.",
+
+            appointment: app
+
+        });
+
+    });
+
+
+    /* Sort newest first */
+
+    events.sort(function(a, b) {
+
+        return new Date(b.date || 0)
+             - new Date(a.date || 0);
+
+    });
+
+
+    document.getElementById("timelineCount")
+        .textContent =
+        events.length +
+        (events.length === 1
+            ? " event"
+            : " events");
+
+
+    if (events.length === 0) {
+
+        timeline.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    🩵
+                </div>
+
+                <h3>
+                    Your health journey starts here
+                </h3>
+
+                <p>
+                    Your consultations and healthcare
+                    activity will appear here.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    timeline.innerHTML = events
+        .map(function(event, index) {
+
+            return createTimelineEvent(
+                event,
+                index
+            );
+
+        })
+        .join("");
+
+}
+
+
+/* ================= EVENT CARD ================= */
+
+function createTimelineEvent(event, index) {
+
+    let status = "";
+
+    if (event.appointment) {
+
+        status =
+            event.appointment.status ||
+            "CONFIRMED";
+
+    } else {
+
+        status = "COMPLETED";
+
+    }
+
+
+    return `
+
+        <div
+            class="timeline-event"
+            style="animation-delay:${index * 0.07}s">
+
+            <div class="event-node">
+
+                ${event.icon}
+
+            </div>
+
+
+            <div class="event-card">
+
+                <div class="event-top">
+
+                    <div>
+
+                        <div class="event-type">
+
+                            ${event.type}
+
+                        </div>
+
+                        <h3>
+
+                            ${escapeHtml(
+                                event.title
+                            )}
+
+                        </h3>
+
+                        <div class="event-date">
+
+                            ${escapeHtml(
+                                formatDate(event.date)
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="status">
+
+                        ${escapeHtml(status)}
+
+                    </div>
+
+                </div>
+
+
+                <div class="event-description">
+
+                    ${escapeHtml(
+                        event.description
+                    )}
+
+                </div>
+
+
+                <div class="event-footer">
+
+                    <div class="doctor">
+
+                        <div class="doctor-avatar">
+
+                            👨‍⚕️
+
+                        </div>
+
+                        ${escapeHtml(
+                            event.doctor
+                        )}
+
+                    </div>
+
+
+                    ${
+                        event.record
+                        ?
+                        `
+                        <button
+                            class="view-btn"
+                            onclick="openRecordModal(${index})">
+
+                            View Details →
+
+                        </button>
+                        `
+                        :
+                        ""
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* ================= MODAL ================= */
+
+function openRecordModal(index) {
+
+    const event =
+        getSortedEvents()[index];
+
+
+    if (!event || !event.record) {
+
+        return;
+
+    }
+
+
+    const record =
+        event.record;
+
+
+    document.getElementById("modalTitle")
+        .textContent =
+        record.diagnosis ||
+        "Medical Consultation";
+
+
+    document.getElementById("modalDate")
+        .textContent =
+        formatDate(record.recordDate);
+
+
+    document.getElementById("modalDoctor")
+        .textContent =
+        record.doctorName ||
+        "MediCare+ Doctor";
+
+
+    document.getElementById("modalDiagnosis")
+        .textContent =
+        record.diagnosis ||
+        "No diagnosis recorded.";
+
+
+    document.getElementById("modalNotes")
+        .textContent =
+        record.notes ||
+        "No additional notes recorded.";
+
+
+    document.getElementById("recordModal")
+        .classList.add("active");
+
+
+    document.body.style.overflow = "hidden";
+
+}
+
+
+function closeRecordModal() {
+
+    document.getElementById("recordModal")
+        .classList.remove("active");
+
+    document.body.style.overflow = "";
+
+}
+
+
+/* ================= SORTED EVENTS ================= */
+
+function getSortedEvents() {
+
+    let events = [];
+
+
+    records.forEach(function(record) {
+
+        events.push({
+
+            type: "CONSULTATION",
+
+            date: record.recordDate || "",
+
+            record: record
+
+        });
+
+    });
+
+
+    prescriptions.forEach(function(rx) {
+
+        events.push({
+
+            type: "PRESCRIPTION",
+
+            date: rx.prescriptionDate || "",
+
+            prescription: rx
+
+        });
+
+    });
+
+
+    appointments.forEach(function(app) {
+
+        events.push({
+
+            type: "APPOINTMENT",
+
+            date: app.appointmentDate || "",
+
+            appointment: app
+
+        });
+
+    });
+
+
+    events.sort(function(a,b) {
+
+        return new Date(b.date || 0)
+             - new Date(a.date || 0);
+
+    });
+
+
+    return events;
+
+}
+
+
+/* ================= FORMAT DATE ================= */
+
+function formatDate(dateString) {
+
+    if (!dateString) {
+
+        return "Date unavailable";
+
+    }
+
+
+    const date =
+        new Date(dateString);
+
+
+    if (isNaN(date.getTime())) {
+
+        return dateString;
+
+    }
+
+
+    return date.toLocaleDateString(
+        "en-IN",
+        {
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        }
+    );
+
+}
+
+
+/* ================= SECURITY ================= */
+
+function escapeHtml(value) {
+
+    if (value === null ||
+        value === undefined) {
+
+        return "";
+
+    }
+
+
+    return String(value)
+
+        .replace(/&/g, "&amp;")
+
+        .replace(/</g, "&lt;")
+
+        .replace(/>/g, "&gt;")
+
+        .replace(/"/g, "&quot;")
+
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* ================= CLOSE ON BACKDROP ================= */
+
+document.getElementById("recordModal")
+    .addEventListener("click", function(event) {
+
+        if (event.target === this) {
+
+            closeRecordModal();
+
+        }
+
+    });
+
+
+/* ================= ESC ================= */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Escape") {
+
+            closeRecordModal();
+
+        }
+
+    }
+);
+
+
+/* ================= START ================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        loadTimeline();
+
+    }
+);
+
+</script>
+
+</body>
+</html>

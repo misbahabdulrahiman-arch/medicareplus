@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title th:text="${doctor.name} + ' | MediCare+'">
+        Doctor | MediCare+
+    </title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            background: #f7fcff;
+            color: #0f172a;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* =========================================
+           NAVBAR
+        ========================================= */
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255,255,255,.88);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(14,165,233,.08);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 18px 28px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-mark {
+            width: 40px;
+            height: 40px;
+            border-radius: 13px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: linear-gradient(
+                135deg,
+                #38bdf8,
+                #0284c7
+            );
+
+            color: white;
+            font-size: 25px;
+            font-weight: 800;
+
+            box-shadow:
+                0 10px 25px rgba(14,165,233,.25);
+        }
+
+        .logo-text {
+            font-family: "Manrope", sans-serif;
+            font-size: 19px;
+            font-weight: 800;
+        }
+
+        .logo-text span {
+            color: #0ea5e9;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-links a {
+            transition: .25s ease;
+        }
+
+        .nav-links a:hover {
+            color: #0284c7;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .login-btn {
+            color: #334155;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .register-btn {
+            padding: 11px 18px;
+            border-radius: 13px;
+
+            background: #0ea5e9;
+            color: white;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            box-shadow:
+                0 8px 20px rgba(14,165,233,.2);
+
+            transition: .25s ease;
+        }
+
+        .register-btn:hover {
+            transform: translateY(-2px);
+            background: #0284c7;
+        }
+
+        /* =========================================
+           PAGE
+        ========================================= */
+
+        .page {
+            max-width: 1200px;
+            margin: auto;
+            padding: 45px 28px 80px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 600;
+
+            margin-bottom: 28px;
+
+            transition: .25s ease;
+        }
+
+        .back-link:hover {
+            color: #0284c7;
+            transform: translateX(-3px);
+        }
+
+        /* =========================================
+           PROFILE HERO
+        ========================================= */
+
+        .profile-hero {
+            position: relative;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffffff 0%,
+                    #f0f9ff 100%
+                );
+
+            border: 1px solid #e0f2fe;
+            border-radius: 32px;
+
+            padding: 42px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 25px 70px rgba(15,23,42,.07);
+        }
+
+        .profile-hero::before {
+            content: "";
+
+            position: absolute;
+
+            width: 360px;
+            height: 360px;
+
+            border-radius: 50%;
+
+            background: rgba(56,189,248,.09);
+
+            right: -150px;
+            top: -180px;
+        }
+
+        .profile-layout {
+            position: relative;
+            z-index: 2;
+
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 42px;
+            align-items: center;
+        }
+
+        /* =========================================
+           DOCTOR IMAGE
+        ========================================= */
+
+        .doctor-photo {
+            width: 280px;
+            height: 320px;
+
+            border-radius: 28px;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #e0f2fe,
+                    #f8fcff
+                );
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            box-shadow:
+                0 20px 45px rgba(14,165,233,.12);
+        }
+
+        .doctor-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .doctor-placeholder {
+            font-size: 100px;
+        }
+
+        /* =========================================
+           DETAILS
+        ========================================= */
+
+        .verified {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            padding: 7px 12px;
+
+            background: #ecfdf5;
+            color: #059669;
+
+            border-radius: 999px;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            margin-bottom: 17px;
+        }
+
+        .verified-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #10b981;
+        }
+
+        .profile-info h1 {
+            font-family: "Manrope", sans-serif;
+
+            font-size: clamp(34px, 5vw, 55px);
+            line-height: 1.05;
+
+            letter-spacing: -2px;
+
+            margin-bottom: 10px;
+        }
+
+        .specialization {
+            color: #0284c7;
+
+            font-size: 18px;
+            font-weight: 700;
+
+            margin-bottom: 12px;
+        }
+
+        .qualification {
+            color: #64748b;
+
+            font-size: 15px;
+
+            margin-bottom: 20px;
+        }
+
+        .rating-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 18px;
+
+            margin-bottom: 28px;
+        }
+
+        .rating {
+            color: #f59e0b;
+            font-weight: 800;
+        }
+
+        .rating span {
+            color: #64748b;
+            font-weight: 500;
+            margin-left: 4px;
+        }
+
+        .experience {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .book-btn {
+            border: none;
+            cursor: pointer;
+
+            padding: 15px 23px;
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #38bdf8,
+                    #0284c7
+                );
+
+            color: white;
+
+            font-size: 14px;
+            font-weight: 800;
+
+            box-shadow:
+                0 12px 25px rgba(14,165,233,.22);
+
+            transition: .25s ease;
+        }
+
+        .book-btn:hover {
+            transform: translateY(-3px);
+            box-shadow:
+                0 17px 32px rgba(14,165,233,.3);
+        }
+
+        .outline-btn {
+            padding: 15px 23px;
+
+            border-radius: 15px;
+
+            border: 1px solid #bae6fd;
+
+            color: #0284c7;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            background: white;
+
+            transition: .25s ease;
+        }
+
+        .outline-btn:hover {
+            background: #e0f2fe;
+        }
+
+        /* =========================================
+           STATS
+        ========================================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 15px;
+
+            margin-top: 28px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,.8);
+
+            border: 1px solid #e0f2fe;
+
+            border-radius: 18px;
+
+            padding: 20px;
+        }
+
+        .stat-card strong {
+            display: block;
+
+            font-family: "Manrope", sans-serif;
+
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .stat-card span {
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        /* =========================================
+           LOWER GRID
+        ========================================= */
+
+        .lower-grid {
+            display: grid;
+
+            grid-template-columns:
+                1.5fr
+                1fr;
+
+            gap: 25px;
+
+            margin-top: 25px;
+        }
+
+        .content-card {
+            background: white;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 25px;
+
+            padding: 30px;
+
+            box-shadow:
+                0 15px 40px rgba(15,23,42,.04);
+        }
+
+        .content-card h2 {
+            font-family: "Manrope", sans-serif;
+
+            font-size: 21px;
+
+            margin-bottom: 18px;
+        }
+
+        .content-card p {
+            color: #64748b;
+
+            line-height: 1.8;
+
+            font-size: 14px;
+        }
+
+        /* =========================================
+           INFO ROWS
+        ========================================= */
+
+        .info-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+
+            padding: 15px;
+
+            border-radius: 15px;
+
+            background: #f8fcff;
+        }
+
+        .info-icon {
+            width: 42px;
+            height: 42px;
+
+            border-radius: 13px;
+
+            background: #e0f2fe;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 19px;
+        }
+
+        .info-row small {
+            display: block;
+
+            color: #94a3b8;
+
+            font-size: 11px;
+
+            margin-bottom: 3px;
+        }
+
+        .info-row strong {
+            font-size: 14px;
+        }
+
+        /* =========================================
+           CONSULTATION
+        ========================================= */
+
+        .fee-card {
+            background:
+                linear-gradient(
+                    135deg,
+                    #075985,
+                    #0284c7
+                );
+
+            color: white;
+
+            border-radius: 24px;
+
+            padding: 28px;
+
+            margin-top: 25px;
+
+            box-shadow:
+                0 20px 40px rgba(2,132,199,.18);
+        }
+
+        .fee-card small {
+            opacity: .75;
+        }
+
+        .fee-card .fee {
+            font-family: "Manrope", sans-serif;
+
+            font-size: 32px;
+            font-weight: 800;
+
+            margin: 7px 0;
+        }
+
+        .fee-card p {
+            color: rgba(255,255,255,.75);
+            font-size: 12px;
+        }
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        .footer {
+            background: #082f49;
+            color: white;
+            padding: 35px 28px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+        .footer p {
+            color: #bae6fd;
+            font-size: 13px;
+        }
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 900px) {
+
+            .nav-links {
+                display: none;
+            }
+
+            .profile-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .doctor-photo {
+                width: 100%;
+                max-width: 300px;
+                margin: auto;
+            }
+
+            .lower-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .nav-container {
+                padding: 15px 18px;
+            }
+
+            .nav-actions .login-btn {
+                display: none;
+            }
+
+            .page {
+                padding: 30px 16px 60px;
+            }
+
+            .profile-hero {
+                padding: 22px;
+                border-radius: 24px;
+            }
+
+            .profile-layout {
+                gap: 25px;
+            }
+
+            .doctor-photo {
+                height: 280px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .content-card {
+                padding: 22px;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<header class="navbar">
+
+    <div class="nav-container">
+
+        <a href="/" class="logo">
+
+            <div class="logo-mark">
+                +
+            </div>
+
+            <div class="logo-text">
+                MediCare<span>+</span>
+            </div>
+
+        </a>
+
+
+        <nav class="nav-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/#doctors">
+                Doctors
+            </a>
+
+            <a href="/#services">
+                Services
+            </a>
+
+            <a href="/dashboard">
+                Dashboard
+            </a>
+
+        </nav>
+
+
+        <div class="nav-actions">
+
+            <a href="/login"
+               class="login-btn">
+                Login
+            </a>
+
+            <a href="/register"
+               class="register-btn">
+                Get Started
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="page">
+
+
+    <a href="/#doctors"
+       class="back-link">
+
+        ← Back to doctors
+
+    </a>
+
+
+    <!-- =================================================
+         PROFILE HERO
+    ================================================= -->
+
+    <section class="profile-hero">
+
+        <div class="profile-layout">
+
+
+            <!-- DOCTOR IMAGE -->
+
+            <div class="doctor-photo">
+
+                <img
+                    th:if="${doctor.profileImage != null and !doctor.profileImage.isEmpty()}"
+                    th:src="@{'/images/doctors/' + ${doctor.profileImage}}"
+                    th:alt="${doctor.name}"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+                >
+
+                <div
+                    class="doctor-placeholder"
+                    th:style="${doctor.profileImage != null and !doctor.profileImage.isEmpty()} ? 'display:none;' : 'display:block;'"
+                >
+                    👨‍⚕️
+                </div>
+
+            </div>
+
+
+            <!-- DOCTOR INFORMATION -->
+
+            <div class="profile-info">
+
+
+                <div class="verified">
+
+                    <span class="verified-dot"></span>
+
+                    Verified healthcare professional
+
+                </div>
+
+
+                <h1 th:text="${doctor.name}">
+                    Dr. Sarah Mitchell
+                </h1>
+
+
+                <div class="specialization"
+                     th:text="${doctor.specialization}">
+
+                    Cardiologist
+
+                </div>
+
+
+                <div class="qualification"
+                     th:text="${doctor.qualification}">
+
+                    MD, Cardiology
+
+                </div>
+
+
+                <div class="rating-row">
+
+                    <div class="rating">
+
+                        ★
+
+                        <span
+                            th:text="${doctor.rating}">
+                            4.9
+                        </span>
+
+                        <span>
+                            patient rating
+                        </span>
+
+                    </div>
+
+
+                    <div class="experience">
+
+                        <strong
+                            th:text="${doctor.experience} + '+ years'">
+                            12+ years
+                        </strong>
+
+                        experience
+
+                    </div>
+
+                </div>
+
+
+                <div class="profile-actions">
+
+                    <a href="/booking"
+                       class="book-btn">
+
+                        Book Appointment
+                        →
+
+                    </a>
+
+
+                    <a href="/medibot"
+                       class="outline-btn">
+
+                        Ask MediBot
+
+                    </a>
+
+                </div>
+
+
+                <!-- STATS -->
+
+                <div class="stats">
+
+
+                    <div class="stat-card">
+
+                        <strong
+                            th:text="${doctor.experience} + '+'">
+                            12+
+                        </strong>
+
+                        <span>
+                            Years Experience
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <strong
+                            th:text="${doctor.totalPatients} + '+'">
+                            2400+
+                        </strong>
+
+                        <span>
+                            Patients
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <strong
+                            th:text="${doctor.rating}">
+                            4.9
+                        </strong>
+
+                        <span>
+                            Rating
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         LOWER CONTENT
+    ================================================= -->
+
+    <div class="lower-grid">
+
+
+        <!-- ABOUT -->
+
+        <section class="content-card">
+
+            <h2>
+                About this specialist
+            </h2>
+
+            <p>
+
+                <span th:text="${doctor.name}">
+                    Dr. Sarah Mitchell
+                </span>
+
+                is a healthcare professional
+                specialising in
+
+                <strong
+                    th:text="${doctor.specialization}">
+                    Cardiology
+                </strong>.
+
+                With
+
+                <strong
+                    th:text="${doctor.experience} + '+ years'">
+                    12+ years
+                </strong>
+
+                of professional experience,
+                the doctor is available through
+                MediCare+ for convenient consultations
+                and appointment management.
+
+            </p>
+
+
+            <div class="fee-card">
+
+                <small>
+                    Consultation fee
+                </small>
+
+                <div class="fee">
+
+                    ₹<span
+                        th:text="${doctor.consultationFee}">
+                        800
+                    </span>
+
+                </div>
+
+                <p>
+                    Transparent pricing for your consultation.
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- DETAILS -->
+
+        <section class="content-card">
+
+            <h2>
+                Doctor details
+            </h2>
+
+
+            <div class="info-list">
+
+
+                <div class="info-row">
+
+                    <div class="info-icon">
+                        🎓
+                    </div>
+
+                    <div>
+
+                        <small>
+                            Qualification
+                        </small>
+
+                        <strong
+                            th:text="${doctor.qualification}">
+                            MD, Cardiology
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <div class="info-icon">
+                        🩺
+                    </div>
+
+                    <div>
+
+                        <small>
+                            Specialization
+                        </small>
+
+                        <strong
+                            th:text="${doctor.specialization}">
+                            Cardiology
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <div class="info-icon">
+                        📅
+                    </div>
+
+                    <div>
+
+                        <small>
+                            Availability
+                        </small>
+
+                        <strong
+                            th:text="${doctor.availability}">
+                            Available Today
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <div class="info-icon">
+                        ✉️
+                    </div>
+
+                    <div>
+
+                        <small>
+                            Email
+                        </small>
+
+                        <strong
+                            th:text="${doctor.email}">
+                            doctor@medicareplus.com
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <div class="info-icon">
+                        📞
+                    </div>
+
+                    <div>
+
+                        <small>
+                            Contact
+                        </small>
+
+                        <strong
+                            th:text="${doctor.phone}">
+                            +91 9876543210
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+    <div class="footer-container">
+
+        <div>
+
+            <div class="logo">
+
+                <div class="logo-mark">
+                    +
+                </div>
+
+                <div class="logo-text">
+                    MediCare<span>+</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <p>
+            Healthcare, without the waiting.
+        </p>
+
+    </div>
+
+</footer>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Medical Records | MediCare+</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f7fcff;
+            color: #0f172a;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            height: 75px;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid #e0f2fe;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 7%;
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            color: #075985;
+            font-size: 25px;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #38bdf8;
+        }
+
+        .back {
+            text-decoration: none;
+            color: #0284c7;
+            font-size: 14px;
+            font-weight: 700;
+
+            padding: 10px 16px;
+            border-radius: 12px;
+
+            transition: 0.25s;
+        }
+
+        .back:hover {
+            background: #e0f2fe;
+            transform: translateX(-3px);
+        }
+
+
+        /* ================= PAGE ================= */
+
+        .page {
+            max-width: 1150px;
+            margin: auto;
+            padding: 50px 25px 80px;
+        }
+
+
+        /* ================= HEADER ================= */
+
+        .heading {
+            margin-bottom: 28px;
+        }
+
+        .heading small {
+            color: #0284c7;
+            font-weight: 800;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+        }
+
+        .heading h1 {
+            font-size: 42px;
+            margin: 8px 0;
+            letter-spacing: -1.5px;
+        }
+
+        .heading p {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+
+        /* ================= TOOLBAR ================= */
+
+        .toolbar {
+            background: white;
+            border: 1px solid #e0f2fe;
+            border-radius: 18px;
+
+            padding: 15px;
+
+            display: flex;
+            gap: 12px;
+
+            margin-bottom: 28px;
+
+            box-shadow: 0 8px 25px rgba(14,165,233,0.05);
+        }
+
+        .search-box {
+            flex: 1;
+            position: relative;
+        }
+
+        .search-box span {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 15px;
+        }
+
+        .search-box input {
+            width: 100%;
+            height: 44px;
+
+            border: 1px solid #dbeafe;
+            border-radius: 12px;
+
+            padding: 0 15px 0 42px;
+
+            outline: none;
+
+            font-size: 13px;
+            color: #0f172a;
+
+            transition: 0.2s;
+        }
+
+        .search-box input:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56,189,248,0.12);
+        }
+
+        .filter {
+            height: 44px;
+
+            border: 1px solid #dbeafe;
+            border-radius: 12px;
+
+            padding: 0 14px;
+
+            background: white;
+
+            color: #334155;
+
+            outline: none;
+
+            cursor: pointer;
+        }
+
+        .refresh-btn {
+            height: 44px;
+
+            border: none;
+            border-radius: 12px;
+
+            padding: 0 17px;
+
+            background: #0284c7;
+            color: white;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .refresh-btn:hover {
+            background: #0369a1;
+            transform: translateY(-2px);
+        }
+
+        .refresh-btn:active {
+            transform: scale(0.96);
+        }
+
+
+        /* ================= RECORD GRID ================= */
+
+        .records {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+
+        /* ================= RECORD CARD ================= */
+
+        .record {
+            background: white;
+
+            border: 1px solid #e0f2fe;
+
+            border-radius: 22px;
+
+            padding: 25px;
+
+            transition: 0.3s;
+
+            position: relative;
+            overflow: hidden;
+        }
+
+        .record::before {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            top: 0;
+
+            width: 4px;
+            height: 100%;
+
+            background: linear-gradient(
+                #38bdf8,
+                #0284c7
+            );
+
+            opacity: 0;
+
+            transition: 0.3s;
+        }
+
+        .record:hover {
+            transform: translateY(-5px);
+
+            box-shadow:
+                0 18px 40px
+                rgba(14,165,233,0.11);
+
+            border-color: #bae6fd;
+        }
+
+        .record:hover::before {
+            opacity: 1;
+        }
+
+
+        /* ================= RECORD TOP ================= */
+
+        .record-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+
+            margin-bottom: 20px;
+        }
+
+        .record-icon {
+            width: 50px;
+            height: 50px;
+
+            border-radius: 15px;
+
+            background: linear-gradient(
+                135deg,
+                #e0f2fe,
+                #f0f9ff
+            );
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 22px;
+
+            box-shadow:
+                inset 0 0 0 1px #bae6fd;
+        }
+
+        .date {
+            color: #64748b;
+
+            font-size: 11px;
+
+            background: #f8fafc;
+
+            padding: 7px 10px;
+
+            border-radius: 9px;
+        }
+
+
+        /* ================= CONTENT ================= */
+
+        .record h2 {
+            font-size: 19px;
+
+            margin-bottom: 8px;
+
+            color: #0f172a;
+        }
+
+        .doctor {
+            color: #0284c7;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            margin-bottom: 18px;
+        }
+
+        .doctor::before {
+            content: "👨‍⚕️ ";
+        }
+
+
+        .notes {
+            background: #f8fcff;
+
+            border: 1px solid #eef8fc;
+
+            border-radius: 14px;
+
+            padding: 15px;
+
+            color: #64748b;
+
+            font-size: 12px;
+
+            line-height: 1.7;
+        }
+
+
+        /* ================= EMPTY ================= */
+
+        .empty {
+            grid-column: 1 / -1;
+
+            background: white;
+
+            border: 1px solid #e0f2fe;
+
+            border-radius: 22px;
+
+            padding: 70px 30px;
+
+            text-align: center;
+
+            color: #94a3b8;
+        }
+
+        .empty-icon {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        .empty strong {
+            color: #334155;
+            font-size: 16px;
+        }
+
+        .empty p {
+            font-size: 13px;
+        }
+
+
+        /* ================= LOADING ================= */
+
+        .loading {
+            grid-column: 1 / -1;
+
+            text-align: center;
+
+            padding: 70px;
+
+            color: #64748b;
+        }
+
+        .spinner {
+            width: 35px;
+            height: 35px;
+
+            border: 3px solid #e0f2fe;
+            border-top-color: #0284c7;
+
+            border-radius: 50%;
+
+            animation: spin 0.8s linear infinite;
+
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+
+            to {
+                transform: rotate(360deg);
+            }
+
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media(max-width: 750px) {
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .page {
+                padding: 35px 18px 60px;
+            }
+
+            .heading h1 {
+                font-size: 32px;
+            }
+
+            .records {
+                grid-template-columns: 1fr;
+            }
+
+            .toolbar {
+                flex-direction: column;
+            }
+
+            .filter,
+            .refresh-btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar">
+
+    <a href="/" class="logo">
+        MediCare<span>+</span>
+    </a>
+
+    <a href="/dashboard" class="back">
+        ← Dashboard
+    </a>
+
+</nav>
+
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="page">
+
+
+    <div class="heading">
+
+        <small>
+            YOUR HEALTH HISTORY
+        </small>
+
+        <h1>
+            Medical Records
+        </h1>
+
+        <p>
+            Keep track of your consultations,
+            diagnoses and healthcare history.
+        </p>
+
+    </div>
+
+
+
+    <!-- ================= TOOLBAR ================= -->
+
+    <div class="toolbar">
+
+        <div class="search-box">
+
+            <span>🔎</span>
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search diagnosis, doctor or notes..."
+            >
+
+        </div>
+
+
+        <select
+            class="filter"
+            id="recordFilter">
+
+            <option value="all">
+                All Records
+            </option>
+
+        </select>
+
+
+        <button
+            class="refresh-btn"
+            onclick="loadRecords()">
+
+            ↻ Refresh
+
+        </button>
+
+    </div>
+
+
+
+    <!-- ================= RECORDS ================= -->
+
+    <div
+        class="records"
+        id="recordsContainer">
+
+        <div class="loading">
+
+            <div class="spinner"></div>
+
+            Loading your medical records...
+
+        </div>
+
+    </div>
+
+
+</main>
+
+
+
+<script>
+
+    let allRecords = [];
+
+
+    /* ================= LOAD RECORDS ================= */
+
+    async function loadRecords() {
+
+        const container =
+            document.getElementById(
+                "recordsContainer"
+            );
+
+        container.innerHTML = `
+
+            <div class="loading">
+
+                <div class="spinner"></div>
+
+                Loading your medical records...
+
+            </div>
+
+        `;
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/medical-records"
+                );
+
+
+            if (response.status === 401) {
+
+                window.location.href =
+                    "/login";
+
+                return;
+
+            }
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to load records."
+                );
+
+            }
+
+
+            allRecords =
+                await response.json();
+
+
+            buildFilter();
+
+            displayRecords(
+                allRecords
+            );
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            container.innerHTML = `
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        ⚠️
+                    </div>
+
+                    <strong>
+                        Unable to load records
+                    </strong>
+
+                    <p style="margin-top:8px;">
+                        Please refresh the page and try again.
+                    </p>
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+
+    /* ================= BUILD FILTER ================= */
+
+    function buildFilter() {
+
+        const filter =
+            document.getElementById(
+                "recordFilter"
+            );
+
+
+        const diagnoses =
+            [
+                ...new Set(
+                    allRecords
+                        .map(record =>
+                            record.diagnosis
+                        )
+                        .filter(Boolean)
+                )
+            ];
+
+
+        filter.innerHTML = `
+
+            <option value="all">
+                All Records
+            </option>
+
+        `;
+
+
+        diagnoses.forEach(
+            diagnosis => {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+                option.value =
+                    diagnosis.toLowerCase();
+
+                option.textContent =
+                    diagnosis;
+
+                filter.appendChild(
+                    option
+                );
+
+            }
+        );
+
+    }
+
+
+
+    /* ================= DISPLAY ================= */
+
+    function displayRecords(records) {
+
+        const container =
+            document.getElementById(
+                "recordsContainer"
+            );
+
+
+        if (!records.length) {
+
+            container.innerHTML = `
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        📋
+                    </div>
+
+                    <strong>
+                        No medical records found
+                    </strong>
+
+                    <p style="margin-top:8px;">
+                        Your consultation records
+                        will appear here.
+                    </p>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        container.innerHTML =
+
+            records.map(
+                record => `
+
+                <div
+                    class="record"
+                    data-search="
+                        ${(record.diagnosis || "").toLowerCase()}
+                        ${(record.doctorName || "").toLowerCase()}
+                        ${(record.notes || "").toLowerCase()}
+                    ">
+
+                    <div class="record-top">
+
+                        <div class="record-icon">
+                            🩺
+                        </div>
+
+                        <span class="date">
+                            ${escapeHtml(
+                                record.recordDate || "Date unavailable"
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <h2>
+                        ${escapeHtml(
+                            record.diagnosis ||
+                            "Medical Consultation"
+                        )}
+                    </h2>
+
+
+                    <div class="doctor">
+
+                        ${escapeHtml(
+                            record.doctorName ||
+                            "Doctor unavailable"
+                        )}
+
+                    </div>
+
+
+                    <div class="notes">
+
+                        ${escapeHtml(
+                            record.notes ||
+                            "No additional notes."
+                        )}
+
+                    </div>
+
+                </div>
+
+            `
+            ).join("");
+
+    }
+
+
+
+    /* ================= SEARCH ================= */
+
+    function applyFilters() {
+
+        const search =
+            document.getElementById(
+                "searchInput"
+            )
+            .value
+            .toLowerCase()
+            .trim();
+
+
+        const selected =
+            document.getElementById(
+                "recordFilter"
+            )
+            .value
+            .toLowerCase();
+
+
+        const filtered =
+            allRecords.filter(
+                record => {
+
+                    const diagnosis =
+                        (
+                            record.diagnosis ||
+                            ""
+                        ).toLowerCase();
+
+                    const doctor =
+                        (
+                            record.doctorName ||
+                            ""
+                        ).toLowerCase();
+
+                    const notes =
+                        (
+                            record.notes ||
+                            ""
+                        ).toLowerCase();
+
+
+                    const matchesSearch =
+                        diagnosis.includes(search) ||
+                        doctor.includes(search) ||
+                        notes.includes(search);
+
+
+                    const matchesFilter =
+                        selected === "all" ||
+                        diagnosis === selected;
+
+
+                    return (
+                        matchesSearch &&
+                        matchesFilter
+                    );
+
+                }
+            );
+
+
+        displayRecords(
+            filtered
+        );
+
+    }
+
+
+
+    /* ================= HTML SAFETY ================= */
+
+    function escapeHtml(value) {
+
+        return String(value)
+
+            .replace(/&/g, "&amp;")
+
+            .replace(/</g, "&lt;")
+
+            .replace(/>/g, "&gt;")
+
+            .replace(/"/g, "&quot;")
+
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+
+    /* ================= EVENTS ================= */
+
+    document
+        .getElementById("searchInput")
+        .addEventListener(
+            "input",
+            applyFilters
+        );
+
+
+    document
+        .getElementById("recordFilter")
+        .addEventListener(
+            "change",
+            applyFilters
+        );
+
+
+    /* ================= START ================= */
+
+    loadRecords();
+
+</script>
+
+
+</body>
+
+</html>

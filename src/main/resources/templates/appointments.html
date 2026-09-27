@@ -1,0 +1,2292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>My Appointments | MediCare+</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+
+        /* =========================================
+           PAGE
+        ========================================= */
+
+        body {
+            background: #f7fcff;
+            color: #0f172a;
+        }
+
+        .appointments-page {
+            min-height: 100vh;
+            padding: 125px 7% 80px;
+        }
+
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        .appointments-header {
+            max-width: 1100px;
+            margin: 0 auto 35px;
+        }
+
+        .eyebrow {
+            color: #0ea5e9;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .appointments-header h1 {
+            font-size: clamp(38px, 5vw, 64px);
+            line-height: 1.05;
+            margin: 0;
+            letter-spacing: -2px;
+        }
+
+        .appointments-header p {
+            color: #64748b;
+            font-size: 17px;
+            margin-top: 15px;
+            max-width: 600px;
+        }
+
+
+        /* =========================================
+           TOP ACTION
+        ========================================= */
+
+        .appointment-top-action {
+            max-width: 1100px;
+            margin: 0 auto 28px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .book-new-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            padding: 13px 20px;
+            border-radius: 14px;
+            background: #0ea5e9;
+            color: white;
+            font-weight: 800;
+            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.20);
+            transition: 0.25s;
+        }
+
+        .book-new-btn:hover {
+            background: #0284c7;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(14, 165, 233, 0.28);
+        }
+
+
+        /* =========================================
+           FILTER TABS
+        ========================================= */
+
+        .appointment-tabs {
+            max-width: 1100px;
+            margin: 0 auto 28px;
+
+            display: flex;
+            gap: 8px;
+
+            padding: 7px;
+
+            background: white;
+            border: 1px solid #e0f2fe;
+
+            border-radius: 16px;
+
+            width: fit-content;
+        }
+
+        .appointment-tab {
+            border: none;
+            background: transparent;
+
+            padding: 11px 18px;
+
+            border-radius: 11px;
+
+            color: #64748b;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+        }
+
+        .appointment-tab:hover {
+            color: #0284c7;
+            background: #f0f9ff;
+        }
+
+        .appointment-tab.active {
+            background: #0ea5e9;
+            color: white;
+            box-shadow: 0 6px 16px rgba(14, 165, 233, 0.20);
+        }
+
+
+        /* =========================================
+           APPOINTMENT LIST
+        ========================================= */
+
+        #appointmentsList {
+            max-width: 1100px;
+            margin: 0 auto;
+
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+
+        /* =========================================
+           APPOINTMENT CARD
+        ========================================= */
+
+        .appointment-card {
+            background: white;
+
+            border: 1px solid #e0f2fe;
+
+            border-radius: 24px;
+
+            padding: 24px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 25px;
+
+            box-shadow: 0 10px 35px rgba(15, 23, 42, 0.05);
+
+            transition: 0.3s;
+
+            animation: cardAppear 0.4s ease;
+        }
+
+        .appointment-card:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 18px 45px rgba(15, 23, 42, 0.09);
+
+            border-color: #bae6fd;
+        }
+
+        @keyframes cardAppear {
+
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+
+        /* =========================================
+           DOCTOR SECTION
+        ========================================= */
+
+        .appointment-doctor {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+
+            min-width: 250px;
+        }
+
+        .doctor-avatar {
+            width: 58px;
+            height: 58px;
+
+            border-radius: 18px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #e0f2fe,
+                    #bae6fd
+                );
+
+            color: #0284c7;
+
+            font-size: 22px;
+            font-weight: 900;
+        }
+
+        .appointment-doctor h3 {
+            margin: 0 0 5px;
+
+            font-size: 17px;
+        }
+
+        .appointment-doctor p {
+            margin: 0;
+
+            color: #64748b;
+
+            font-size: 13px;
+        }
+
+
+        /* =========================================
+           DETAILS
+        ========================================= */
+
+        .appointment-info {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            flex: 1;
+        }
+
+        .appointment-info-item span {
+            display: block;
+
+            color: #94a3b8;
+
+            font-size: 11px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.7px;
+
+            margin-bottom: 5px;
+        }
+
+        .appointment-info-item strong {
+            font-size: 14px;
+        }
+
+
+        /* =========================================
+           STATUS
+        ========================================= */
+
+        .appointment-status {
+            display: inline-block;
+
+            padding: 7px 12px;
+
+            border-radius: 50px;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            white-space: nowrap;
+        }
+
+        .status-confirmed {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .status-cancelled {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+
+        /* =========================================
+           ACTIONS
+        ========================================= */
+
+        .appointment-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .secondary-action,
+        .reschedule-action,
+        .cancel-action {
+
+            border: none;
+
+            padding: 10px 13px;
+
+            border-radius: 11px;
+
+            font-weight: 700;
+
+            font-size: 12px;
+
+            cursor: pointer;
+
+            transition: 0.22s;
+        }
+
+
+        .secondary-action {
+            background: #f0f9ff;
+            color: #0284c7;
+        }
+
+        .secondary-action:hover {
+            background: #e0f2fe;
+            transform: translateY(-1px);
+        }
+
+
+        .reschedule-action {
+            background: #ecfeff;
+            color: #0891b2;
+        }
+
+        .reschedule-action:hover {
+            background: #cffafe;
+            transform: translateY(-1px);
+        }
+
+
+        .cancel-action {
+            background: #fff1f2;
+            color: #e11d48;
+        }
+
+        .cancel-action:hover {
+            background: #ffe4e6;
+            transform: translateY(-1px);
+        }
+
+
+        .cancelled-label {
+            color: #dc2626;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+
+        /* =========================================
+           EMPTY STATE
+        ========================================= */
+
+        .empty-state {
+            background: white;
+
+            border: 1px dashed #bae6fd;
+
+            border-radius: 24px;
+
+            padding: 60px 25px;
+
+            text-align: center;
+
+            color: #64748b;
+        }
+
+        .empty-icon {
+            width: 70px;
+            height: 70px;
+
+            margin: 0 auto 18px;
+
+            border-radius: 22px;
+
+            background: #e0f2fe;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 30px;
+        }
+
+        .empty-state h3 {
+            margin: 0 0 8px;
+
+            color: #0f172a;
+        }
+
+
+        /* =========================================
+           MODAL COMMON
+        ========================================= */
+
+        .appointment-modal {
+
+            position: fixed;
+
+            inset: 0;
+
+            display: none;
+
+            align-items: center;
+
+            justify-content: center;
+
+            z-index: 9999;
+        }
+
+        .appointment-modal.show {
+            display: flex;
+        }
+
+        .modal-overlay {
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                rgba(15, 23, 42, 0.45);
+
+            backdrop-filter: blur(8px);
+        }
+
+
+        /* =========================================
+           DETAILS MODAL
+        ========================================= */
+
+        .appointment-modal-box {
+
+            position: relative;
+
+            width: min(
+                520px,
+                calc(100% - 35px)
+            );
+
+            max-height: 90vh;
+
+            overflow-y: auto;
+
+            background: white;
+
+            border-radius: 28px;
+
+            padding: 35px;
+
+            box-shadow:
+                0 30px 80px
+                rgba(15, 23, 42, 0.25);
+
+            z-index: 2;
+
+            animation:
+                modalAppear 0.3s ease;
+        }
+
+        @keyframes modalAppear {
+
+            from {
+                opacity: 0;
+                transform:
+                    translateY(25px)
+                    scale(0.96);
+            }
+
+            to {
+                opacity: 1;
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
+
+        }
+
+
+        .modal-close {
+
+            position: absolute;
+
+            top: 18px;
+
+            right: 20px;
+
+            width: 38px;
+
+            height: 38px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background: #f1f5f9;
+
+            color: #475569;
+
+            font-size: 24px;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .modal-close:hover {
+
+            background: #e0f2fe;
+
+            color: #0284c7;
+
+        }
+
+
+        .modal-icon {
+
+            width: 58px;
+
+            height: 58px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 18px;
+
+            background: #e0f2fe;
+
+            font-size: 28px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .modal-label {
+
+            color: #0ea5e9;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            letter-spacing: 2px;
+        }
+
+        .appointment-modal-box h2 {
+
+            margin: 8px 0 12px;
+
+            font-size: 28px;
+        }
+
+
+        .modal-status {
+
+            display: inline-block;
+
+            background: #dcfce7;
+
+            color: #15803d;
+
+            padding: 7px 13px;
+
+            border-radius: 50px;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            margin-bottom: 25px;
+        }
+
+
+        .modal-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 14px;
+
+            margin-bottom: 20px;
+        }
+
+        .modal-detail {
+
+            padding: 16px;
+
+            background: #f8fcff;
+
+            border:
+                1px solid #e0f2fe;
+
+            border-radius: 16px;
+        }
+
+        .modal-detail span {
+
+            display: block;
+
+            color: #64748b;
+
+            font-size: 12px;
+
+            margin-bottom: 6px;
+        }
+
+        .modal-detail strong {
+
+            font-size: 15px;
+        }
+
+
+        .modal-reason {
+
+            padding: 18px;
+
+            background: #f8fafc;
+
+            border-radius: 16px;
+
+            margin-bottom: 18px;
+        }
+
+        .modal-reason span {
+
+            font-size: 12px;
+
+            color: #64748b;
+
+            font-weight: 700;
+        }
+
+        .modal-reason p {
+
+            margin: 8px 0 0;
+
+            font-weight: 600;
+        }
+
+
+        .modal-appointment-id {
+
+            color: #64748b;
+
+            font-size: 13px;
+
+            margin-bottom: 22px;
+        }
+
+        .modal-appointment-id strong {
+            color: #0f172a;
+        }
+
+
+        .modal-done-btn {
+
+            width: 100%;
+
+            border: none;
+
+            padding: 14px;
+
+            border-radius: 14px;
+
+            background: #0ea5e9;
+
+            color: white;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+        }
+
+        .modal-done-btn:hover {
+
+            background: #0284c7;
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* =========================================
+           RESCHEDULE MODAL
+        ========================================= */
+
+        .reschedule-form {
+
+            margin-top: 10px;
+        }
+
+        .form-group {
+
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+
+            display: block;
+
+            font-size: 13px;
+
+            font-weight: 800;
+
+            color: #334155;
+
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+
+            width: 100%;
+
+            box-sizing: border-box;
+
+            border:
+                1px solid #dbeafe;
+
+            background: #f8fcff;
+
+            padding: 14px 15px;
+
+            border-radius: 14px;
+
+            outline: none;
+
+            font-size: 14px;
+
+            color: #0f172a;
+
+            transition: 0.2s;
+        }
+
+        .form-group input:focus {
+
+            border-color: #38bdf8;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(56, 189, 248, 0.12);
+
+            background: white;
+        }
+
+
+        .time-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 9px;
+
+            margin-top: 8px;
+        }
+
+        .time-option {
+
+            border:
+                1px solid #bae6fd;
+
+            background: white;
+
+            color: #0369a1;
+
+            padding: 11px 7px;
+
+            border-radius: 11px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .time-option:hover {
+
+            background: #f0f9ff;
+
+            transform:
+                translateY(-1px);
+        }
+
+        .time-option.selected {
+
+            background: #0ea5e9;
+
+            color: white;
+
+            border-color: #0ea5e9;
+
+            box-shadow:
+                0 7px 16px
+                rgba(14, 165, 233, 0.20);
+        }
+
+
+        .reschedule-submit {
+
+            width: 100%;
+
+            border: none;
+
+            background: #0ea5e9;
+
+            color: white;
+
+            padding: 14px;
+
+            border-radius: 14px;
+
+            font-size: 14px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+
+            margin-top: 8px;
+        }
+
+        .reschedule-submit:hover {
+
+            background: #0284c7;
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 900px) {
+
+            .appointment-card {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+            .appointment-info {
+
+                width: 100%;
+
+                flex-wrap: wrap;
+            }
+
+            .appointment-actions {
+
+                width: 100%;
+            }
+
+            .secondary-action,
+            .reschedule-action,
+            .cancel-action {
+
+                flex: 1;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .appointments-page {
+
+                padding:
+                    110px 18px 60px;
+            }
+
+            .appointments-header h1 {
+
+                font-size: 40px;
+            }
+
+            .appointment-tabs {
+
+                width: 100%;
+
+                overflow-x: auto;
+            }
+
+            .appointment-tab {
+
+                white-space: nowrap;
+
+                flex: 1;
+            }
+
+            .appointment-info {
+
+                display: grid;
+
+                grid-template-columns:
+                    1fr 1fr;
+
+                gap: 15px;
+            }
+
+            .appointment-actions {
+
+                flex-direction: column;
+            }
+
+            .secondary-action,
+            .reschedule-action,
+            .cancel-action {
+
+                width: 100%;
+            }
+
+            .modal-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+            .appointment-modal-box {
+
+                padding: 28px 22px;
+            }
+
+            .time-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     NAVBAR
+========================================= -->
+
+<header class="navbar">
+
+    <div class="nav-container">
+
+        <a href="/" class="logo">
+            <span class="logo-icon">+</span>
+            MediCare<span>.</span>
+        </a>
+
+        <nav class="nav-links">
+
+            <a href="/">Home</a>
+
+            <a href="/appointments"
+               class="active">
+                Appointments
+            </a>
+
+            <a href="/booking">
+                Book Appointment
+            </a>
+
+        </nav>
+
+        <a href="/booking"
+           class="nav-cta">
+            Book Now
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================
+     PAGE
+========================================= -->
+
+<main class="appointments-page">
+
+
+    <section class="appointments-header">
+
+        <div class="eyebrow">
+            YOUR HEALTH JOURNEY
+        </div>
+
+        <h1>
+            My Appointments
+        </h1>
+
+        <p>
+            Keep track of your upcoming consultations,
+            previous visits and appointment details
+            — all in one place.
+        </p>
+
+    </section>
+
+
+
+    <!-- =====================================
+         TOP ACTION
+    ====================================== -->
+
+    <div class="appointment-top-action">
+
+        <a href="/booking"
+           class="book-new-btn">
+
+            <span>＋</span>
+
+            Book New Appointment
+
+        </a>
+
+    </div>
+
+
+
+    <!-- =====================================
+         TABS
+    ====================================== -->
+
+    <div class="appointment-tabs">
+
+        <button
+            class="appointment-tab active"
+            onclick="filterAppointments('all', this)">
+
+            All
+
+        </button>
+
+        <button
+            class="appointment-tab"
+            onclick="filterAppointments('upcoming', this)">
+
+            Upcoming
+
+        </button>
+
+        <button
+            class="appointment-tab"
+            onclick="filterAppointments('cancelled', this)">
+
+            Cancelled
+
+        </button>
+
+    </div>
+
+
+
+    <!-- =====================================
+         APPOINTMENTS
+    ====================================== -->
+
+    <section id="appointmentsList">
+
+        <div class="empty-state">
+
+            <div class="empty-icon">
+                ✦
+            </div>
+
+            <h3>
+                Loading appointments...
+            </h3>
+
+            <p>
+                Please wait while we fetch your appointments.
+            </p>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =================================================
+     APPOINTMENT DETAILS MODAL
+================================================= -->
+
+<div
+    class="appointment-modal"
+    id="appointmentModal">
+
+    <div
+        class="modal-overlay"
+        onclick="closeAppointmentModal()">
+    </div>
+
+
+    <div class="appointment-modal-box">
+
+        <button
+            class="modal-close"
+            onclick="closeAppointmentModal()">
+
+            ×
+
+        </button>
+
+
+        <div class="modal-icon">
+            🩺
+        </div>
+
+        <div class="modal-label">
+            APPOINTMENT DETAILS
+        </div>
+
+        <h2 id="modalDoctor">
+            Dr. Sarah Mitchell
+        </h2>
+
+
+        <div
+            class="modal-status"
+            id="modalStatus">
+
+            CONFIRMED
+
+        </div>
+
+
+        <div class="modal-grid">
+
+
+            <div class="modal-detail">
+
+                <span>
+                    DATE
+                </span>
+
+                <strong id="modalDate">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="modal-detail">
+
+                <span>
+                    TIME
+                </span>
+
+                <strong id="modalTime">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="modal-detail">
+
+                <span>
+                    CONSULTATION
+                </span>
+
+                <strong id="modalConsultation">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="modal-detail">
+
+                <span>
+                    FEE
+                </span>
+
+                <strong id="modalFee">
+                    —
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="modal-reason">
+
+            <span>
+                REASON FOR VISIT
+            </span>
+
+            <p id="modalReason">
+                —
+            </p>
+
+        </div>
+
+
+        <div class="modal-appointment-id">
+
+            Appointment ID:
+
+            <strong id="modalId">
+                —
+            </strong>
+
+        </div>
+
+
+        <button
+            class="modal-done-btn"
+            onclick="closeAppointmentModal()">
+
+            Done
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =================================================
+     RESCHEDULE MODAL
+================================================= -->
+
+<div
+    class="appointment-modal"
+    id="rescheduleModal">
+
+    <div
+        class="modal-overlay"
+        onclick="closeRescheduleModal()">
+    </div>
+
+
+    <div class="appointment-modal-box">
+
+
+        <button
+            class="modal-close"
+            onclick="closeRescheduleModal()">
+
+            ×
+
+        </button>
+
+
+        <div class="modal-icon">
+            📅
+        </div>
+
+
+        <div class="modal-label">
+            RESCHEDULE APPOINTMENT
+        </div>
+
+
+        <h2>
+            Choose a new time
+        </h2>
+
+
+        <p style="
+            color:#64748b;
+            font-size:14px;
+            line-height:1.6;
+            margin-bottom:25px;
+        ">
+
+            Select another date and available
+            consultation time for your appointment.
+
+        </p>
+
+
+        <div class="reschedule-form">
+
+
+            <div class="form-group">
+
+                <label for="rescheduleDate">
+                    New Date
+                </label>
+
+                <input
+                    type="date"
+                    id="rescheduleDate">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    New Time
+                </label>
+
+
+                <div class="time-grid">
+
+
+                    <button
+                        type="button"
+                        class="time-option"
+                        onclick="selectRescheduleTime(this, '09:00 AM')">
+
+                        09:00 AM
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="time-option"
+                        onclick="selectRescheduleTime(this, '10:00 AM')">
+
+                        10:00 AM
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="time-option"
+                        onclick="selectRescheduleTime(this, '11:30 AM')">
+
+                        11:30 AM
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="time-option"
+                        onclick="selectRescheduleTime(this, '02:00 PM')">
+
+                        02:00 PM
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="time-option"
+                        onclick="selectRescheduleTime(this, '03:30 PM')">
+
+                        03:30 PM
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="time-option"
+                        onclick="selectRescheduleTime(this, '05:00 PM')">
+
+                        05:00 PM
+
+                    </button>
+
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="reschedule-submit"
+                onclick="submitReschedule()">
+
+                Confirm New Time
+
+            </button>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =================================================
+     JAVASCRIPT
+================================================= -->
+
+<script>
+
+
+let allAppointments = [];
+
+let currentFilter = "all";
+
+let rescheduleAppointmentId = null;
+
+let selectedRescheduleTime = "";
+
+
+
+/* =========================================
+   LOAD APPOINTMENTS
+========================================= */
+
+async function loadAppointments() {
+
+    const list =
+        document.getElementById(
+            "appointmentsList"
+        );
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/appointments"
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Could not load appointments"
+            );
+
+        }
+
+
+        allAppointments =
+            await response.json();
+
+
+        renderAppointments();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        list.innerHTML = `
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    ⚠️
+                </div>
+
+                <h3>
+                    Unable to load appointments
+                </h3>
+
+                <p>
+                    Please make sure the Spring Boot
+                    application is running.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+
+/* =========================================
+   RENDER APPOINTMENTS
+========================================= */
+
+function renderAppointments() {
+
+    const list =
+        document.getElementById(
+            "appointmentsList"
+        );
+
+
+    list.innerHTML = "";
+
+
+    let filtered =
+        allAppointments;
+
+
+    if (currentFilter === "upcoming") {
+
+        filtered =
+            allAppointments.filter(
+                function(appointment) {
+
+                    return appointment.status !==
+                        "CANCELLED";
+
+                }
+            );
+
+    }
+
+
+    if (currentFilter === "cancelled") {
+
+        filtered =
+            allAppointments.filter(
+                function(appointment) {
+
+                    return appointment.status ===
+                        "CANCELLED";
+
+                }
+            );
+
+    }
+
+
+    if (filtered.length === 0) {
+
+        list.innerHTML = `
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    📅
+                </div>
+
+                <h3>
+                    No appointments here
+                </h3>
+
+                <p>
+                    Your appointments will appear
+                    here once you book one.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+
+    filtered.forEach(
+        function(appointment) {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "appointment-card";
+
+
+            card.dataset.status =
+                appointment.status;
+
+
+
+            const isCancelled =
+                appointment.status ===
+                "CANCELLED";
+
+
+
+            const statusClass =
+                isCancelled
+                    ? "status-cancelled"
+                    : "status-confirmed";
+
+
+
+            card.innerHTML = `
+
+                <div class="appointment-doctor">
+
+                    <div class="doctor-avatar">
+                        +
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            ${appointment.doctorName}
+                        </h3>
+
+                        <p>
+                            Healthcare consultation
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="appointment-info">
+
+
+                    <div class="appointment-info-item">
+
+                        <span>
+                            DATE
+                        </span>
+
+                        <strong>
+                            ${appointment.appointmentDate}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="appointment-info-item">
+
+                        <span>
+                            TIME
+                        </span>
+
+                        <strong>
+                            ${appointment.appointmentTime}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="appointment-info-item">
+
+                        <span>
+                            TYPE
+                        </span>
+
+                        <strong>
+                            ${appointment.consultationType}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="appointment-info-item">
+
+                        <span>
+                            STATUS
+                        </span>
+
+                        <span
+                            class="appointment-status ${statusClass}">
+
+                            ${appointment.status}
+
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="appointment-actions">
+
+
+                    <button
+                        class="secondary-action"
+                        onclick="viewAppointment(${appointment.id})">
+
+                        View Details
+
+                    </button>
+
+
+                    ${
+                        !isCancelled
+                        ?
+
+                        `
+
+                        <button
+                            class="reschedule-action"
+                            onclick="openRescheduleModal(${appointment.id})">
+
+                            Reschedule
+
+                        </button>
+
+
+                        <button
+                            class="cancel-action"
+                            onclick="cancelAppointment(${appointment.id})">
+
+                            Cancel
+
+                        </button>
+
+                        `
+
+                        :
+
+                        `
+
+                        <span class="cancelled-label">
+
+                            Appointment cancelled
+
+                        </span>
+
+                        `
+                    }
+
+
+                </div>
+
+            `;
+
+
+            list.appendChild(card);
+
+        }
+    );
+
+}
+
+
+
+/* =========================================
+   FILTER
+========================================= */
+
+function filterAppointments(
+    type,
+    button
+) {
+
+    currentFilter = type;
+
+
+    document
+        .querySelectorAll(
+            ".appointment-tab"
+        )
+        .forEach(
+            function(tab) {
+
+                tab.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+
+    button.classList.add("active");
+
+
+    renderAppointments();
+
+}
+
+
+
+/* =========================================
+   VIEW DETAILS
+========================================= */
+
+async function viewAppointment(id) {
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/appointments"
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Could not load appointment"
+            );
+
+        }
+
+
+        const appointments =
+            await response.json();
+
+
+        const appointment =
+            appointments.find(
+                function(item) {
+
+                    return item.id === id;
+
+                }
+            );
+
+
+        if (!appointment) {
+
+            alert(
+                "Appointment details could not be found."
+            );
+
+            return;
+
+        }
+
+
+
+        document.getElementById(
+            "modalDoctor"
+        ).textContent =
+            appointment.doctorName;
+
+
+        document.getElementById(
+            "modalDate"
+        ).textContent =
+            appointment.appointmentDate;
+
+
+        document.getElementById(
+            "modalTime"
+        ).textContent =
+            appointment.appointmentTime;
+
+
+        document.getElementById(
+            "modalConsultation"
+        ).textContent =
+            appointment.consultationType;
+
+
+        document.getElementById(
+            "modalFee"
+        ).textContent =
+            "₹" + appointment.fee;
+
+
+        document.getElementById(
+            "modalReason"
+        ).textContent =
+            appointment.reason;
+
+
+        document.getElementById(
+            "modalId"
+        ).textContent =
+            "MC-" + appointment.id;
+
+
+        const statusElement =
+            document.getElementById(
+                "modalStatus"
+            );
+
+
+        statusElement.textContent =
+            appointment.status;
+
+
+        if (
+            appointment.status ===
+            "CANCELLED"
+        ) {
+
+            statusElement.style.background =
+                "#fee2e2";
+
+            statusElement.style.color =
+                "#dc2626";
+
+        } else {
+
+            statusElement.style.background =
+                "#dcfce7";
+
+            statusElement.style.color =
+                "#15803d";
+
+        }
+
+
+        document
+            .getElementById(
+                "appointmentModal"
+            )
+            .classList.add("show");
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Could not load appointment details."
+        );
+
+    }
+
+}
+
+
+
+/* =========================================
+   CLOSE DETAILS MODAL
+========================================= */
+
+function closeAppointmentModal() {
+
+    document
+        .getElementById(
+            "appointmentModal"
+        )
+        .classList.remove("show");
+
+}
+
+
+
+/* =========================================
+   CANCEL APPOINTMENT
+========================================= */
+
+async function cancelAppointment(id) {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to cancel this appointment?"
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/appointments/" + id,
+                {
+                    method: "DELETE"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Could not cancel appointment"
+            );
+
+        }
+
+
+        await loadAppointments();
+
+
+        alert(
+            "Appointment cancelled successfully."
+        );
+
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        alert(
+            "Could not cancel the appointment."
+        );
+
+    }
+
+}
+
+
+
+/* =========================================
+   OPEN RESCHEDULE MODAL
+========================================= */
+
+function openRescheduleModal(id) {
+
+    rescheduleAppointmentId =
+        id;
+
+
+    selectedRescheduleTime =
+        "";
+
+
+    document
+        .querySelectorAll(
+            ".time-option"
+        )
+        .forEach(
+            function(button) {
+
+                button.classList.remove(
+                    "selected"
+                );
+
+            }
+        );
+
+
+    const dateInput =
+        document.getElementById(
+            "rescheduleDate"
+        );
+
+
+    const today =
+        new Date()
+            .toISOString()
+            .split("T")[0];
+
+
+    dateInput.min =
+        today;
+
+
+    dateInput.value =
+        "";
+
+
+    document
+        .getElementById(
+            "rescheduleModal"
+        )
+        .classList.add("show");
+
+}
+
+
+
+/* =========================================
+   CLOSE RESCHEDULE MODAL
+========================================= */
+
+function closeRescheduleModal() {
+
+    document
+        .getElementById(
+            "rescheduleModal"
+        )
+        .classList.remove("show");
+
+
+    rescheduleAppointmentId =
+        null;
+
+
+    selectedRescheduleTime =
+        "";
+
+}
+
+
+
+/* =========================================
+   SELECT RESCHEDULE TIME
+========================================= */
+
+function selectRescheduleTime(
+    button,
+    time
+) {
+
+    document
+        .querySelectorAll(
+            ".time-option"
+        )
+        .forEach(
+            function(option) {
+
+                option.classList.remove(
+                    "selected"
+                );
+
+            }
+        );
+
+
+    button.classList.add(
+        "selected"
+    );
+
+
+    selectedRescheduleTime =
+        time;
+
+}
+
+
+
+/* =========================================
+   SUBMIT RESCHEDULE
+========================================= */
+
+async function submitReschedule() {
+
+    const date =
+        document.getElementById(
+            "rescheduleDate"
+        ).value;
+
+
+    if (!date) {
+
+        alert(
+            "Please select a new date."
+        );
+
+        return;
+
+    }
+
+
+    if (!selectedRescheduleTime) {
+
+        alert(
+            "Please select a new time."
+        );
+
+        return;
+
+    }
+
+
+    if (!rescheduleAppointmentId) {
+
+        alert(
+            "Appointment could not be identified."
+        );
+
+        return;
+
+    }
+
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/appointments/" +
+                rescheduleAppointmentId,
+                {
+                    method: "PUT",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        appointmentDate:
+                            date,
+
+                        appointmentTime:
+                            selectedRescheduleTime
+
+                    })
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Could not reschedule appointment"
+            );
+
+        }
+
+
+        closeRescheduleModal();
+
+
+        await loadAppointments();
+
+
+        alert(
+            "Appointment rescheduled successfully."
+        );
+
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        alert(
+            "Could not reschedule the appointment."
+        );
+
+    }
+
+}
+
+
+
+/* =========================================
+   INITIAL LOAD
+========================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        loadAppointments();
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

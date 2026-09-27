@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Doctor Login | MediCare+</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+
+            font-family: "DM Sans", sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 15% 20%,
+                    rgba(56,189,248,0.16),
+                    transparent 32%
+                ),
+                radial-gradient(
+                    circle at 85% 80%,
+                    rgba(14,165,233,0.12),
+                    transparent 30%
+                ),
+                #f7fcff;
+
+            color: #0f172a;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 25px;
+        }
+
+
+        /* =========================================
+           BACKGROUND ORBS
+        ========================================== */
+
+        .orb {
+            position: fixed;
+
+            border-radius: 50%;
+
+            filter: blur(2px);
+
+            pointer-events: none;
+        }
+
+
+        .orb-one {
+            width: 180px;
+            height: 180px;
+
+            background: rgba(56,189,248,0.12);
+
+            top: 7%;
+            left: 7%;
+        }
+
+
+        .orb-two {
+            width: 240px;
+            height: 240px;
+
+            background: rgba(14,165,233,0.08);
+
+            right: 4%;
+            bottom: 3%;
+        }
+
+
+        /* =========================================
+           MAIN CARD
+        ========================================== */
+
+        .login-wrapper {
+
+            width: 100%;
+            max-width: 1050px;
+
+            min-height: 650px;
+
+            background: rgba(255,255,255,0.88);
+
+            backdrop-filter: blur(25px);
+
+            border: 1px solid rgba(255,255,255,0.9);
+
+            border-radius: 32px;
+
+            box-shadow:
+                0 35px 90px
+                rgba(14,165,233,0.13);
+
+            overflow: hidden;
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            position: relative;
+
+            z-index: 2;
+        }
+
+
+        /* =========================================
+           LEFT SIDE
+        ========================================== */
+
+        .visual-side {
+
+            position: relative;
+
+            padding: 55px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #e0f2fe,
+                    #f0f9ff 55%,
+                    #ffffff
+                );
+
+            overflow: hidden;
+        }
+
+
+        .logo {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            text-decoration: none;
+
+            color: #0f172a;
+        }
+
+
+        .logo-mark {
+
+            width: 42px;
+            height: 42px;
+
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #38bdf8,
+                    #0284c7
+                );
+
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 25px;
+
+            font-weight: 800;
+
+            box-shadow:
+                0 12px 25px
+                rgba(14,165,233,0.25);
+        }
+
+
+        .logo-text {
+
+            font-family: "Manrope", sans-serif;
+
+            font-size: 20px;
+
+            font-weight: 800;
+        }
+
+
+        .logo-text span {
+
+            color: #0284c7;
+        }
+
+
+        .visual-content {
+
+            margin-top: 105px;
+
+            position: relative;
+
+            z-index: 3;
+        }
+
+
+        .visual-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 8px 13px;
+
+            border-radius: 999px;
+
+            background: rgba(255,255,255,0.75);
+
+            border: 1px solid
+                rgba(14,165,233,0.12);
+
+            color: #0284c7;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.2px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .badge-dot {
+
+            width: 7px;
+            height: 7px;
+
+            background: #10b981;
+
+            border-radius: 50%;
+        }
+
+
+        .visual-content h1 {
+
+            font-family: "Manrope", sans-serif;
+
+            font-size: 43px;
+
+            line-height: 1.08;
+
+            letter-spacing: -1.8px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .visual-content h1 span {
+
+            color: #0284c7;
+        }
+
+
+        .visual-content p {
+
+            max-width: 410px;
+
+            color: #64748b;
+
+            font-size: 15px;
+
+            line-height: 1.8;
+        }
+
+
+        /* =========================================
+           FLOATING MEDICAL CARD
+        ========================================== */
+
+        .floating-card {
+
+            position: absolute;
+
+            right: 45px;
+            bottom: 50px;
+
+            width: 215px;
+
+            padding: 18px;
+
+            background:
+                rgba(255,255,255,0.86);
+
+            backdrop-filter: blur(18px);
+
+            border: 1px solid
+                rgba(255,255,255,0.9);
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 20px 45px
+                rgba(14,165,233,0.12);
+
+            z-index: 4;
+
+            animation: floatCard 4s ease-in-out infinite;
+        }
+
+
+        @keyframes floatCard {
+
+            0%,100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+
+        .floating-top {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-bottom: 14px;
+        }
+
+
+        .mini-avatar {
+
+            width: 38px;
+            height: 38px;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #bae6fd,
+                    #38bdf8
+                );
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: #075985;
+
+            font-weight: 800;
+        }
+
+
+        .floating-top strong {
+
+            display: block;
+
+            font-size: 12px;
+        }
+
+
+        .floating-top span {
+
+            display: block;
+
+            font-size: 10px;
+
+            color: #64748b;
+
+            margin-top: 3px;
+        }
+
+
+        .secure-row {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            font-size: 10px;
+
+            color: #059669;
+
+            font-weight: 700;
+        }
+
+
+        /* =========================================
+           RIGHT SIDE
+        ========================================== */
+
+        .form-side {
+
+            padding: 55px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+        }
+
+
+        .form-container {
+
+            width: 100%;
+
+            max-width: 390px;
+        }
+
+
+        .form-heading {
+
+            margin-bottom: 30px;
+        }
+
+
+        .form-heading h2 {
+
+            font-family: "Manrope", sans-serif;
+
+            font-size: 31px;
+
+            font-weight: 800;
+
+            letter-spacing: -0.8px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .form-heading p {
+
+            color: #64748b;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =========================================
+           INPUTS
+        ========================================== */
+
+        .field {
+
+            margin-bottom: 18px;
+        }
+
+
+        .field label {
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            color: #334155;
+        }
+
+
+        .input-wrapper {
+
+            position: relative;
+        }
+
+
+        .input-icon {
+
+            position: absolute;
+
+            left: 15px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            font-size: 16px;
+
+            opacity: 0.65;
+        }
+
+
+        .field input {
+
+            width: 100%;
+
+            height: 51px;
+
+            padding:
+                0 16px 0 44px;
+
+            border-radius: 14px;
+
+            border: 1px solid #dbeafe;
+
+            background: #f8fcff;
+
+            outline: none;
+
+            font-family: inherit;
+
+            font-size: 13px;
+
+            color: #0f172a;
+
+            transition: 0.25s;
+        }
+
+
+        .field input:focus {
+
+            background: white;
+
+            border-color: #38bdf8;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(56,189,248,0.11);
+        }
+
+
+        /* =========================================
+           PASSWORD TOGGLE
+        ========================================== */
+
+        .password-toggle {
+
+            position: absolute;
+
+            right: 14px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            border: none;
+
+            background: none;
+
+            cursor: pointer;
+
+            font-size: 14px;
+
+            color: #64748b;
+        }
+
+
+        /* =========================================
+           LOGIN BUTTON
+        ========================================== */
+
+        .login-button {
+
+            width: 100%;
+
+            height: 53px;
+
+            border: none;
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #38bdf8,
+                    #0284c7
+                );
+
+            color: white;
+
+            font-family: inherit;
+
+            font-size: 13px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 14px 30px
+                rgba(14,165,233,0.22);
+
+            transition:
+                transform 0.2s,
+                box-shadow 0.2s;
+        }
+
+
+        .login-button:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 18px 35px
+                rgba(14,165,233,0.28);
+        }
+
+
+        .login-button:active {
+
+            transform: scale(0.98);
+        }
+
+
+        .login-button.loading {
+
+            opacity: 0.7;
+
+            pointer-events: none;
+        }
+
+
+        /* =========================================
+           ERROR
+        ========================================== */
+
+        .error-message {
+
+            display: none;
+
+            margin-bottom: 18px;
+
+            padding: 12px 14px;
+
+            border-radius: 12px;
+
+            background: #fef2f2;
+
+            border: 1px solid #fecaca;
+
+            color: #dc2626;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+
+        .error-message.show {
+
+            display: block;
+        }
+
+
+        /* =========================================
+           DEMO ACCOUNT
+        ========================================== */
+
+        .demo-box {
+
+            margin-top: 18px;
+
+            padding: 14px;
+
+            border-radius: 14px;
+
+            background: #f0f9ff;
+
+            border: 1px solid #e0f2fe;
+        }
+
+
+        .demo-box strong {
+
+            display: block;
+
+            color: #0369a1;
+
+            font-size: 11px;
+
+            margin-bottom: 5px;
+        }
+
+
+        .demo-box span {
+
+            color: #64748b;
+
+            font-size: 10px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =========================================
+           FOOTER LINKS
+        ========================================== */
+
+        .form-footer {
+
+            text-align: center;
+
+            margin-top: 25px;
+
+            font-size: 12px;
+
+            color: #64748b;
+        }
+
+
+        .form-footer a {
+
+            color: #0284c7;
+
+            text-decoration: none;
+
+            font-weight: 700;
+        }
+
+
+        .patient-login {
+
+            margin-top: 15px;
+
+            text-align: center;
+
+            font-size: 11px;
+        }
+
+
+        .patient-login a {
+
+            color: #64748b;
+
+            text-decoration: none;
+        }
+
+
+        .patient-login a:hover {
+
+            color: #0284c7;
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================== */
+
+        @media(max-width:850px) {
+
+            .login-wrapper {
+
+                grid-template-columns: 1fr;
+
+                max-width: 520px;
+            }
+
+
+            .visual-side {
+
+                display: none;
+            }
+
+
+            .form-side {
+
+                padding: 45px 30px;
+            }
+
+        }
+
+
+        @media(max-width:480px) {
+
+            body {
+
+                padding: 12px;
+            }
+
+
+            .login-wrapper {
+
+                border-radius: 24px;
+            }
+
+
+            .form-side {
+
+                padding: 35px 22px;
+            }
+
+
+            .form-heading h2 {
+
+                font-size: 27px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="orb orb-one"></div>
+<div class="orb orb-two"></div>
+
+
+<div class="login-wrapper">
+
+
+    <!-- =========================================
+         LEFT VISUAL
+    ========================================== -->
+
+    <section class="visual-side">
+
+
+        <a href="/" class="logo">
+
+            <div class="logo-mark">
+                +
+            </div>
+
+            <div class="logo-text">
+                MediCare<span>+</span>
+            </div>
+
+        </a>
+
+
+        <div class="visual-content">
+
+
+            <div class="visual-badge">
+
+                <span class="badge-dot"></span>
+
+                Doctor Portal
+
+            </div>
+
+
+            <h1>
+
+                Care for your
+                <span>patients.</span>
+                Smarter.
+
+            </h1>
+
+
+            <p>
+
+                Manage appointments, access patient
+                information and stay connected with
+                your practice from one intelligent
+                healthcare workspace.
+
+            </p>
+
+
+        </div>
+
+
+        <div class="floating-card">
+
+
+            <div class="floating-top">
+
+                <div class="mini-avatar">
+                    SM
+                </div>
+
+                <div>
+
+                    <strong>
+                        Dr. Sarah Mitchell
+                    </strong>
+
+                    <span>
+                        Cardiologist
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="secure-row">
+
+                🔒 Secure doctor access
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =========================================
+         LOGIN FORM
+    ========================================== -->
+
+    <section class="form-side">
+
+
+        <div class="form-container">
+
+
+            <div class="form-heading">
+
+                <h2>
+                    Welcome back, Doctor
+                </h2>
+
+                <p>
+                    Sign in to access your MediCare+
+                    clinical workspace.
+                </p>
+
+            </div>
+
+
+            <div
+                id="errorMessage"
+                class="error-message"
+            ></div>
+
+
+            <form id="doctorLoginForm">
+
+
+                <!-- EMAIL -->
+
+                <div class="field">
+
+                    <label for="email">
+                        Doctor email
+                    </label>
+
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            ✉️
+                        </span>
+
+
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="doctor@medicareplus.com"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PASSWORD -->
+
+                <div class="field">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            🔒
+                        </span>
+
+
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Enter your password"
+                            required
+                        >
+
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            id="togglePassword"
+                        >
+                            👁
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- BUTTON -->
+
+                <button
+                    type="submit"
+                    class="login-button"
+                    id="loginButton"
+                >
+
+                    Sign in to Doctor Portal
+                    →
+
+                </button>
+
+
+            </form>
+
+
+            <!-- DEMO -->
+
+            <div class="demo-box">
+
+                <strong>
+                    🧪 College project demo
+                </strong>
+
+                <span>
+                    Doctor accounts are stored in
+                    the MediCare+ database. Use the
+                    credentials configured for a doctor
+                    account.
+                </span>
+
+            </div>
+
+
+            <div class="form-footer">
+
+                Need a patient account?
+
+                <a href="/register">
+                    Create one
+                </a>
+
+            </div>
+
+
+            <div class="patient-login">
+
+                <a href="/login">
+                    ← Patient login
+                </a>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =========================================
+   PASSWORD VISIBILITY
+========================================= */
+
+const passwordInput =
+    document.getElementById(
+        "password"
+    );
+
+
+const togglePassword =
+    document.getElementById(
+        "togglePassword"
+    );
+
+
+togglePassword.addEventListener(
+    "click",
+    function() {
+
+        if (
+            passwordInput.type ===
+            "password"
+        ) {
+
+            passwordInput.type =
+                "text";
+
+            togglePassword.textContent =
+                "🙈";
+
+        } else {
+
+            passwordInput.type =
+                "password";
+
+            togglePassword.textContent =
+                "👁";
+
+        }
+
+    }
+);
+
+
+
+/* =========================================
+   LOGIN
+========================================= */
+
+const form =
+    document.getElementById(
+        "doctorLoginForm"
+    );
+
+
+const errorMessage =
+    document.getElementById(
+        "errorMessage"
+    );
+
+
+const loginButton =
+    document.getElementById(
+        "loginButton"
+    );
+
+
+form.addEventListener(
+    "submit",
+    function(event) {
+
+        event.preventDefault();
+
+
+        const email =
+            document.getElementById(
+                "email"
+            ).value.trim();
+
+
+        const password =
+            document.getElementById(
+                "password"
+            ).value;
+
+
+        errorMessage.classList.remove(
+            "show"
+        );
+
+
+        loginButton.classList.add(
+            "loading"
+        );
+
+
+        loginButton.textContent =
+            "Signing in...";
+
+
+        fetch(
+            "/api/doctor-auth/login",
+            {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    email: email,
+
+                    password: password
+
+                })
+
+            }
+        )
+
+        .then(function(response) {
+
+            if (!response.ok) {
+
+                return response
+                    .text()
+                    .then(
+                        function(message) {
+
+                            throw new Error(
+                                message
+                            );
+
+                        }
+                    );
+
+            }
+
+            return response.json();
+
+        })
+
+        .then(function(data) {
+
+            window.location.href =
+                "/doctor-dashboard";
+
+        })
+
+        .catch(function(error) {
+
+            console.error(error);
+
+
+            errorMessage.textContent =
+                error.message ||
+                "Unable to login. Please try again.";
+
+
+            errorMessage.classList.add(
+                "show"
+            );
+
+
+            loginButton.classList.remove(
+                "loading"
+            );
+
+
+            loginButton.textContent =
+                "Sign in to Doctor Portal →";
+
+        });
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>
